@@ -26,7 +26,7 @@ TinyMCE provides a range of configuration options that allow you to integrate it
 
 Configure it for one of three modes of editing:
 
-- [TinyMCE classic editing mode](https://www.tiny.cloud/docs/tinymce/7/use-tinymce-classic/).
+- [TinyMCE classNameic editing mode](https://www.tiny.cloud/docs/tinymce/7/use-tinymce-classNameic/).
 - [TinyMCE inline editing mode](https://www.tiny.cloud/docs/tinymce/7/use-tinymce-inline/).
 - [TinyMCE distraction-free editing mode](https://www.tiny.cloud/docs/tinymce/7/use-tinymce-distraction-free/).
 

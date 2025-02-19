@@ -46,7 +46,7 @@
     const register = editor => {
       const registerOption = editor.options.register;
       const filterProcessor = value => isString(value) || isFunction(value) || isObject(value);
-      registerOption('importcss_merge_classes', {
+      registerOption('importcss_merge_classNamees', {
         processor: 'boolean',
         default: true
       });
@@ -63,7 +63,7 @@
         default: false
       });
     };
-    const shouldMergeClasses = option('importcss_merge_classes');
+    const shouldMergeclassNamees = option('importcss_merge_classNamees');
     const shouldImportExclusive = option('importcss_exclusive');
     const getSelectorConverter = option('importcss_selector_converter');
     const getSelectorFilter = option('importcss_selector_filter');
@@ -210,7 +210,7 @@
         return;
       }
       const elementName = selector[1];
-      const classes = selector[2].substr(1).split('.').join(' ');
+      const classNamees = selector[2].substr(1).split('.').join(' ');
       const inlineSelectorElements = global.makeMap('a,img');
       if (selector[1]) {
         format = { title: selectorText };
@@ -225,13 +225,13 @@
         format = {
           inline: 'span',
           title: selectorText.substr(1),
-          classes
+          classNamees
         };
       }
-      if (shouldMergeClasses(editor)) {
-        format.classes = classes;
+      if (shouldMergeclassNamees(editor)) {
+        format.classNamees = classNamees;
       } else {
-        format.attributes = { class: classes };
+        format.attributes = { className: classNamees };
       }
       return format;
     };

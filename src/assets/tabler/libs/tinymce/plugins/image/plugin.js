@@ -57,7 +57,7 @@
     const noop = () => {
     };
 
-    class Optional {
+    className Optional {
       constructor(tag, value) {
         this.tag = tag;
         this.value = value;
@@ -277,7 +277,7 @@
         processor: 'string',
         default: ''
       });
-      registerOption('image_class_list', { processor: 'object[]' });
+      registerOption('image_className_list', { processor: 'object[]' });
       registerOption('image_description', {
         processor: 'boolean',
         default: true
@@ -308,7 +308,7 @@
     const hasAdvTab = option('image_advtab');
     const hasUploadTab = option('image_uploadtab');
     const getPrependUrl = option('image_prepend_url');
-    const getClassList = option('image_class_list');
+    const getclassNameList = option('image_className_list');
     const hasDescription = option('image_description');
     const hasImageTitle = option('image_title');
     const hasImageCaption = option('image_caption');
@@ -485,7 +485,7 @@
       }
     };
     const wrapInFigure = image => {
-      const figureElm = DOM.create('figure', { class: 'image' });
+      const figureElm = DOM.create('figure', { className: 'image' });
       DOM.insertAfter(figureElm, image);
       figureElm.appendChild(image);
       figureElm.appendChild(DOM.create('figcaption', { contentEditable: 'true' }, 'Caption'));
@@ -568,7 +568,7 @@
       title: '',
       width: '',
       height: '',
-      class: '',
+      className: '',
       style: '',
       caption: false,
       hspace: '',
@@ -603,7 +603,7 @@
       }, image);
       setAlt(image, data.alt, data.isDecorative);
       if (data.caption) {
-        const figure = DOM.create('figure', { class: 'image' });
+        const figure = DOM.create('figure', { className: 'image' });
         figure.appendChild(image);
         figure.appendChild(DOM.create('figcaption', { contentEditable: 'true' }, 'Caption'));
         figure.contentEditable = 'false';
@@ -618,7 +618,7 @@
       title: getAttrib(image, 'title'),
       width: getSize(image, 'width'),
       height: getSize(image, 'height'),
-      class: getAttrib(image, 'class'),
+      className: getAttrib(image, 'className'),
       style: normalizeCss(getAttrib(image, 'style')),
       caption: hasCaption(image),
       hspace: getHspace(image),
@@ -666,7 +666,7 @@
       updateProp(image, oldData, newData, 'title', updateAttrib);
       updateProp(image, oldData, newData, 'width', setSize('width', normalizeCss));
       updateProp(image, oldData, newData, 'height', setSize('height', normalizeCss));
-      updateProp(image, oldData, newData, 'class', updateAttrib);
+      updateProp(image, oldData, newData, 'className', updateAttrib);
       updateProp(image, oldData, newData, 'style', normalized((image, value) => updateAttrib(image, 'style', value), normalizeCss));
       updateProp(image, oldData, newData, 'hspace', normalized(setHspace, normalizeCss));
       updateProp(image, oldData, newData, 'vspace', normalized(setVspace, normalizeCss));
@@ -956,7 +956,7 @@
           ])));
         });
       });
-      const classList = ListUtils.sanitize(getClassList(editor));
+      const classNameList = ListUtils.sanitize(getclassNameList(editor));
       const hasAdvTab$1 = hasAdvTab(editor);
       const hasUploadTab$1 = hasUploadTab(editor);
       const hasUploadUrl$1 = hasUploadUrl(editor);
@@ -972,7 +972,7 @@
       return futureImageList.then(imageList => ({
         image,
         imageList,
-        classList,
+        classNameList,
         hasAdvTab: hasAdvTab$1,
         hasUploadTab: hasUploadTab$1,
         hasUploadUrl: hasUploadUrl$1,
@@ -1025,10 +1025,10 @@
             label: 'Image is decorative'
           }]
       };
-      const classList = info.classList.map(items => ({
-        name: 'classes',
+      const classNameList = info.classNameList.map(items => ({
+        name: 'classNamees',
         type: 'listbox',
-        label: 'Class',
+        label: 'className',
         items
       }));
       const caption = {
@@ -1052,9 +1052,9 @@
         info.hasImageTitle ? [imageTitle] : [],
         info.hasDimensions ? [imageDimensions] : [],
         [{
-            ...getDialogContainerType(info.classList.isSome() && info.hasImageCaption),
+            ...getDialogContainerType(info.classNameList.isSome() && info.hasImageCaption),
             items: flatten([
-              classList.toArray(),
+              classNameList.toArray(),
               info.hasImageCaption ? [caption] : []
             ])
           }]
@@ -1100,7 +1100,7 @@
         width: image.width,
         height: image.height
       },
-      classes: image.class,
+      classNamees: image.className,
       caption: image.caption,
       style: image.style,
       vspace: image.vspace,
@@ -1116,7 +1116,7 @@
       title: data.title,
       width: data.dimensions.width,
       height: data.dimensions.height,
-      class: data.classes,
+      className: data.classNamees,
       style: data.style,
       caption: data.caption,
       hspace: data.hspace,
@@ -1165,9 +1165,9 @@
           data.dimensions.height = meta.height;
         }
       }
-      if (isString(meta.class)) {
-        ListUtils.findEntry(info.classList, meta.class).each(entry => {
-          data.classes = entry.value;
+      if (isString(meta.className)) {
+        ListUtils.findEntry(info.classNameList, meta.className).each(entry => {
+          data.classNamees = entry.value;
         });
       }
       if (info.hasImageCaption) {
@@ -1436,9 +1436,9 @@
       });
     };
 
-    const hasImageClass = node => {
-      const className = node.attr('class');
-      return isNonNullable(className) && /\bimage\b/.test(className);
+    const hasImageclassName = node => {
+      const classNameName = node.attr('className');
+      return isNonNullable(classNameName) && /\bimage\b/.test(classNameName);
     };
     const toggleContentEditableState = state => nodes => {
       let i = nodes.length;
@@ -1447,7 +1447,7 @@
       };
       while (i--) {
         const node = nodes[i];
-        if (hasImageClass(node)) {
+        if (hasImageclassName(node)) {
           node.attr('contenteditable', state ? 'false' : null);
           global.each(node.getAll('figcaption'), toggleContentEditable);
         }

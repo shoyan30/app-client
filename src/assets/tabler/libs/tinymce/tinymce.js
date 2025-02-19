@@ -193,7 +193,7 @@
     const never = constant(false);
     const always = constant(true);
 
-    class Optional {
+    className Optional {
       constructor(tag, value) {
         this.tag = tag;
         this.value = value;
@@ -1228,10 +1228,10 @@
       return false;
     };
 
-    const supports = element => element.dom.classList !== undefined;
-    const get$8 = element => read$4(element, 'class');
-    const add$3 = (element, clazz) => add$4(element, 'class', clazz);
-    const remove$7 = (element, clazz) => remove$8(element, 'class', clazz);
+    const supports = element => element.dom.classNameList !== undefined;
+    const get$8 = element => read$4(element, 'className');
+    const add$3 = (element, clazz) => add$4(element, 'className', clazz);
+    const remove$7 = (element, clazz) => remove$8(element, 'className', clazz);
     const toggle$2 = (element, clazz) => {
       if (contains$2(get$8(element), clazz)) {
         return remove$7(element, clazz);
@@ -1242,32 +1242,32 @@
 
     const add$2 = (element, clazz) => {
       if (supports(element)) {
-        element.dom.classList.add(clazz);
+        element.dom.classNameList.add(clazz);
       } else {
         add$3(element, clazz);
       }
     };
-    const cleanClass = element => {
-      const classList = supports(element) ? element.dom.classList : get$8(element);
-      if (classList.length === 0) {
-        remove$9(element, 'class');
+    const cleanclassName = element => {
+      const classNameList = supports(element) ? element.dom.classNameList : get$8(element);
+      if (classNameList.length === 0) {
+        remove$9(element, 'className');
       }
     };
     const remove$6 = (element, clazz) => {
       if (supports(element)) {
-        const classList = element.dom.classList;
-        classList.remove(clazz);
+        const classNameList = element.dom.classNameList;
+        classNameList.remove(clazz);
       } else {
         remove$7(element, clazz);
       }
-      cleanClass(element);
+      cleanclassName(element);
     };
     const toggle$1 = (element, clazz) => {
-      const result = supports(element) ? element.dom.classList.toggle(clazz) : toggle$2(element, clazz);
-      cleanClass(element);
+      const result = supports(element) ? element.dom.classNameList.toggle(clazz) : toggle$2(element, clazz);
+      cleanclassName(element);
       return result;
     };
-    const has = (element, clazz) => supports(element) && element.dom.classList.contains(clazz);
+    const has = (element, clazz) => supports(element) && element.dom.classNameList.contains(clazz);
 
     const fromHtml$1 = (html, scope) => {
       const doc = scope || document;
@@ -1807,7 +1807,7 @@
     const sibling = (scope, predicate) => sibling$1(scope, predicate).isSome();
     const descendant = (scope, predicate) => descendant$2(scope, predicate).isSome();
 
-    class DomTreeWalker {
+    className DomTreeWalker {
       constructor(startNode, rootNode) {
         this.node = startNode;
         this.rootNode = rootNode;
@@ -2741,7 +2741,7 @@
       return Object.freeze([
         'id',
         'accesskey',
-        'class',
+        'className',
         'dir',
         'lang',
         'style',
@@ -2974,12 +2974,12 @@
           'summary'
         ].join(' '));
         add('keygen', 'autofocus challenge disabled form keytype name');
-        addElement('svg', 'id tabindex lang xml:space class style x y width height viewBox preserveAspectRatio zoomAndPan transform'.split(' '), []);
+        addElement('svg', 'id tabindex lang xml:space className style x y width height viewBox preserveAspectRatio zoomAndPan transform'.split(' '), []);
       }
       if (type !== 'html5-strict') {
         addAttrs('script', 'language xml:space');
         addAttrs('style', 'xml:space');
-        addAttrs('object', 'declare classid code codebase codetype archive standby align border hspace vspace');
+        addAttrs('object', 'declare classNameid code codebase codetype archive standby align border hspace vspace');
         addAttrs('embed', 'align name hspace vspace');
         addAttrs('param', 'valuetype type');
         addAttrs('a', 'charset name rev shape coords');
@@ -3225,7 +3225,7 @@
       }
       const validStyles = compileElementMap(settings.valid_styles);
       const invalidStyles = compileElementMap(settings.invalid_styles, 'map');
-      const validClasses = compileElementMap(settings.valid_classes, 'map');
+      const validclassNamees = compileElementMap(settings.valid_classNamees, 'map');
       const whitespaceElementsMap = createLookupTable('whitespace_elements', 'pre script noscript style textarea video audio iframe object code');
       const selfClosingElementsMap = createLookupTable('self_closing_elements', 'colgroup dd dt li option p td tfoot th thead tr');
       const voidElementsMap = createLookupTable('void_elements', 'area base basefont br col frame hr img input isindex link ' + 'meta param embed source wbr track');
@@ -3478,7 +3478,7 @@
       };
       const getValidStyles = constant(validStyles);
       const getInvalidStyles = constant(invalidStyles);
-      const getValidClasses = constant(validClasses);
+      const getValidclassNamees = constant(validclassNamees);
       const getBoolAttrs = constant(boolAttrMap);
       const getBlockElements = constant(blockElementsMap);
       const getTextBlockElements = constant(textBlockElementsMap);
@@ -3527,7 +3527,7 @@
         children,
         elements,
         getValidStyles,
-        getValidClasses,
+        getValidclassNamees,
         getBlockElements,
         getInvalidStyles,
         getVoidElements,
@@ -3940,7 +3940,7 @@
         addEvent(win, 'load', readyHandler);
       }
     };
-    class EventUtils {
+    className EventUtils {
       constructor() {
         this.domLoaded = false;
         this.events = {};
@@ -4580,12 +4580,12 @@
           styleSheetLoader.load(url).catch(noop);
         });
       };
-      const toggleClass = (elm, cls, state) => {
+      const toggleclassName = (elm, cls, state) => {
         run(elm, e => {
           if (isElement$6(e)) {
             const $elm = SugarElement.fromDom(e);
-            const classes = cls.split(' ');
-            each$e(classes, c => {
+            const classNamees = cls.split(' ');
+            each$e(classNamees, c => {
               if (isNonNullable(state)) {
                 const fn = state ? add$2 : remove$6;
                 fn($elm, c);
@@ -4596,16 +4596,16 @@
           }
         });
       };
-      const addClass = (elm, cls) => {
-        toggleClass(elm, cls, true);
+      const addclassName = (elm, cls) => {
+        toggleclassName(elm, cls, true);
       };
-      const removeClass = (elm, cls) => {
-        toggleClass(elm, cls, false);
+      const removeclassName = (elm, cls) => {
+        toggleclassName(elm, cls, false);
       };
-      const hasClass = (elm, cls) => {
+      const hasclassName = (elm, cls) => {
         const $elm = _get(elm);
-        const classes = cls.split(' ');
-        return isNonNullable($elm) && forall(classes, c => has($elm, c));
+        const classNamees = cls.split(' ');
+        return isNonNullable($elm) && forall(classNamees, c => has($elm, c));
       };
       const show = elm => {
         run(elm, e => remove$5(SugarElement.fromDom(e), 'display'));
@@ -4863,10 +4863,10 @@
         serializeStyle,
         addStyle,
         loadCSS,
-        addClass,
-        removeClass,
-        hasClass,
-        toggleClass,
+        addclassName,
+        removeclassName,
+        hasclassName,
+        toggleclassName,
         show,
         hide,
         isHidden,
@@ -4908,7 +4908,7 @@
     const LOADING = 1;
     const LOADED = 2;
     const FAILED = 3;
-    class ScriptLoader {
+    className ScriptLoader {
       constructor(settings = {}) {
         this.states = {};
         this.queue = [];
@@ -5284,7 +5284,7 @@
     const dataAnnotation = constant('data-mce-annotation');
     const dataAnnotationId = constant('data-mce-annotation-uid');
     const dataAnnotationActive = constant('data-mce-annotation-active');
-    const dataAnnotationClasses = constant('data-mce-annotation-classes');
+    const dataAnnotationclassNamees = constant('data-mce-annotation-classNamees');
     const dataAnnotationAttributes = constant('data-mce-annotation-attrs');
 
     const isRoot$1 = root => node => eq(node, root);
@@ -5416,12 +5416,12 @@
         node.attr(dataAnnotation(), null);
         node.attr(dataAnnotationActive(), null);
         const customAttrNames = Optional.from(node.attr(dataAnnotationAttributes())).map(names => names.split(',')).getOr([]);
-        const customClasses = Optional.from(node.attr(dataAnnotationClasses())).map(names => names.split(',')).getOr([]);
+        const customclassNamees = Optional.from(node.attr(dataAnnotationclassNamees())).map(names => names.split(',')).getOr([]);
         each$e(customAttrNames, name => node.attr(name, null));
-        const classList = (_b = (_a = node.attr('class')) === null || _a === void 0 ? void 0 : _a.split(' ')) !== null && _b !== void 0 ? _b : [];
-        const newClassList = difference(classList, [annotation()].concat(customClasses));
-        node.attr('class', newClassList.length > 0 ? newClassList.join(' ') : null);
-        node.attr(dataAnnotationClasses(), null);
+        const classNameList = (_b = (_a = node.attr('className')) === null || _a === void 0 ? void 0 : _a.split(' ')) !== null && _b !== void 0 ? _b : [];
+        const newclassNameList = difference(classNameList, [annotation()].concat(customclassNamees));
+        node.attr('className', newclassNameList.length > 0 ? newclassNameList.join(' ') : null);
+        node.attr(dataAnnotationclassNamees(), null);
         node.attr(dataAnnotationAttributes(), null);
       };
       editor.serializer.addTempAttr(dataAnnotationActive());
@@ -5469,13 +5469,13 @@
       return prefix + '_' + random$1 + unique + String(time);
     };
 
-    const add = (element, classes) => {
-      each$e(classes, x => {
+    const add = (element, classNamees) => {
+      each$e(classNamees, x => {
         add$2(element, x);
       });
     };
-    const remove$3 = (element, classes) => {
-      each$e(classes, x => {
+    const remove$3 = (element, classNamees) => {
+      each$e(classNamees, x => {
         remove$6(element, x);
       });
     };
@@ -6991,7 +6991,7 @@
         processor: bodyOptionProcessor(editor, 'tinymce'),
         default: 'tinymce'
       });
-      registerOption('body_class', {
+      registerOption('body_className', {
         processor: bodyOptionProcessor(editor),
         default: ''
       });
@@ -7083,7 +7083,7 @@
         processor: 'string',
         default: 'xx-small,small,medium,large,x-large,xx-large,300%'
       });
-      registerOption('font_size_classes', {
+      registerOption('font_size_classNamees', {
         processor: 'string',
         default: ''
       });
@@ -7354,11 +7354,11 @@
         processor: 'boolean',
         default: true
       });
-      registerOption('visual_table_class', {
+      registerOption('visual_table_className', {
         processor: 'string',
         default: 'mce-item-table'
       });
-      registerOption('visual_anchor_class', {
+      registerOption('visual_anchor_className', {
         processor: 'string',
         default: 'mce-item-anchor'
       });
@@ -7463,7 +7463,7 @@
       registerOption('invalid_elements', { processor: 'string' });
       registerOption('invalid_styles', { processor: stringOrObjectProcessor });
       registerOption('valid_children', { processor: 'string' });
-      registerOption('valid_classes', { processor: stringOrObjectProcessor });
+      registerOption('valid_classNamees', { processor: stringOrObjectProcessor });
       registerOption('valid_elements', { processor: 'string' });
       registerOption('valid_styles', { processor: stringOrObjectProcessor });
       registerOption('verify_html', {
@@ -7623,11 +7623,11 @@
         },
         default: _ctx => []
       });
-      registerOption('noneditable_class', {
+      registerOption('noneditable_className', {
         processor: 'string',
         default: 'mceNonEditable'
       });
-      registerOption('editable_class', {
+      registerOption('editable_className', {
         processor: 'string',
         default: 'mceEditable'
       });
@@ -7744,7 +7744,7 @@
     const getDocType = option('doctype');
     const getDocumentBaseUrl = option('document_base_url');
     const getBodyId = option('body_id');
-    const getBodyClass = option('body_class');
+    const getBodyclassName = option('body_className');
     const getContentSecurityPolicy = option('content_security_policy');
     const shouldPutBrInPre$1 = option('br_in_pre');
     const getForcedRootBlock = option('forced_root_block');
@@ -7803,8 +7803,8 @@
     const getExternalPlugins$1 = option('external_plugins');
     const shouldBlockUnsupportedDrop = option('block_unsupported_drop');
     const isVisualAidsEnabled = option('visual');
-    const getVisualAidsTableClass = option('visual_table_class');
-    const getVisualAidsAnchorClass = option('visual_anchor_class');
+    const getVisualAidsTableclassName = option('visual_table_className');
+    const getVisualAidsAnchorclassName = option('visual_anchor_className');
     const getIframeAriaText = option('iframe_aria_text');
     const getSetupCallback = option('setup');
     const getInitInstanceCallback = option('init_instance_callback');
@@ -7826,8 +7826,8 @@
     const shouldAllowHtmlDataUrls = option('allow_html_data_urls');
     const getTextPatterns = option('text_patterns');
     const getTextPatternsLookup = option('text_patterns_lookup');
-    const getNonEditableClass = option('noneditable_class');
-    const getEditableClass = option('editable_class');
+    const getNonEditableclassName = option('noneditable_className');
+    const getEditableclassName = option('editable_className');
     const getNonEditableRegExps = option('noneditable_regexp');
     const shouldPreserveCData = option('preserve_cdata');
     const shouldHighlightOnFocus = option('highlight_on_focus');
@@ -7835,7 +7835,7 @@
     const shouldUseDocumentWrite = option('init_content_sync');
     const hasTextPatternsLookup = editor => editor.options.isSet('text_patterns_lookup');
     const getFontStyleValues = editor => Tools.explode(editor.options.get('font_size_style_values'));
-    const getFontSizeClasses = editor => Tools.explode(editor.options.get('font_size_classes'));
+    const getFontSizeclassNamees = editor => Tools.explode(editor.options.get('font_size_classNamees'));
     const isEncodingXml = editor => editor.options.get('encoding') === 'xml';
     const getAllowedImageFileTypes = editor => Tools.explode(editor.options.get('images_file_types'));
     const hasTableTabNavigation = option('table_tab_navigation');
@@ -7987,7 +7987,7 @@
           dom.setStyle(caretContainer, 'caret-color', 'transparent');
           caretContainerNode = caretContainer;
           const caret = dom.create('div', {
-            'class': 'mce-visual-caret',
+            'className': 'mce-visual-caret',
             'data-mce-bogus': 'all'
           });
           dom.setStyles(caret, { ...clientRect });
@@ -7998,7 +7998,7 @@
             before
           });
           if (before) {
-            dom.addClass(caret, 'mce-visual-caret-before');
+            dom.addclassName(caret, 'mce-visual-caret-before');
           }
           startBlink();
           rng = element.ownerDocument.createRange();
@@ -8037,9 +8037,9 @@
         cursorInterval = setInterval(() => {
           lastVisualCaret.on(caretState => {
             if (hasFocus()) {
-              dom.toggleClass(caretState.caret, 'mce-visual-caret-hidden');
+              dom.toggleclassName(caretState.caret, 'mce-visual-caret-hidden');
             } else {
-              dom.addClass(caretState.caret, 'mce-visual-caret-hidden');
+              dom.addclassName(caretState.caret, 'mce-visual-caret-hidden');
             }
           });
         }, 500);
@@ -9044,7 +9044,7 @@
         'selector',
         'attributes',
         'styles',
-        'classes'
+        'classNamees'
       ];
       const filterObj = format => filter$4(format, (_, key) => exists(validKeys, validKey => validKey === key));
       return isFormatPredicate(editor, formatName, fmt1 => {
@@ -9379,7 +9379,7 @@
     };
 
     const validBlocks = [
-      'pre[class*=language-][contenteditable="false"]',
+      'pre[className*=language-][contenteditable="false"]',
       'figure.image',
       'div[data-ephox-embed-iri]',
       'div.tiny-pageembed',
@@ -9414,12 +9414,12 @@
       add$2(elem, annotation());
       set$4(elem, `${ dataAnnotationId() }`, uid);
       set$4(elem, `${ dataAnnotation() }`, annotationName);
-      const {attributes = {}, classes = []} = decorate(uid, otherData);
+      const {attributes = {}, classNamees = []} = decorate(uid, otherData);
       setAll$1(elem, attributes);
-      add(elem, classes);
+      add(elem, classNamees);
       if (directAnnotation) {
-        if (classes.length > 0) {
-          set$4(elem, `${ dataAnnotationClasses() }`, classes.join(','));
+        if (classNamees.length > 0) {
+          set$4(elem, `${ dataAnnotationclassNamees() }`, classNamees.join(','));
         }
         const attributeNames = keys(attributes);
         if (attributeNames.length > 0) {
@@ -9433,10 +9433,10 @@
       remove$9(elem, `${ dataAnnotation() }`);
       remove$9(elem, `${ dataAnnotationActive() }`);
       const customAttrNames = getOpt(elem, `${ dataAnnotationAttributes() }`).map(names => names.split(',')).getOr([]);
-      const customClasses = getOpt(elem, `${ dataAnnotationClasses() }`).map(names => names.split(',')).getOr([]);
+      const customclassNamees = getOpt(elem, `${ dataAnnotationclassNamees() }`).map(names => names.split(',')).getOr([]);
       each$e(customAttrNames, name => remove$9(elem, name));
-      remove$3(elem, customClasses);
-      remove$9(elem, `${ dataAnnotationClasses() }`);
+      remove$3(elem, customclassNamees);
+      remove$9(elem, `${ dataAnnotationclassNamees() }`);
       remove$9(elem, `${ dataAnnotationAttributes() }`);
     };
     const makeAnnotation = (eDoc, uid, data, annotationName, decorate) => {
@@ -9707,8 +9707,8 @@
     };
 
     const isEditorUIElement$1 = elm => {
-      const className = elm.className.toString();
-      return className.indexOf('tox-') !== -1 || className.indexOf('mce-') !== -1;
+      const classNameName = elm.classNameName.toString();
+      return classNameName.indexOf('tox-') !== -1 || classNameName.indexOf('mce-') !== -1;
     };
     const FocusManager = { isEditorUIElement: isEditorUIElement$1 };
 
@@ -9790,9 +9790,9 @@
       return isElement$6(elm) && FocusManager.isEditorUIElement(elm);
     };
     const isEditorContentAreaElement = elm => {
-      const classList = elm.classList;
-      if (classList !== undefined) {
-        return classList.contains('tox-edit-area') || classList.contains('tox-edit-area__iframe') || classList.contains('mce-content-body');
+      const classNameList = elm.classNameList;
+      if (classNameList !== undefined) {
+        return classNameList.contains('tox-edit-area') || classNameList.contains('tox-edit-area__iframe') || classNameList.contains('mce-content-body');
       } else {
         return false;
       }
@@ -10039,7 +10039,7 @@
       let startScrollWidth;
       let startScrollHeight;
       const isImage = elm => isNonNullable(elm) && (isImg(elm) || dom.is(elm, 'figure.image'));
-      const isMedia = elm => isMedia$2(elm) || dom.hasClass(elm, 'mce-preview-object');
+      const isMedia = elm => isMedia$2(elm) || dom.hasclassName(elm, 'mce-preview-object');
       const isEventOnImageOutsideRange = (evt, range) => {
         if (isTouchEvent(evt)) {
           const touch = evt.touches[0];
@@ -10055,7 +10055,7 @@
         }
       };
       const getResizeTargets = elm => {
-        if (dom.hasClass(elm, 'mce-preview-object') && isNonNullable(elm.firstElementChild)) {
+        if (dom.hasclassName(elm, 'mce-preview-object') && isNonNullable(elm.firstElementChild)) {
           return [
             elm,
             elm.firstElementChild
@@ -10077,7 +10077,7 @@
         if (elm === editor.getBody()) {
           return false;
         }
-        if (dom.hasClass(elm, 'mce-preview-object') && isNonNullable(elm.firstElementChild)) {
+        if (dom.hasclassName(elm, 'mce-preview-object') && isNonNullable(elm.firstElementChild)) {
           return is$1(SugarElement.fromDom(elm.firstElementChild), selector);
         } else {
           return is$1(SugarElement.fromDom(elm), selector);
@@ -10224,7 +10224,7 @@
               startScrollWidth = rootElement.scrollWidth;
               startScrollHeight = rootElement.scrollHeight;
               resizeBackdrop = dom.add(rootElement, 'div', {
-                'class': 'mce-resize-backdrop',
+                'className': 'mce-resize-backdrop',
                 'data-mce-bogus': 'all'
               });
               dom.setStyles(resizeBackdrop, {
@@ -10235,7 +10235,7 @@
                 height: '100%'
               });
               selectedElmGhost = createGhostElement(dom, selectedElm);
-              dom.addClass(selectedElmGhost, 'mce-clonedresizable');
+              dom.addclassName(selectedElmGhost, 'mce-clonedresizable');
               dom.setAttrib(selectedElmGhost, 'data-mce-bogus', 'all');
               selectedElmGhost.contentEditable = 'false';
               dom.setStyles(selectedElmGhost, {
@@ -10253,7 +10253,7 @@
                 dom.bind(rootDocument, 'mouseup', endGhostResize);
               }
               resizeHelper = dom.add(rootElement, 'div', {
-                'class': 'mce-resize-helper',
+                'className': 'mce-resize-helper',
                 'data-mce-bogus': 'all'
               }, startW + ' &times; ' + startH);
             };
@@ -10264,7 +10264,7 @@
             handleElm = dom.add(rootElement, 'div', {
               'id': 'mceResizeHandle' + name,
               'data-mce-bogus': 'all',
-              'class': 'mce-resizehandle',
+              'className': 'mce-resizehandle',
               'unselectable': true,
               'style': 'cursor:' + name + '-resize; margin:0; padding:0'
             });
@@ -11195,7 +11195,7 @@
       const isNamedAnchor = node.name === 'a' && !node.attr('href') && node.attr('id');
       return node.attr('name') || node.attr('id') && !node.firstChild || node.attr('data-mce-bookmark') || isNamedAnchor;
     };
-    class AstNode {
+    className AstNode {
       static create(name, attrs) {
         const node = new AstNode(name, typeLookup[name] || 1);
         if (attrs) {
@@ -13514,10 +13514,10 @@
         for (let i = 0; i < formatList.length; i++) {
           const format = formatList[i];
           if (matchName(ed.dom, node, format) && matchItems(dom, node, format, 'attributes', similar, vars) && matchItems(dom, node, format, 'styles', similar, vars)) {
-            const classes = format.classes;
-            if (classes) {
-              for (let x = 0; x < classes.length; x++) {
-                if (!ed.dom.hasClass(node, replaceVars(classes[x], vars))) {
+            const classNamees = format.classNamees;
+            if (classNamees) {
+              for (let x = 0; x < classNamees.length; x++) {
+                if (!ed.dom.hasclassName(node, replaceVars(classNamees[x], vars))) {
                   return;
                 }
               }
@@ -14204,7 +14204,7 @@
             value: attrValue
           } = processFormatAttrOrStyle(name, value, vars);
           if (format.remove_similar || isNull(attrValue) || !isElement$6(compareNode) || isEq$2(dom.getAttrib(compareNode, attrName), attrValue)) {
-            if (attrName === 'class') {
+            if (attrName === 'className') {
               const currentValue = dom.getAttrib(elm, attrName);
               if (currentValue) {
                 let valueOut = '';
@@ -14227,16 +14227,16 @@
               dom.setStyle(elm, 'list-style-type', 'none');
               return;
             }
-            if (attrName === 'class') {
-              elm.removeAttribute('className');
+            if (attrName === 'className') {
+              elm.removeAttribute('classNameName');
             }
             elm.removeAttribute(attrName);
           }
         });
-        each$7(format.classes, value => {
+        each$7(format.classNamees, value => {
           value = replaceVars(value, vars);
-          if (!isElement$6(compareNode) || dom.hasClass(compareNode, value)) {
-            dom.removeClass(elm, value);
+          if (!isElement$6(compareNode) || dom.hasclassName(compareNode, value)) {
+            dom.removeclassName(elm, value);
           }
         });
         const attrs = dom.getAttribs(elm);
@@ -14564,10 +14564,10 @@
         each$5(fmt.attributes, (value, name) => {
           dom.setAttrib(elm, name, replaceVars(value, vars));
         });
-        each$5(fmt.classes, value => {
+        each$5(fmt.classNamees, value => {
           const newValue = replaceVars(value, vars);
-          if (!dom.hasClass(elm, newValue)) {
-            dom.addClass(elm, newValue);
+          if (!dom.hasclassName(elm, newValue)) {
+            dom.addclassName(elm, newValue);
           }
         });
       };
@@ -15255,38 +15255,38 @@
           }
         });
       }
-      const validClasses = schema.getValidClasses();
-      if (settings.validate && validClasses) {
-        parser.addAttributeFilter('class', nodes => {
+      const validclassNamees = schema.getValidclassNamees();
+      if (settings.validate && validclassNamees) {
+        parser.addAttributeFilter('className', nodes => {
           var _a;
           let i = nodes.length;
           while (i--) {
             const node = nodes[i];
-            const clazz = (_a = node.attr('class')) !== null && _a !== void 0 ? _a : '';
-            const classList = Tools.explode(clazz, ' ');
-            let classValue = '';
-            for (let ci = 0; ci < classList.length; ci++) {
-              const className = classList[ci];
+            const clazz = (_a = node.attr('className')) !== null && _a !== void 0 ? _a : '';
+            const classNameList = Tools.explode(clazz, ' ');
+            let classNameValue = '';
+            for (let ci = 0; ci < classNameList.length; ci++) {
+              const classNameName = classNameList[ci];
               let valid = false;
-              let validClassesMap = validClasses['*'];
-              if (validClassesMap && validClassesMap[className]) {
+              let validclassNameesMap = validclassNamees['*'];
+              if (validclassNameesMap && validclassNameesMap[classNameName]) {
                 valid = true;
               }
-              validClassesMap = validClasses[node.name];
-              if (!valid && validClassesMap && validClassesMap[className]) {
+              validclassNameesMap = validclassNamees[node.name];
+              if (!valid && validclassNameesMap && validclassNameesMap[classNameName]) {
                 valid = true;
               }
               if (valid) {
-                if (classValue) {
-                  classValue += ' ';
+                if (classNameValue) {
+                  classNameValue += ' ';
                 }
-                classValue += className;
+                classNameValue += classNameName;
               }
             }
-            if (!classValue.length) {
-              classValue = null;
+            if (!classNameValue.length) {
+              classNameValue = null;
             }
-            node.attr('class', classValue);
+            node.attr('className', classNameValue);
           }
         });
       }
@@ -15506,8 +15506,8 @@
     const mathMlDisallowed = freeze(['maction', 'maligngroup', 'malignmark', 'mlongdiv', 'mscarries', 'mscarry', 'msgroup', 'mstack', 'msline', 'msrow', 'semantics', 'annotation', 'annotation-xml', 'mprescripts', 'none']);
     const text = freeze(['#text']);
 
-    const html = freeze(['accept', 'action', 'align', 'alt', 'autocapitalize', 'autocomplete', 'autopictureinpicture', 'autoplay', 'background', 'bgcolor', 'border', 'capture', 'cellpadding', 'cellspacing', 'checked', 'cite', 'class', 'clear', 'color', 'cols', 'colspan', 'controls', 'controlslist', 'coords', 'crossorigin', 'datetime', 'decoding', 'default', 'dir', 'disabled', 'disablepictureinpicture', 'disableremoteplayback', 'download', 'draggable', 'enctype', 'enterkeyhint', 'face', 'for', 'headers', 'height', 'hidden', 'high', 'href', 'hreflang', 'id', 'inputmode', 'integrity', 'ismap', 'kind', 'label', 'lang', 'list', 'loading', 'loop', 'low', 'max', 'maxlength', 'media', 'method', 'min', 'minlength', 'multiple', 'muted', 'name', 'nonce', 'noshade', 'novalidate', 'nowrap', 'open', 'optimum', 'pattern', 'placeholder', 'playsinline', 'popover', 'popovertarget', 'popovertargetaction', 'poster', 'preload', 'pubdate', 'radiogroup', 'readonly', 'rel', 'required', 'rev', 'reversed', 'role', 'rows', 'rowspan', 'spellcheck', 'scope', 'selected', 'shape', 'size', 'sizes', 'span', 'srclang', 'start', 'src', 'srcset', 'step', 'style', 'summary', 'tabindex', 'title', 'translate', 'type', 'usemap', 'valign', 'value', 'width', 'wrap', 'xmlns', 'slot']);
-    const svg = freeze(['accent-height', 'accumulate', 'additive', 'alignment-baseline', 'amplitude', 'ascent', 'attributename', 'attributetype', 'azimuth', 'basefrequency', 'baseline-shift', 'begin', 'bias', 'by', 'class', 'clip', 'clippathunits', 'clip-path', 'clip-rule', 'color', 'color-interpolation', 'color-interpolation-filters', 'color-profile', 'color-rendering', 'cx', 'cy', 'd', 'dx', 'dy', 'diffuseconstant', 'direction', 'display', 'divisor', 'dur', 'edgemode', 'elevation', 'end', 'exponent', 'fill', 'fill-opacity', 'fill-rule', 'filter', 'filterunits', 'flood-color', 'flood-opacity', 'font-family', 'font-size', 'font-size-adjust', 'font-stretch', 'font-style', 'font-variant', 'font-weight', 'fx', 'fy', 'g1', 'g2', 'glyph-name', 'glyphref', 'gradientunits', 'gradienttransform', 'height', 'href', 'id', 'image-rendering', 'in', 'in2', 'intercept', 'k', 'k1', 'k2', 'k3', 'k4', 'kerning', 'keypoints', 'keysplines', 'keytimes', 'lang', 'lengthadjust', 'letter-spacing', 'kernelmatrix', 'kernelunitlength', 'lighting-color', 'local', 'marker-end', 'marker-mid', 'marker-start', 'markerheight', 'markerunits', 'markerwidth', 'maskcontentunits', 'maskunits', 'max', 'mask', 'media', 'method', 'mode', 'min', 'name', 'numoctaves', 'offset', 'operator', 'opacity', 'order', 'orient', 'orientation', 'origin', 'overflow', 'paint-order', 'path', 'pathlength', 'patterncontentunits', 'patterntransform', 'patternunits', 'points', 'preservealpha', 'preserveaspectratio', 'primitiveunits', 'r', 'rx', 'ry', 'radius', 'refx', 'refy', 'repeatcount', 'repeatdur', 'restart', 'result', 'rotate', 'scale', 'seed', 'shape-rendering', 'slope', 'specularconstant', 'specularexponent', 'spreadmethod', 'startoffset', 'stddeviation', 'stitchtiles', 'stop-color', 'stop-opacity', 'stroke-dasharray', 'stroke-dashoffset', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'stroke-opacity', 'stroke', 'stroke-width', 'style', 'surfacescale', 'systemlanguage', 'tabindex', 'tablevalues', 'targetx', 'targety', 'transform', 'transform-origin', 'text-anchor', 'text-decoration', 'text-rendering', 'textlength', 'type', 'u1', 'u2', 'unicode', 'values', 'viewbox', 'visibility', 'version', 'vert-adv-y', 'vert-origin-x', 'vert-origin-y', 'width', 'word-spacing', 'wrap', 'writing-mode', 'xchannelselector', 'ychannelselector', 'x', 'x1', 'x2', 'xmlns', 'y', 'y1', 'y2', 'z', 'zoomandpan']);
+    const html = freeze(['accept', 'action', 'align', 'alt', 'autocapitalize', 'autocomplete', 'autopictureinpicture', 'autoplay', 'background', 'bgcolor', 'border', 'capture', 'cellpadding', 'cellspacing', 'checked', 'cite', 'className', 'clear', 'color', 'cols', 'colspan', 'controls', 'controlslist', 'coords', 'crossorigin', 'datetime', 'decoding', 'default', 'dir', 'disabled', 'disablepictureinpicture', 'disableremoteplayback', 'download', 'draggable', 'enctype', 'enterkeyhint', 'face', 'for', 'headers', 'height', 'hidden', 'high', 'href', 'hreflang', 'id', 'inputmode', 'integrity', 'ismap', 'kind', 'label', 'lang', 'list', 'loading', 'loop', 'low', 'max', 'maxlength', 'media', 'method', 'min', 'minlength', 'multiple', 'muted', 'name', 'nonce', 'noshade', 'novalidate', 'nowrap', 'open', 'optimum', 'pattern', 'placeholder', 'playsinline', 'popover', 'popovertarget', 'popovertargetaction', 'poster', 'preload', 'pubdate', 'radiogroup', 'readonly', 'rel', 'required', 'rev', 'reversed', 'role', 'rows', 'rowspan', 'spellcheck', 'scope', 'selected', 'shape', 'size', 'sizes', 'span', 'srclang', 'start', 'src', 'srcset', 'step', 'style', 'summary', 'tabindex', 'title', 'translate', 'type', 'usemap', 'valign', 'value', 'width', 'wrap', 'xmlns', 'slot']);
+    const svg = freeze(['accent-height', 'accumulate', 'additive', 'alignment-baseline', 'amplitude', 'ascent', 'attributename', 'attributetype', 'azimuth', 'basefrequency', 'baseline-shift', 'begin', 'bias', 'by', 'className', 'clip', 'clippathunits', 'clip-path', 'clip-rule', 'color', 'color-interpolation', 'color-interpolation-filters', 'color-profile', 'color-rendering', 'cx', 'cy', 'd', 'dx', 'dy', 'diffuseconstant', 'direction', 'display', 'divisor', 'dur', 'edgemode', 'elevation', 'end', 'exponent', 'fill', 'fill-opacity', 'fill-rule', 'filter', 'filterunits', 'flood-color', 'flood-opacity', 'font-family', 'font-size', 'font-size-adjust', 'font-stretch', 'font-style', 'font-variant', 'font-weight', 'fx', 'fy', 'g1', 'g2', 'glyph-name', 'glyphref', 'gradientunits', 'gradienttransform', 'height', 'href', 'id', 'image-rendering', 'in', 'in2', 'intercept', 'k', 'k1', 'k2', 'k3', 'k4', 'kerning', 'keypoints', 'keysplines', 'keytimes', 'lang', 'lengthadjust', 'letter-spacing', 'kernelmatrix', 'kernelunitlength', 'lighting-color', 'local', 'marker-end', 'marker-mid', 'marker-start', 'markerheight', 'markerunits', 'markerwidth', 'maskcontentunits', 'maskunits', 'max', 'mask', 'media', 'method', 'mode', 'min', 'name', 'numoctaves', 'offset', 'operator', 'opacity', 'order', 'orient', 'orientation', 'origin', 'overflow', 'paint-order', 'path', 'pathlength', 'patterncontentunits', 'patterntransform', 'patternunits', 'points', 'preservealpha', 'preserveaspectratio', 'primitiveunits', 'r', 'rx', 'ry', 'radius', 'refx', 'refy', 'repeatcount', 'repeatdur', 'restart', 'result', 'rotate', 'scale', 'seed', 'shape-rendering', 'slope', 'specularconstant', 'specularexponent', 'spreadmethod', 'startoffset', 'stddeviation', 'stitchtiles', 'stop-color', 'stop-opacity', 'stroke-dasharray', 'stroke-dashoffset', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'stroke-opacity', 'stroke', 'stroke-width', 'style', 'surfacescale', 'systemlanguage', 'tabindex', 'tablevalues', 'targetx', 'targety', 'transform', 'transform-origin', 'text-anchor', 'text-decoration', 'text-rendering', 'textlength', 'type', 'u1', 'u2', 'unicode', 'values', 'viewbox', 'visibility', 'version', 'vert-adv-y', 'vert-origin-x', 'vert-origin-y', 'width', 'word-spacing', 'wrap', 'writing-mode', 'xchannelselector', 'ychannelselector', 'x', 'x1', 'x2', 'xmlns', 'y', 'y1', 'y2', 'z', 'zoomandpan']);
     const mathMl = freeze(['accent', 'accentunder', 'align', 'bevelled', 'close', 'columnsalign', 'columnlines', 'columnspan', 'denomalign', 'depth', 'dir', 'display', 'displaystyle', 'encoding', 'fence', 'frame', 'height', 'href', 'id', 'largeop', 'length', 'linethickness', 'lspace', 'lquote', 'mathbackground', 'mathcolor', 'mathsize', 'mathvariant', 'maxsize', 'minsize', 'movablelimits', 'notation', 'numalign', 'open', 'rowalign', 'rowlines', 'rowspacing', 'rowspan', 'rspace', 'rquote', 'scriptlevel', 'scriptminsize', 'scriptsizemultiplier', 'selection', 'separator', 'separators', 'stretchy', 'subscriptshift', 'supscriptshift', 'symmetric', 'voffset', 'width', 'xmlns']);
     const xml = freeze(['xlink:href', 'xml:id', 'xlink:title', 'xml:space', 'xmlns:xlink']);
 
@@ -15820,7 +15820,7 @@
 
       /* Attributes safe for values like "javascript:" */
       let URI_SAFE_ATTRIBUTES = null;
-      const DEFAULT_URI_SAFE_ATTRIBUTES = addToSet({}, ['alt', 'class', 'for', 'id', 'label', 'name', 'pattern', 'placeholder', 'role', 'summary', 'title', 'value', 'style', 'xmlns']);
+      const DEFAULT_URI_SAFE_ATTRIBUTES = addToSet({}, ['alt', 'className', 'for', 'id', 'label', 'name', 'pattern', 'placeholder', 'role', 'summary', 'title', 'value', 'style', 'xmlns']);
       const MATHML_NAMESPACE = 'http://www.w3.org/1998/Math/MathML';
       const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
       const HTML_NAMESPACE = 'http://www.w3.org/1999/xhtml';
@@ -16919,7 +16919,7 @@
         return /^data:/i.test(decodedUri);
       }
     };
-    class URI {
+    className URI {
       static parseDataUri(uri) {
         let type;
         const uriComponents = decodeURIComponent(uri).split(',');
@@ -17258,7 +17258,7 @@
       }
       return !(attrName in filteredUrlAttrs && isInvalidUri(settings, attrValue, tagName)) && (!settings.validate || schema.isValid(tagName, attrName) || startsWith(attrName, 'data-') || startsWith(attrName, 'aria-'));
     };
-    const isRequiredAttributeOfInternalElement = (ele, attrName) => ele.hasAttribute(internalElementAttr) && (attrName === 'id' || attrName === 'class' || attrName === 'style');
+    const isRequiredAttributeOfInternalElement = (ele, attrName) => ele.hasAttribute(internalElementAttr) && (attrName === 'id' || attrName === 'className' || attrName === 'style');
     const isBooleanAttribute = (attrName, schema) => attrName in schema.getBoolAttrs();
     const filterAttributes = (ele, settings, schema, scope) => {
       const {attributes} = ele;
@@ -18394,22 +18394,22 @@
       each$e(dom.select('table,a', scope), matchedElm => {
         switch (matchedElm.nodeName) {
         case 'TABLE':
-          const cls = getVisualAidsTableClass(editor);
+          const cls = getVisualAidsTableclassName(editor);
           const value = dom.getAttrib(matchedElm, 'border');
           if ((!value || value === '0') && editor.hasVisual) {
-            dom.addClass(matchedElm, cls);
+            dom.addclassName(matchedElm, cls);
           } else {
-            dom.removeClass(matchedElm, cls);
+            dom.removeclassName(matchedElm, cls);
           }
           break;
         case 'A':
           if (!dom.getAttrib(matchedElm, 'href')) {
             const value = dom.getAttrib(matchedElm, 'name') || matchedElm.id;
-            const cls = getVisualAidsAnchorClass(editor);
+            const cls = getVisualAidsAnchorclassName(editor);
             if (value && editor.hasVisual) {
-              dom.addClass(matchedElm, cls);
+              dom.addclassName(matchedElm, cls);
             } else {
-              dom.removeClass(matchedElm, cls);
+              dom.removeclassName(matchedElm, cls);
             }
           }
           break;
@@ -19134,14 +19134,14 @@
           }
         }
       });
-      htmlParser.addAttributeFilter('class', nodes => {
+      htmlParser.addAttributeFilter('className', nodes => {
         let i = nodes.length;
         while (i--) {
           const node = nodes[i];
-          let value = node.attr('class');
+          let value = node.attr('className');
           if (value) {
             value = value.replace(/(?:^|\s)mce-item-\w+(?!\S)/g, '');
-            node.attr('class', value.length > 0 ? value : null);
+            node.attr('className', value.length > 0 ? value : null);
           }
         }
       });
@@ -19417,7 +19417,7 @@
       }).getOr(content);
     };
 
-    const removedOptions = ('autoresize_on_init,content_editable_state,padd_empty_with_br,block_elements,' + 'boolean_attributes,editor_deselector,editor_selector,elements,file_browser_callback_types,filepicker_validator_handler,' + 'force_hex_style_colors,force_p_newlines,gecko_spellcheck,images_dataimg_filter,media_scripts,mode,move_caret_before_on_enter_elements,' + 'non_empty_elements,self_closing_elements,short_ended_elements,special,spellchecker_select_languages,spellchecker_whitelist,' + 'tab_focus,tabfocus_elements,table_responsive_width,text_block_elements,text_inline_elements,toolbar_drawer,types,validate,whitespace_elements,' + 'paste_enable_default_filters,paste_filter_drop,paste_word_valid_elements,paste_retain_style_properties,paste_convert_word_fake_lists,' + 'template_cdate_classes,template_mdate_classes,template_selected_content_classes,template_preview_replace_values,template_replace_values,templates,template_cdate_format,template_mdate_format').split(',');
+    const removedOptions = ('autoresize_on_init,content_editable_state,padd_empty_with_br,block_elements,' + 'boolean_attributes,editor_deselector,editor_selector,elements,file_browser_callback_types,filepicker_validator_handler,' + 'force_hex_style_colors,force_p_newlines,gecko_spellcheck,images_dataimg_filter,media_scripts,mode,move_caret_before_on_enter_elements,' + 'non_empty_elements,self_closing_elements,short_ended_elements,special,spellchecker_select_languages,spellchecker_whitelist,' + 'tab_focus,tabfocus_elements,table_responsive_width,text_block_elements,text_inline_elements,toolbar_drawer,types,validate,whitespace_elements,' + 'paste_enable_default_filters,paste_filter_drop,paste_word_valid_elements,paste_retain_style_properties,paste_convert_word_fake_lists,' + 'template_cdate_classNamees,template_mdate_classNamees,template_selected_content_classNamees,template_preview_replace_values,template_replace_values,templates,template_cdate_format,template_mdate_format').split(',');
     const deprecatedOptions = [];
     const removedPlugins = 'bbcode,colorpicker,contextmenu,fullpage,legacyoutput,spellchecker,template,textcolor,rtc'.split(',');
     const deprecatedPlugins = [];
@@ -19889,7 +19889,7 @@
     const restoreFakeSelection = editor => {
       editor.selection.setRng(editor.selection.getRng());
     };
-    const toggleClass = (elm, cls, state) => {
+    const toggleclassName = (elm, cls, state) => {
       if (has(elm, cls) && !state) {
         remove$6(elm, cls);
       } else if (state) {
@@ -19898,14 +19898,14 @@
     };
     const disableEditor = editor => {
       const body = SugarElement.fromDom(editor.getBody());
-      toggleClass(body, 'mce-content-readonly', true);
+      toggleclassName(body, 'mce-content-readonly', true);
       editor.selection.controlSelection.hideResizeRect();
       editor._selectionOverrides.hideFakeCaret();
       removeFakeSelection(editor);
     };
     const enableEditor = editor => {
       const body = SugarElement.fromDom(editor.getBody());
-      toggleClass(body, 'mce-content-readonly', false);
+      toggleclassName(body, 'mce-content-readonly', false);
       if (editor.hasEditableRoot()) {
         set$3(body, true);
       }
@@ -20590,7 +20590,7 @@
           {
             selector: 'figure.image',
             collapsed: false,
-            classes: 'align-left',
+            classNamees: 'align-left',
             ceFalseOverride: true,
             preview: 'font-family font-size'
           },
@@ -20639,7 +20639,7 @@
           {
             selector: 'figure.image',
             collapsed: false,
-            classes: 'align-center',
+            classNamees: 'align-center',
             ceFalseOverride: true,
             preview: 'font-family font-size'
           },
@@ -20695,7 +20695,7 @@
           {
             selector: 'figure.image',
             collapsed: false,
-            classes: 'align-right',
+            classNamees: 'align-right',
             ceFalseOverride: true,
             preview: 'font-family font-size'
           },
@@ -20746,7 +20746,7 @@
             inline: 'strong',
             remove: 'all',
             preserve_attributes: [
-              'class',
+              'className',
               'style'
             ]
           },
@@ -20758,7 +20758,7 @@
             inline: 'b',
             remove: 'all',
             preserve_attributes: [
-              'class',
+              'className',
               'style'
             ]
           }
@@ -20768,7 +20768,7 @@
             inline: 'em',
             remove: 'all',
             preserve_attributes: [
-              'class',
+              'className',
               'style'
             ]
           },
@@ -20780,7 +20780,7 @@
             inline: 'i',
             remove: 'all',
             preserve_attributes: [
-              'class',
+              'className',
               'style'
             ]
           }
@@ -20795,7 +20795,7 @@
             inline: 'u',
             remove: 'all',
             preserve_attributes: [
-              'class',
+              'className',
               'style'
             ]
           }
@@ -20810,7 +20810,7 @@
             inline: 'strike',
             remove: 'all',
             preserve_attributes: [
-              'class',
+              'className',
               'style'
             ]
           };
@@ -20818,7 +20818,7 @@
             inline: 's',
             remove: 'all',
             preserve_attributes: [
-              'class',
+              'className',
               'style'
             ]
           };
@@ -20862,9 +20862,9 @@
           selector: 'h1,h2,h3,h4,h5,h6,p,li,td,th,div',
           styles: { lineHeight: '%value' }
         },
-        fontsize_class: {
+        fontsize_className: {
           inline: 'span',
-          attributes: { class: '%value' }
+          attributes: { className: '%value' }
         },
         blockquote: {
           block: 'blockquote',
@@ -20915,7 +20915,7 @@
             selector: 'span',
             attributes: [
               'style',
-              'class'
+              'className'
             ],
             remove: 'empty',
             split: true,
@@ -20926,7 +20926,7 @@
             selector: '*',
             attributes: [
               'style',
-              'class'
+              'className'
             ],
             split: false,
             expand: false,
@@ -20964,13 +20964,13 @@
         styles: { borderColor: '%value' },
         ...cellBase
       },
-      tablecellclass: {
-        classes: ['%value'],
+      tablecellclassName: {
+        classNamees: ['%value'],
         ...cellBase
       },
-      tableclass: {
+      tableclassName: {
         selector: 'table',
-        classes: ['%value'],
+        classNamees: ['%value'],
         ...genericBase
       },
       tablecellborderstyle: {
@@ -21012,8 +21012,8 @@
                 format.mixed = true;
                 format.block_expand = true;
               }
-              if (isString(format.classes)) {
-                format.classes = format.classes.split(/\s+/);
+              if (isString(format.classNamees)) {
+                format.classNamees = format.classNamees.split(/\s+/);
               }
             });
             formats[name] = format;
@@ -21043,15 +21043,15 @@
     const parsedSelectorToHtml = (ancestry, editor) => {
       const schema = editor && editor.schema || Schema({});
       const decorate = (elm, item) => {
-        if (item.classes.length > 0) {
-          dom.addClass(elm, item.classes.join(' '));
+        if (item.classNamees.length > 0) {
+          dom.addclassName(elm, item.classNamees.join(' '));
         }
         dom.setAttribs(elm, item.attrs);
       };
       const createElement = sItem => {
         const item = isString(sItem) ? {
           name: sItem,
-          classes: [],
+          classNamees: [],
           attrs: {}
         } : sItem;
         const elm = dom.create(item.name);
@@ -21110,7 +21110,7 @@
       let tagName = 'div';
       const obj = {
         name: tagName,
-        classes: [],
+        classNamees: [],
         attrs: {},
         selector: item
       };
@@ -21121,7 +21121,7 @@
             obj.attrs.id = $2;
             break;
           case '.':
-            obj.classes.push($2);
+            obj.classNamees.push($2);
             break;
           case ':':
             if (Tools.inArray('checked disabled enabled read-only required'.split(' '), $2) !== -1) {
@@ -21208,10 +21208,10 @@
           dom.setAttrib(previewElm, name, newValue);
         }
       });
-      each$3(format.classes, value => {
+      each$3(format.classNamees, value => {
         const newValue = removeVars(value);
-        if (!dom.hasClass(previewElm, newValue)) {
-          dom.addClass(previewElm, newValue);
+        if (!dom.hasclassName(previewElm, newValue)) {
+          dom.addclassName(previewElm, newValue);
         }
       });
       editor.dispatch('PreviewFormats');
@@ -23156,7 +23156,7 @@
       editor.on('NodeChange', () => addRootBlocks(editor));
     };
 
-    const hasClass = checkClassName => node => (' ' + node.attr('class') + ' ').indexOf(checkClassName) !== -1;
+    const hasclassName = checkclassNameName => node => (' ' + node.attr('className') + ' ').indexOf(checkclassNameName) !== -1;
     const replaceMatchWithSpan = (editor, content, cls) => {
       return function (match) {
         const args = arguments, index = args[args.length - 2];
@@ -23173,7 +23173,7 @@
             }
           }
         }
-        return '<span class="' + cls + '" data-mce-content="' + editor.dom.encode(args[0]) + '">' + editor.dom.encode(typeof args[1] === 'string' ? args[1] : args[0]) + '</span>';
+        return '<span className="' + cls + '" data-mce-content="' + editor.dom.encode(args[0]) + '">' + editor.dom.encode(typeof args[1] === 'string' ? args[1] : args[0]) + '</span>';
       };
     };
     const convertRegExpsToNonEditable = (editor, nonEditableRegExps, e) => {
@@ -23182,7 +23182,7 @@
         return;
       }
       while (i--) {
-        content = content.replace(nonEditableRegExps[i], replaceMatchWithSpan(editor, content, getNonEditableClass(editor)));
+        content = content.replace(nonEditableRegExps[i], replaceMatchWithSpan(editor, content, getNonEditableclassName(editor)));
       }
       e.content = content;
     };
@@ -23194,23 +23194,23 @@
     };
     const setup$n = editor => {
       const contentEditableAttrName = 'contenteditable';
-      const editClass = ' ' + Tools.trim(getEditableClass(editor)) + ' ';
-      const nonEditClass = ' ' + Tools.trim(getNonEditableClass(editor)) + ' ';
-      const hasEditClass = hasClass(editClass);
-      const hasNonEditClass = hasClass(nonEditClass);
+      const editclassName = ' ' + Tools.trim(getEditableclassName(editor)) + ' ';
+      const nonEditclassName = ' ' + Tools.trim(getNonEditableclassName(editor)) + ' ';
+      const hasEditclassName = hasclassName(editclassName);
+      const hasNonEditclassName = hasclassName(nonEditclassName);
       const nonEditableRegExps = getNonEditableRegExps(editor);
       if (nonEditableRegExps.length > 0) {
         editor.on('BeforeSetContent', e => {
           convertRegExpsToNonEditable(editor, nonEditableRegExps, e);
         });
       }
-      editor.parser.addAttributeFilter('class', nodes => {
+      editor.parser.addAttributeFilter('className', nodes => {
         let i = nodes.length;
         while (i--) {
           const node = nodes[i];
-          if (hasEditClass(node)) {
+          if (hasEditclassName(node)) {
             node.attr(contentEditableAttrName, 'true');
-          } else if (hasNonEditClass(node)) {
+          } else if (hasNonEditclassName(node)) {
             node.attr(contentEditableAttrName, 'false');
           }
         }
@@ -23219,7 +23219,7 @@
         let i = nodes.length;
         while (i--) {
           const node = nodes[i];
-          if (!hasEditClass(node) && !hasNonEditClass(node)) {
+          if (!hasEditclassName(node) && !hasNonEditclassName(node)) {
             continue;
           }
           const content = node.attr('data-mce-content');
@@ -25080,19 +25080,19 @@
         };
         dom.setStyles(node, newStyles);
       });
-      const attrClassesOpt = Optional.from(forcedRootBlockAttrs.class).map(attrClasses => attrClasses.split(/\s+/));
-      const currentClassesOpt = Optional.from(node.className).map(currentClasses => filter$5(currentClasses.split(/\s+/), clazz => clazz !== ''));
-      lift2(attrClassesOpt, currentClassesOpt, (attrClasses, currentClasses) => {
-        const filteredClasses = filter$5(currentClasses, clazz => !contains$2(attrClasses, clazz));
-        const newClasses = [
-          ...attrClasses,
-          ...filteredClasses
+      const attrclassNameesOpt = Optional.from(forcedRootBlockAttrs.className).map(attrclassNamees => attrclassNamees.split(/\s+/));
+      const currentclassNameesOpt = Optional.from(node.classNameName).map(currentclassNamees => filter$5(currentclassNamees.split(/\s+/), clazz => clazz !== ''));
+      lift2(attrclassNameesOpt, currentclassNameesOpt, (attrclassNamees, currentclassNamees) => {
+        const filteredclassNamees = filter$5(currentclassNamees, clazz => !contains$2(attrclassNamees, clazz));
+        const newclassNamees = [
+          ...attrclassNamees,
+          ...filteredclassNamees
         ];
-        dom.setAttrib(node, 'class', newClasses.join(' '));
+        dom.setAttrib(node, 'className', newclassNamees.join(' '));
       });
       const appliedAttrs = [
         'style',
-        'class'
+        'className'
       ];
       const remainingAttrs = filter$4(forcedRootBlockAttrs, (_, attrs) => !contains$2(appliedAttrs, attrs));
       dom.setAttribs(node, remainingAttrs);
@@ -25120,7 +25120,7 @@
       let caretNode = block;
       if (!keepStyles) {
         dom.setAttrib(block, 'style', null);
-        dom.setAttrib(block, 'class', null);
+        dom.setAttrib(block, 'className', null);
       } else {
         do {
           if (textInlineElements[node.nodeName]) {
@@ -26142,7 +26142,7 @@
       }
     };
 
-    class NodeChange {
+    className NodeChange {
       constructor(editor) {
         this.lastPath = [];
         this.editor = editor;
@@ -26467,7 +26467,7 @@
       lastRngCell.set(selection.getRng());
       const pasteBinElm = dom.add(editor.getBody(), 'div', {
         'id': 'mcepastebin',
-        'class': 'mce-pastebin',
+        'className': 'mce-pastebin',
         'contentEditable': true,
         'data-mce-bogus': 'all',
         'style': 'position: fixed; top: 50%; width: 10px; height: 10px; overflow: hidden; opacity: 0'
@@ -26594,10 +26594,10 @@
         /^[\s\S]*<body[^>]*>\s*|\s*<\/body[^>]*>[\s\S]*$/ig,
         /<!--StartFragment-->|<!--EndFragment-->/g,
         [
-          /( ?)<span class="Apple-converted-space">\u00a0<\/span>( ?)/g,
+          /( ?)<span className="Apple-converted-space">\u00a0<\/span>( ?)/g,
           trimSpaces
         ],
-        /<br class="Apple-interchange-newline">/g,
+        /<br className="Apple-interchange-newline">/g,
         /<br>$/i
       ]);
       return html;
@@ -27364,7 +27364,7 @@
     };
     const traverseUp = (rootElm, scope, clientX, clientY) => {
       const helper = (scope, prevScope) => {
-        const isDragGhostContainer = node => isElement$6(node) && node.classList.contains('mce-drag-container');
+        const isDragGhostContainer = node => isElement$6(node) && node.classNameList.contains('mce-drag-container');
         const childNodesWithoutGhost = filter$5(scope.dom.childNodes, not(isDragGhostContainer));
         return prevScope.fold(() => closestChildCaretCandidateNodeRect(childNodesWithoutGhost, clientX, clientY, true), prevScope => {
           const uncheckedChildren = filter$5(childNodesWithoutGhost, node => node !== prevScope.dom);
@@ -27549,7 +27549,7 @@
       });
       dom.setAttrib(clonedElm, 'data-mce-selected', null);
       const ghostElm = dom.create('div', {
-        'class': 'mce-drag-container',
+        'className': 'mce-drag-container',
         'data-mce-bogus': 'all',
         'unselectable': 'on',
         'contenteditable': 'false'
@@ -27874,7 +27874,7 @@
       const realSelectionId = 'sel-' + dom.uniqueId();
       const elementSelectionAttr = 'data-mce-selected';
       let selectedElement;
-      const isFakeSelectionElement = node => isNonNullable(node) && dom.hasClass(node, 'mce-offscreen-selection');
+      const isFakeSelectionElement = node => isNonNullable(node) && dom.hasclassName(node, 'mce-offscreen-selection');
       const isFakeSelectionTargetElement = node => node !== rootNode && (isContentEditableFalse(node) || isMedia$2(node)) && dom.isChildOf(node, rootNode) && dom.isEditable(node.parentNode);
       const setRange = range => {
         if (range) {
@@ -28022,7 +28022,7 @@
         const body = SugarElement.fromDom(editor.getBody());
         const doc = editor.getDoc();
         const realSelectionContainer = descendant$1(body, '#' + realSelectionId).getOrThunk(() => {
-          const newContainer = SugarElement.fromHtml('<div data-mce-bogus="all" class="mce-offscreen-selection"></div>', doc);
+          const newContainer = SugarElement.fromHtml('<div data-mce-bogus="all" className="mce-offscreen-selection"></div>', doc);
           set$4(newContainer, 'id', realSelectionId);
           append$1(body, newContainer);
           return newContainer;
@@ -28831,7 +28831,7 @@
         }
       };
       const selectControlElements = () => {
-        const visualAidsAnchorClass = getVisualAidsAnchorClass(editor);
+        const visualAidsAnchorclassName = getVisualAidsAnchorclassName(editor);
         editor.on('click', e => {
           const target = e.target;
           if (/^(IMG|HR)$/.test(target.nodeName) && dom.isEditable(target)) {
@@ -28839,7 +28839,7 @@
             editor.selection.select(target);
             editor.nodeChanged();
           }
-          if (target.nodeName === 'A' && dom.hasClass(target, visualAidsAnchorClass) && target.childNodes.length === 0 && dom.isEditable(target.parentNode)) {
+          if (target.nodeName === 'A' && dom.hasclassName(target, visualAidsAnchorclassName) && target.childNodes.length === 0 && dom.isEditable(target.parentNode)) {
             e.preventDefault();
             selection.select(target);
           }
@@ -29034,7 +29034,7 @@
         parser.addNodeFilter('br', nodes => {
           let i = nodes.length;
           while (i--) {
-            if (nodes[i].attr('class') === 'Apple-interchange-newline') {
+            if (nodes[i].attr('className') === 'Apple-interchange-newline') {
               nodes[i].remove();
             }
           }
@@ -29172,7 +29172,7 @@
         invalid_styles: getOption('invalid_styles'),
         schema: getOption('schema'),
         valid_children: getOption('valid_children'),
-        valid_classes: getOption('valid_classes'),
+        valid_classNamees: getOption('valid_classNamees'),
         valid_elements: getOption('valid_elements'),
         valid_styles: getOption('valid_styles'),
         verify_html: getOption('verify_html'),
@@ -29420,7 +29420,7 @@
       const targetElm = editor.getElement();
       let doc = editor.getDoc();
       if (editor.inline) {
-        DOM$6.addClass(targetElm, 'mce-content-body');
+        DOM$6.addclassName(targetElm, 'mce-content-body');
         editor.contentDocument = doc = document;
         editor.contentWindow = window;
         editor.bodyElement = targetElm;
@@ -29525,12 +29525,12 @@
       }
       iframeHTML += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
       const bodyId = getBodyId(editor);
-      const bodyClass = getBodyClass(editor);
+      const bodyclassName = getBodyclassName(editor);
       const translatedAriaText = editor.translate(getIframeAriaText(editor));
       if (getContentSecurityPolicy(editor)) {
         iframeHTML += '<meta http-equiv="Content-Security-Policy" content="' + getContentSecurityPolicy(editor) + '" />';
       }
-      iframeHTML += '</head>' + `<body id="${ bodyId }" class="mce-content-body ${ bodyClass }" data-id="${ editor.id }" aria-label="${ translatedAriaText }">` + '<br>' + '</body></html>';
+      iframeHTML += '</head>' + `<body id="${ bodyId }" className="mce-content-body ${ bodyclassName }" data-id="${ editor.id }" aria-label="${ translatedAriaText }">` + '<br>' + '</body></html>';
       return iframeHTML;
     };
     const createIframe = (editor, boxInfo) => {
@@ -30206,9 +30206,9 @@
         const fontSizeNumber = parseInt(value, 10);
         if (fontSizeNumber >= 1 && fontSizeNumber <= 7) {
           const fontSizes = getFontStyleValues(editor);
-          const fontClasses = getFontSizeClasses(editor);
-          if (fontClasses.length > 0) {
-            return fontClasses[fontSizeNumber - 1] || value;
+          const fontclassNamees = getFontSizeclassNamees(editor);
+          if (fontclassNamees.length > 0) {
+            return fontclassNamees[fontSizeNumber - 1] || value;
           } else {
             return fontSizes[fontSizeNumber - 1] || value;
           }
@@ -30501,7 +30501,7 @@
 
     const selectionSafeCommands = ['toggleview'];
     const isSelectionSafeCommand = command => contains$2(selectionSafeCommands, command.toLowerCase());
-    class EditorCommands {
+    className EditorCommands {
       constructor(editor) {
         this.commands = {
           state: {},
@@ -30595,7 +30595,7 @@
     }
 
     const nativeEvents = Tools.makeMap('focus blur focusin focusout click dblclick mousedown mouseup mousemove mouseover beforepaste paste cut copy selectionchange ' + 'mouseout mouseenter mouseleave wheel keydown keypress keyup input beforeinput contextmenu dragstart dragend dragover ' + 'draggesture dragdrop drop drag submit ' + 'compositionstart compositionend compositionupdate touchstart touchmove touchend touchcancel', ' ');
-    class EventDispatcher {
+    className EventDispatcher {
       static isNative(name) {
         return !!nativeEvents[name.toLowerCase()];
       }
@@ -31222,7 +31222,7 @@
       }
       return shortcut;
     };
-    class Shortcuts {
+    className Shortcuts {
       constructor(editor) {
         this.shortcuts = {};
         this.pendingPatterns = [];
@@ -31399,7 +31399,7 @@
 
     const DOM$1 = DOMUtils.DOM;
     const extend = Tools.extend, each$1 = Tools.each;
-    class Editor {
+    className Editor {
       constructor(id, options, editorManager) {
         this.plugins = {};
         this.contentCSS = [];

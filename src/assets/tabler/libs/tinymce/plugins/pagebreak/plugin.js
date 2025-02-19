@@ -24,9 +24,9 @@
     const getSeparatorHtml = option('pagebreak_separator');
     const shouldSplitBlock = option('pagebreak_split_block');
 
-    const pageBreakClass = 'mce-pagebreak';
+    const pageBreakclassName = 'mce-pagebreak';
     const getPlaceholderHtml = shouldSplitBlock => {
-      const html = `<img src="${ global.transparentSrc }" class="${ pageBreakClass }" data-mce-resize="false" data-mce-placeholder />`;
+      const html = `<img src="${ global.transparentSrc }" className="${ pageBreakclassName }" data-mce-resize="false" data-mce-placeholder />`;
       return shouldSplitBlock ? `<p>${ html }</p>` : html;
     };
     const setup$1 = editor => {
@@ -40,11 +40,11 @@
       });
       editor.on('PreInit', () => {
         editor.serializer.addNodeFilter('img', nodes => {
-          let i = nodes.length, node, className;
+          let i = nodes.length, node, classNameName;
           while (i--) {
             node = nodes[i];
-            className = node.attr('class');
-            if (className && className.indexOf(pageBreakClass) !== -1) {
+            classNameName = node.attr('className');
+            if (classNameName && classNameName.indexOf(pageBreakclassName) !== -1) {
               const parentNode = node.parent;
               if (parentNode && editor.schema.getBlockElements()[parentNode.name] && shouldSplitBlock$1()) {
                 parentNode.type = 3;
@@ -70,7 +70,7 @@
 
     const setup = editor => {
       editor.on('ResolveName', e => {
-        if (e.target.nodeName === 'IMG' && editor.dom.hasClass(e.target, pageBreakClass)) {
+        if (e.target.nodeName === 'IMG' && editor.dom.hasclassName(e.target, pageBreakclassName)) {
           e.name = 'pagebreak';
         }
       });

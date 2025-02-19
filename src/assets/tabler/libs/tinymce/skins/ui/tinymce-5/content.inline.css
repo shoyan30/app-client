@@ -83,8 +83,8 @@
  * Based on dabblet (http://dabblet.com)
  * @author Lea Verou
  */
-code[class*="language-"],
-pre[class*="language-"] {
+code[className*="language-"],
+pre[className*="language-"] {
   color: black;
   background: none;
   text-shadow: 0 1px white;
@@ -100,31 +100,31 @@ pre[class*="language-"] {
   -webkit-hyphens: none;
   hyphens: none;
 }
-pre[class*="language-"]::selection,
-pre[class*="language-"] ::selection,
-code[class*="language-"]::selection,
-code[class*="language-"] ::selection {
+pre[className*="language-"]::selection,
+pre[className*="language-"] ::selection,
+code[className*="language-"]::selection,
+code[className*="language-"] ::selection {
   text-shadow: none;
   background: #b3d4fc;
 }
 @media print {
-  code[class*="language-"],
-  pre[class*="language-"] {
+  code[className*="language-"],
+  pre[className*="language-"] {
     text-shadow: none;
   }
 }
 /* Code blocks */
-pre[class*="language-"] {
+pre[className*="language-"] {
   padding: 1em;
   margin: 0.5em 0;
   overflow: auto;
 }
-:not(pre) > code[class*="language-"],
-pre[class*="language-"] {
+:not(pre) > code[className*="language-"],
+pre[className*="language-"] {
   background: #f5f2f0;
 }
 /* Inline code */
-:not(pre) > code[class*="language-"] {
+:not(pre) > code[className*="language-"] {
   padding: 0.1em;
   border-radius: 0.3em;
   white-space: normal;
@@ -173,7 +173,7 @@ pre[class*="language-"] {
   color: #07a;
 }
 .token.function,
-.token.class-name {
+.token.className-name {
   color: #DD4A68;
 }
 .token.regex,

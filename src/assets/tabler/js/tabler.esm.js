@@ -95,7 +95,7 @@ function objectIncludes(b, a) {
   return false;
 }
 
-class ActionDetails {
+className ActionDetails {
   constructor(opts) {
     Object.assign(this, opts);
     while (this.value.slice(0, this.startChangePos) !== this.oldValue.slice(0, this.startChangePos)) {
@@ -140,7 +140,7 @@ function IMask(el, opts) {
   return new IMask.InputMask(el, opts);
 }
 
-function maskedClass(mask) {
+function maskedclassName(mask) {
   if (mask == null) throw new Error('mask property should be defined');
   if (mask instanceof RegExp) return IMask.MaskedRegExp;
   if (isString(mask)) return IMask.MaskedPattern;
@@ -185,18 +185,18 @@ function normalizeOpts(opts) {
 function createMask(opts) {
   if (IMask.Masked && opts instanceof IMask.Masked) return opts;
   const nOpts = normalizeOpts(opts);
-  const MaskedClass = maskedClass(nOpts.mask);
-  if (!MaskedClass) throw new Error("Masked class is not found for provided mask " + nOpts.mask + ", appropriate module needs to be imported manually before creating mask.");
-  if (nOpts.mask === MaskedClass) delete nOpts.mask;
+  const MaskedclassName = maskedclassName(nOpts.mask);
+  if (!MaskedclassName) throw new Error("Masked className is not found for provided mask " + nOpts.mask + ", appropriate module needs to be imported manually before creating mask.");
+  if (nOpts.mask === MaskedclassName) delete nOpts.mask;
   if (nOpts._mask) {
     nOpts.mask = nOpts._mask;
     delete nOpts._mask;
   }
-  return new MaskedClass(nOpts);
+  return new MaskedclassName(nOpts);
 }
 IMask.createMask = createMask;
 
-class MaskElement {
+className MaskElement {
   get selectionStart() {
     let start;
     try {
@@ -225,7 +225,7 @@ IMask.MaskElement = MaskElement;
 
 const KEY_Z = 90;
 const KEY_Y = 89;
-class HTMLMaskElement extends MaskElement {
+className HTMLMaskElement extends MaskElement {
   constructor(input) {
     super();
     this.input = input;
@@ -293,7 +293,7 @@ class HTMLMaskElement extends MaskElement {
 }
 IMask.HTMLMaskElement = HTMLMaskElement;
 
-class HTMLInputMaskElement extends HTMLMaskElement {
+className HTMLInputMaskElement extends HTMLMaskElement {
   constructor(input) {
     super(input);
     this.input = input;
@@ -316,7 +316,7 @@ class HTMLInputMaskElement extends HTMLMaskElement {
 }
 IMask.HTMLMaskElement = HTMLMaskElement;
 
-class HTMLContenteditableMaskElement extends HTMLMaskElement {
+className HTMLContenteditableMaskElement extends HTMLMaskElement {
   get _unsafeSelectionStart() {
     const root = this.rootElement;
     const selection = root.getSelection && root.getSelection();
@@ -358,7 +358,7 @@ class HTMLContenteditableMaskElement extends HTMLMaskElement {
 }
 IMask.HTMLContenteditableMaskElement = HTMLContenteditableMaskElement;
 
-class InputHistory {
+className InputHistory {
   constructor() {
     this.states = [];
     this.currentIndex = 0;
@@ -392,7 +392,7 @@ class InputHistory {
 }
 InputHistory.MAX_LENGTH = 100;
 
-class InputMask {
+className InputMask {
   constructor(el, opts) {
     this.el = el instanceof MaskElement ? el : el.isContentEditable && el.tagName !== 'INPUT' && el.tagName !== 'TEXTAREA' ? new HTMLContenteditableMaskElement(el) : new HTMLInputMaskElement(el);
     this.masked = createMask(opts);
@@ -424,7 +424,7 @@ class InputMask {
   }
   set mask(mask) {
     if (this.maskEquals(mask)) return;
-    if (!(mask instanceof IMask.Masked) && this.masked.constructor === maskedClass(mask)) {
+    if (!(mask instanceof IMask.Masked) && this.masked.constructor === maskedclassName(mask)) {
       this.masked.updateOptions({
         mask
       });
@@ -654,7 +654,7 @@ class InputMask {
 }
 IMask.InputMask = InputMask;
 
-class ChangeDetails {
+className ChangeDetails {
   static normalize(prep) {
     return Array.isArray(prep) ? prep : [prep, new ChangeDetails()];
   }
@@ -685,7 +685,7 @@ class ChangeDetails {
 }
 IMask.ChangeDetails = ChangeDetails;
 
-class ContinuousTailDetails {
+className ContinuousTailDetails {
   constructor(value, from, stop) {
     if (value === void 0) {
       value = '';
@@ -732,7 +732,7 @@ class ContinuousTailDetails {
   }
 }
 
-class Masked {
+className Masked {
   constructor(opts) {
     this._value = '';
     this._update({
@@ -1051,7 +1051,7 @@ Masked.DEFAULTS = {
 Masked.EMPTY_VALUES = [undefined, null, ''];
 IMask.Masked = Masked;
 
-class ChunksTailDetails {
+className ChunksTailDetails {
   constructor(chunks, from) {
     if (chunks === void 0) {
       chunks = [];
@@ -1182,7 +1182,7 @@ class ChunksTailDetails {
   }
 }
 
-class PatternCursor {
+className PatternCursor {
   constructor(masked, pos) {
     this.masked = masked;
     this._log = [];
@@ -1296,7 +1296,7 @@ class PatternCursor {
   }
 }
 
-class PatternFixedDefinition {
+className PatternFixedDefinition {
   constructor(opts) {
     Object.assign(this, opts);
     this._value = '';
@@ -1430,7 +1430,7 @@ class PatternFixedDefinition {
   }
 }
 
-class PatternInputDefinition {
+className PatternInputDefinition {
   constructor(opts) {
     const {
       parent,
@@ -1592,7 +1592,7 @@ PatternInputDefinition.DEFAULT_DEFINITIONS = {
   '*': /./
 };
 
-class MaskedRegExp extends Masked {
+className MaskedRegExp extends Masked {
   updateOptions(opts) {
     super.updateOptions(opts);
   }
@@ -1604,7 +1604,7 @@ class MaskedRegExp extends Masked {
 }
 IMask.MaskedRegExp = MaskedRegExp;
 
-class MaskedPattern extends Masked {
+className MaskedPattern extends Masked {
   constructor(opts) {
     super({
       ...MaskedPattern.DEFAULTS,
@@ -2004,7 +2004,7 @@ MaskedPattern.InputDefinition = PatternInputDefinition;
 MaskedPattern.FixedDefinition = PatternFixedDefinition;
 IMask.MaskedPattern = MaskedPattern;
 
-class MaskedRange extends MaskedPattern {
+className MaskedRange extends MaskedPattern {
   get _matchFrom() {
     return this.maxLength - String(this.from).length;
   }
@@ -2099,7 +2099,7 @@ class MaskedRange extends MaskedPattern {
 IMask.MaskedRange = MaskedRange;
 
 const DefaultPattern = 'd{.}`m{.}`Y';
-class MaskedDate extends MaskedPattern {
+className MaskedDate extends MaskedPattern {
   static extractPatternOptions(opts) {
     const {
       mask,
@@ -2211,7 +2211,7 @@ MaskedDate.DEFAULTS = {
 };
 IMask.MaskedDate = MaskedDate;
 
-class MaskedDynamic extends Masked {
+className MaskedDynamic extends Masked {
   constructor(opts) {
     super({
       ...MaskedDynamic.DEFAULTS,
@@ -2522,7 +2522,7 @@ MaskedDynamic.DEFAULTS = {
 };
 IMask.MaskedDynamic = MaskedDynamic;
 
-class MaskedEnum extends MaskedPattern {
+className MaskedEnum extends MaskedPattern {
   constructor(opts) {
     super({
       ...MaskedEnum.DEFAULTS,
@@ -2609,7 +2609,7 @@ MaskedEnum.DEFAULTS = {
 };
 IMask.MaskedEnum = MaskedEnum;
 
-class MaskedFunction extends Masked {
+className MaskedFunction extends Masked {
   updateOptions(opts) {
     super.updateOptions(opts);
   }
@@ -2623,7 +2623,7 @@ class MaskedFunction extends Masked {
 IMask.MaskedFunction = MaskedFunction;
 
 var _MaskedNumber;
-class MaskedNumber extends Masked {
+className MaskedNumber extends Masked {
   constructor(opts) {
     super({
       ...MaskedNumber.DEFAULTS,
@@ -2907,7 +2907,7 @@ IMask.PIPE_TYPE = PIPE_TYPE;
 IMask.createPipe = createPipe;
 IMask.pipe = pipe;
 
-class RepeatBlock extends MaskedPattern {
+className RepeatBlock extends MaskedPattern {
   get repeatFrom() {
     var _ref;
     return (_ref = Array.isArray(this.repeat) ? this.repeat[0] : this.repeat === Infinity ? 0 : this.repeat) != null ? _ref : 0;
@@ -4688,7 +4688,7 @@ const isDisabled = element => {
   if (!element || element.nodeType !== Node.ELEMENT_NODE) {
     return true;
   }
-  if (element.classList.contains('disabled')) {
+  if (element.classNameList.contains('disabled')) {
     return true;
   }
   if (typeof element.disabled !== 'undefined') {
@@ -5040,7 +5040,7 @@ const Manipulator = {
     return normalizeData(element.getAttribute(`data-bs-${normalizeDataKey(key)}`));
   }
 };
-class Config {
+className Config {
   static get Default() {
     return {};
   }
@@ -5079,7 +5079,7 @@ class Config {
   }
 }
 const VERSION = '5.3.3';
-class BaseComponent extends Config {
+className BaseComponent extends Config {
   constructor(element, config) {
     super();
     element = getElement(element);
@@ -5218,9 +5218,9 @@ const DATA_KEY$a = 'bs.alert';
 const EVENT_KEY$b = `.${DATA_KEY$a}`;
 const EVENT_CLOSE = `close${EVENT_KEY$b}`;
 const EVENT_CLOSED = `closed${EVENT_KEY$b}`;
-const CLASS_NAME_FADE$5 = 'fade';
-const CLASS_NAME_SHOW$8 = 'show';
-class Alert extends BaseComponent {
+const className_NAME_FADE$5 = 'fade';
+const className_NAME_SHOW$8 = 'show';
+className Alert extends BaseComponent {
   static get NAME() {
     return NAME$f;
   }
@@ -5229,8 +5229,8 @@ class Alert extends BaseComponent {
     if (closeEvent.defaultPrevented) {
       return;
     }
-    this._element.classList.remove(CLASS_NAME_SHOW$8);
-    const isAnimated = this._element.classList.contains(CLASS_NAME_FADE$5);
+    this._element.classNameList.remove(className_NAME_SHOW$8);
+    const isAnimated = this._element.classNameList.contains(className_NAME_FADE$5);
     this._queueCallback(() => this._destroyElement(), this._element, isAnimated);
   }
   _destroyElement() {
@@ -5257,15 +5257,15 @@ const NAME$e = 'button';
 const DATA_KEY$9 = 'bs.button';
 const EVENT_KEY$a = `.${DATA_KEY$9}`;
 const DATA_API_KEY$6 = '.data-api';
-const CLASS_NAME_ACTIVE$3 = 'active';
+const className_NAME_ACTIVE$3 = 'active';
 const SELECTOR_DATA_TOGGLE$5 = '[data-bs-toggle="button"]';
 const EVENT_CLICK_DATA_API$6 = `click${EVENT_KEY$a}${DATA_API_KEY$6}`;
-class Button extends BaseComponent {
+className Button extends BaseComponent {
   static get NAME() {
     return NAME$e;
   }
   toggle() {
-    this._element.setAttribute('aria-pressed', this._element.classList.toggle(CLASS_NAME_ACTIVE$3));
+    this._element.setAttribute('aria-pressed', this._element.classNameList.toggle(className_NAME_ACTIVE$3));
   }
   static jQueryInterface(config) {
     return this.each(function () {
@@ -5292,7 +5292,7 @@ const EVENT_POINTERDOWN = `pointerdown${EVENT_KEY$9}`;
 const EVENT_POINTERUP = `pointerup${EVENT_KEY$9}`;
 const POINTER_TYPE_TOUCH = 'touch';
 const POINTER_TYPE_PEN = 'pen';
-const CLASS_NAME_POINTER_EVENT = 'pointer-event';
+const className_NAME_POINTER_EVENT = 'pointer-event';
 const SWIPE_THRESHOLD = 40;
 const Default$c = {
   endCallback: null,
@@ -5304,7 +5304,7 @@ const DefaultType$c = {
   leftCallback: '(function|null)',
   rightCallback: '(function|null)'
 };
-class Swipe extends Config {
+className Swipe extends Config {
   constructor(element, config) {
     super();
     this._element = element;
@@ -5363,7 +5363,7 @@ class Swipe extends Config {
     if (this._supportPointerEvents) {
       EventHandler.on(this._element, EVENT_POINTERDOWN, event => this._start(event));
       EventHandler.on(this._element, EVENT_POINTERUP, event => this._end(event));
-      this._element.classList.add(CLASS_NAME_POINTER_EVENT);
+      this._element.classNameList.add(className_NAME_POINTER_EVENT);
     } else {
       EventHandler.on(this._element, EVENT_TOUCHSTART, event => this._start(event));
       EventHandler.on(this._element, EVENT_TOUCHMOVE, event => this._move(event));
@@ -5396,13 +5396,13 @@ const EVENT_MOUSELEAVE$1 = `mouseleave${EVENT_KEY$8}`;
 const EVENT_DRAG_START = `dragstart${EVENT_KEY$8}`;
 const EVENT_LOAD_DATA_API$3 = `load${EVENT_KEY$8}${DATA_API_KEY$5}`;
 const EVENT_CLICK_DATA_API$5 = `click${EVENT_KEY$8}${DATA_API_KEY$5}`;
-const CLASS_NAME_CAROUSEL = 'carousel';
-const CLASS_NAME_ACTIVE$2 = 'active';
-const CLASS_NAME_SLIDE = 'slide';
-const CLASS_NAME_END = 'carousel-item-end';
-const CLASS_NAME_START = 'carousel-item-start';
-const CLASS_NAME_NEXT = 'carousel-item-next';
-const CLASS_NAME_PREV = 'carousel-item-prev';
+const className_NAME_CAROUSEL = 'carousel';
+const className_NAME_ACTIVE$2 = 'active';
+const className_NAME_SLIDE = 'slide';
+const className_NAME_END = 'carousel-item-end';
+const className_NAME_START = 'carousel-item-start';
+const className_NAME_NEXT = 'carousel-item-next';
+const className_NAME_PREV = 'carousel-item-prev';
 const SELECTOR_ACTIVE = '.active';
 const SELECTOR_ITEM = '.carousel-item';
 const SELECTOR_ACTIVE_ITEM = SELECTOR_ACTIVE + SELECTOR_ITEM;
@@ -5430,7 +5430,7 @@ const DefaultType$b = {
   touch: 'boolean',
   wrap: 'boolean'
 };
-class Carousel extends BaseComponent {
+className Carousel extends BaseComponent {
   constructor(element, config) {
     super(element, config);
     this._interval = null;
@@ -5440,7 +5440,7 @@ class Carousel extends BaseComponent {
     this._swipeHelper = null;
     this._indicatorsElement = SelectorEngine.findOne(SELECTOR_INDICATORS, this._element);
     this._addEventListeners();
-    if (this._config.ride === CLASS_NAME_CAROUSEL) {
+    if (this._config.ride === className_NAME_CAROUSEL) {
       this.cycle();
     }
   }
@@ -5562,11 +5562,11 @@ class Carousel extends BaseComponent {
       return;
     }
     const activeIndicator = SelectorEngine.findOne(SELECTOR_ACTIVE, this._indicatorsElement);
-    activeIndicator.classList.remove(CLASS_NAME_ACTIVE$2);
+    activeIndicator.classNameList.remove(className_NAME_ACTIVE$2);
     activeIndicator.removeAttribute('aria-current');
     const newActiveIndicator = SelectorEngine.findOne(`[data-bs-slide-to="${index}"]`, this._indicatorsElement);
     if (newActiveIndicator) {
-      newActiveIndicator.classList.add(CLASS_NAME_ACTIVE$2);
+      newActiveIndicator.classNameList.add(className_NAME_ACTIVE$2);
       newActiveIndicator.setAttribute('aria-current', 'true');
     }
   }
@@ -5609,16 +5609,16 @@ class Carousel extends BaseComponent {
     this._isSliding = true;
     this._setActiveIndicatorElement(nextElementIndex);
     this._activeElement = nextElement;
-    const directionalClassName = isNext ? CLASS_NAME_START : CLASS_NAME_END;
-    const orderClassName = isNext ? CLASS_NAME_NEXT : CLASS_NAME_PREV;
-    nextElement.classList.add(orderClassName);
+    const directionalclassNameName = isNext ? className_NAME_START : className_NAME_END;
+    const orderclassNameName = isNext ? className_NAME_NEXT : className_NAME_PREV;
+    nextElement.classNameList.add(orderclassNameName);
     reflow(nextElement);
-    activeElement.classList.add(directionalClassName);
-    nextElement.classList.add(directionalClassName);
+    activeElement.classNameList.add(directionalclassNameName);
+    nextElement.classNameList.add(directionalclassNameName);
     const completeCallBack = () => {
-      nextElement.classList.remove(directionalClassName, orderClassName);
-      nextElement.classList.add(CLASS_NAME_ACTIVE$2);
-      activeElement.classList.remove(CLASS_NAME_ACTIVE$2, orderClassName, directionalClassName);
+      nextElement.classNameList.remove(directionalclassNameName, orderclassNameName);
+      nextElement.classNameList.add(className_NAME_ACTIVE$2);
+      activeElement.classNameList.remove(className_NAME_ACTIVE$2, orderclassNameName, directionalclassNameName);
       this._isSliding = false;
       triggerEvent(EVENT_SLID);
     };
@@ -5628,7 +5628,7 @@ class Carousel extends BaseComponent {
     }
   }
   _isAnimated() {
-    return this._element.classList.contains(CLASS_NAME_SLIDE);
+    return this._element.classNameList.contains(className_NAME_SLIDE);
   }
   _getActive() {
     return SelectorEngine.findOne(SELECTOR_ACTIVE_ITEM, this._element);
@@ -5672,7 +5672,7 @@ class Carousel extends BaseComponent {
 }
 EventHandler.on(document, EVENT_CLICK_DATA_API$5, SELECTOR_DATA_SLIDE, function (event) {
   const target = SelectorEngine.getElementFromSelector(this);
-  if (!target || !target.classList.contains(CLASS_NAME_CAROUSEL)) {
+  if (!target || !target.classNameList.contains(className_NAME_CAROUSEL)) {
     return;
   }
   event.preventDefault();
@@ -5707,12 +5707,12 @@ const EVENT_SHOWN$6 = `shown${EVENT_KEY$7}`;
 const EVENT_HIDE$6 = `hide${EVENT_KEY$7}`;
 const EVENT_HIDDEN$6 = `hidden${EVENT_KEY$7}`;
 const EVENT_CLICK_DATA_API$4 = `click${EVENT_KEY$7}${DATA_API_KEY$4}`;
-const CLASS_NAME_SHOW$7 = 'show';
-const CLASS_NAME_COLLAPSE = 'collapse';
-const CLASS_NAME_COLLAPSING = 'collapsing';
-const CLASS_NAME_COLLAPSED = 'collapsed';
-const CLASS_NAME_DEEPER_CHILDREN = `:scope .${CLASS_NAME_COLLAPSE} .${CLASS_NAME_COLLAPSE}`;
-const CLASS_NAME_HORIZONTAL = 'collapse-horizontal';
+const className_NAME_SHOW$7 = 'show';
+const className_NAME_COLLAPSE = 'collapse';
+const className_NAME_COLLAPSING = 'collapsing';
+const className_NAME_COLLAPSED = 'collapsed';
+const className_NAME_DEEPER_CHILDREN = `:scope .${className_NAME_COLLAPSE} .${className_NAME_COLLAPSE}`;
+const className_NAME_HORIZONTAL = 'collapse-horizontal';
 const WIDTH = 'width';
 const HEIGHT = 'height';
 const SELECTOR_ACTIVES = '.collapse.show, .collapse.collapsing';
@@ -5725,7 +5725,7 @@ const DefaultType$a = {
   parent: '(null|element)',
   toggle: 'boolean'
 };
-class Collapse extends BaseComponent {
+className Collapse extends BaseComponent {
   constructor(element, config) {
     super(element, config);
     this._isTransitioning = false;
@@ -5740,7 +5740,7 @@ class Collapse extends BaseComponent {
     }
     this._initializeChildren();
     if (!this._config.parent) {
-      this._addAriaAndCollapsedClass(this._triggerArray, this._isShown());
+      this._addAriaAndCollapsedclassName(this._triggerArray, this._isShown());
     }
     if (this._config.toggle) {
       this.toggle();
@@ -5783,15 +5783,15 @@ class Collapse extends BaseComponent {
       activeInstance.hide();
     }
     const dimension = this._getDimension();
-    this._element.classList.remove(CLASS_NAME_COLLAPSE);
-    this._element.classList.add(CLASS_NAME_COLLAPSING);
+    this._element.classNameList.remove(className_NAME_COLLAPSE);
+    this._element.classNameList.add(className_NAME_COLLAPSING);
     this._element.style[dimension] = 0;
-    this._addAriaAndCollapsedClass(this._triggerArray, true);
+    this._addAriaAndCollapsedclassName(this._triggerArray, true);
     this._isTransitioning = true;
     const complete = () => {
       this._isTransitioning = false;
-      this._element.classList.remove(CLASS_NAME_COLLAPSING);
-      this._element.classList.add(CLASS_NAME_COLLAPSE, CLASS_NAME_SHOW$7);
+      this._element.classNameList.remove(className_NAME_COLLAPSING);
+      this._element.classNameList.add(className_NAME_COLLAPSE, className_NAME_SHOW$7);
       this._element.style[dimension] = '';
       EventHandler.trigger(this._element, EVENT_SHOWN$6);
     };
@@ -5811,26 +5811,26 @@ class Collapse extends BaseComponent {
     const dimension = this._getDimension();
     this._element.style[dimension] = `${this._element.getBoundingClientRect()[dimension]}px`;
     reflow(this._element);
-    this._element.classList.add(CLASS_NAME_COLLAPSING);
-    this._element.classList.remove(CLASS_NAME_COLLAPSE, CLASS_NAME_SHOW$7);
+    this._element.classNameList.add(className_NAME_COLLAPSING);
+    this._element.classNameList.remove(className_NAME_COLLAPSE, className_NAME_SHOW$7);
     for (const trigger of this._triggerArray) {
       const element = SelectorEngine.getElementFromSelector(trigger);
       if (element && !this._isShown(element)) {
-        this._addAriaAndCollapsedClass([trigger], false);
+        this._addAriaAndCollapsedclassName([trigger], false);
       }
     }
     this._isTransitioning = true;
     const complete = () => {
       this._isTransitioning = false;
-      this._element.classList.remove(CLASS_NAME_COLLAPSING);
-      this._element.classList.add(CLASS_NAME_COLLAPSE);
+      this._element.classNameList.remove(className_NAME_COLLAPSING);
+      this._element.classNameList.add(className_NAME_COLLAPSE);
       EventHandler.trigger(this._element, EVENT_HIDDEN$6);
     };
     this._element.style[dimension] = '';
     this._queueCallback(complete, this._element, true);
   }
   _isShown(element = this._element) {
-    return element.classList.contains(CLASS_NAME_SHOW$7);
+    return element.classNameList.contains(className_NAME_SHOW$7);
   }
   _configAfterMerge(config) {
     config.toggle = Boolean(config.toggle);
@@ -5838,7 +5838,7 @@ class Collapse extends BaseComponent {
     return config;
   }
   _getDimension() {
-    return this._element.classList.contains(CLASS_NAME_HORIZONTAL) ? WIDTH : HEIGHT;
+    return this._element.classNameList.contains(className_NAME_HORIZONTAL) ? WIDTH : HEIGHT;
   }
   _initializeChildren() {
     if (!this._config.parent) {
@@ -5848,20 +5848,20 @@ class Collapse extends BaseComponent {
     for (const element of children) {
       const selected = SelectorEngine.getElementFromSelector(element);
       if (selected) {
-        this._addAriaAndCollapsedClass([element], this._isShown(selected));
+        this._addAriaAndCollapsedclassName([element], this._isShown(selected));
       }
     }
   }
   _getFirstLevelChildren(selector) {
-    const children = SelectorEngine.find(CLASS_NAME_DEEPER_CHILDREN, this._config.parent);
+    const children = SelectorEngine.find(className_NAME_DEEPER_CHILDREN, this._config.parent);
     return SelectorEngine.find(selector, this._config.parent).filter(element => !children.includes(element));
   }
-  _addAriaAndCollapsedClass(triggerArray, isOpen) {
+  _addAriaAndCollapsedclassName(triggerArray, isOpen) {
     if (!triggerArray.length) {
       return;
     }
     for (const element of triggerArray) {
-      element.classList.toggle(CLASS_NAME_COLLAPSED, !isOpen);
+      element.classNameList.toggle(className_NAME_COLLAPSED, !isOpen);
       element.setAttribute('aria-expanded', isOpen);
     }
   }
@@ -5908,14 +5908,14 @@ const EVENT_SHOWN$5 = `shown${EVENT_KEY$6}`;
 const EVENT_CLICK_DATA_API$3 = `click${EVENT_KEY$6}${DATA_API_KEY$3}`;
 const EVENT_KEYDOWN_DATA_API = `keydown${EVENT_KEY$6}${DATA_API_KEY$3}`;
 const EVENT_KEYUP_DATA_API = `keyup${EVENT_KEY$6}${DATA_API_KEY$3}`;
-const CLASS_NAME_SHOW$6 = 'show';
-const CLASS_NAME_DROPUP = 'dropup';
-const CLASS_NAME_DROPEND = 'dropend';
-const CLASS_NAME_DROPSTART = 'dropstart';
-const CLASS_NAME_DROPUP_CENTER = 'dropup-center';
-const CLASS_NAME_DROPDOWN_CENTER = 'dropdown-center';
+const className_NAME_SHOW$6 = 'show';
+const className_NAME_DROPUP = 'dropup';
+const className_NAME_DROPEND = 'dropend';
+const className_NAME_DROPSTART = 'dropstart';
+const className_NAME_DROPUP_CENTER = 'dropup-center';
+const className_NAME_DROPDOWN_CENTER = 'dropdown-center';
 const SELECTOR_DATA_TOGGLE$3 = '[data-bs-toggle="dropdown"]:not(.disabled):not(:disabled)';
-const SELECTOR_DATA_TOGGLE_SHOWN = `${SELECTOR_DATA_TOGGLE$3}.${CLASS_NAME_SHOW$6}`;
+const SELECTOR_DATA_TOGGLE_SHOWN = `${SELECTOR_DATA_TOGGLE$3}.${className_NAME_SHOW$6}`;
 const SELECTOR_MENU = '.dropdown-menu';
 const SELECTOR_NAVBAR = '.navbar';
 const SELECTOR_NAVBAR_NAV = '.navbar-nav';
@@ -5944,7 +5944,7 @@ const DefaultType$9 = {
   popperConfig: '(null|object|function)',
   reference: '(string|element|object)'
 };
-class Dropdown extends BaseComponent {
+className Dropdown extends BaseComponent {
   constructor(element, config) {
     super(element, config);
     this._popper = null;
@@ -5983,8 +5983,8 @@ class Dropdown extends BaseComponent {
     }
     this._element.focus();
     this._element.setAttribute('aria-expanded', true);
-    this._menu.classList.add(CLASS_NAME_SHOW$6);
-    this._element.classList.add(CLASS_NAME_SHOW$6);
+    this._menu.classNameList.add(className_NAME_SHOW$6);
+    this._element.classNameList.add(className_NAME_SHOW$6);
     EventHandler.trigger(this._element, EVENT_SHOWN$5, relatedTarget);
   }
   hide() {
@@ -6021,8 +6021,8 @@ class Dropdown extends BaseComponent {
     if (this._popper) {
       this._popper.destroy();
     }
-    this._menu.classList.remove(CLASS_NAME_SHOW$6);
-    this._element.classList.remove(CLASS_NAME_SHOW$6);
+    this._menu.classNameList.remove(className_NAME_SHOW$6);
+    this._element.classNameList.remove(className_NAME_SHOW$6);
     this._element.setAttribute('aria-expanded', 'false');
     Manipulator.removeDataAttribute(this._menu, 'popper');
     EventHandler.trigger(this._element, EVENT_HIDDEN$5, relatedTarget);
@@ -6050,24 +6050,24 @@ class Dropdown extends BaseComponent {
     this._popper = createPopper(referenceElement, this._menu, popperConfig);
   }
   _isShown() {
-    return this._menu.classList.contains(CLASS_NAME_SHOW$6);
+    return this._menu.classNameList.contains(className_NAME_SHOW$6);
   }
   _getPlacement() {
     const parentDropdown = this._parent;
-    if (parentDropdown.classList.contains(CLASS_NAME_DROPEND)) {
+    if (parentDropdown.classNameList.contains(className_NAME_DROPEND)) {
       return PLACEMENT_RIGHT;
     }
-    if (parentDropdown.classList.contains(CLASS_NAME_DROPSTART)) {
+    if (parentDropdown.classNameList.contains(className_NAME_DROPSTART)) {
       return PLACEMENT_LEFT;
     }
-    if (parentDropdown.classList.contains(CLASS_NAME_DROPUP_CENTER)) {
+    if (parentDropdown.classNameList.contains(className_NAME_DROPUP_CENTER)) {
       return PLACEMENT_TOPCENTER;
     }
-    if (parentDropdown.classList.contains(CLASS_NAME_DROPDOWN_CENTER)) {
+    if (parentDropdown.classNameList.contains(className_NAME_DROPDOWN_CENTER)) {
       return PLACEMENT_BOTTOMCENTER;
     }
     const isEnd = getComputedStyle(this._menu).getPropertyValue('--bs-position').trim() === 'end';
-    if (parentDropdown.classList.contains(CLASS_NAME_DROPUP)) {
+    if (parentDropdown.classNameList.contains(className_NAME_DROPUP)) {
       return isEnd ? PLACEMENT_TOPEND : PLACEMENT_TOP;
     }
     return isEnd ? PLACEMENT_BOTTOMEND : PLACEMENT_BOTTOM;
@@ -6199,24 +6199,24 @@ EventHandler.on(document, EVENT_CLICK_DATA_API$3, SELECTOR_DATA_TOGGLE$3, functi
 });
 defineJQueryPlugin(Dropdown);
 const NAME$9 = 'backdrop';
-const CLASS_NAME_FADE$4 = 'fade';
-const CLASS_NAME_SHOW$5 = 'show';
+const className_NAME_FADE$4 = 'fade';
+const className_NAME_SHOW$5 = 'show';
 const EVENT_MOUSEDOWN = `mousedown.bs.${NAME$9}`;
 const Default$8 = {
-  className: 'modal-backdrop',
+  classNameName: 'modal-backdrop',
   clickCallback: null,
   isAnimated: false,
   isVisible: true,
   rootElement: 'body'
 };
 const DefaultType$8 = {
-  className: 'string',
+  classNameName: 'string',
   clickCallback: '(function|null)',
   isAnimated: 'boolean',
   isVisible: 'boolean',
   rootElement: '(element|string)'
 };
-class Backdrop extends Config {
+className Backdrop extends Config {
   constructor(config) {
     super();
     this._config = this._getConfig(config);
@@ -6242,7 +6242,7 @@ class Backdrop extends Config {
     if (this._config.isAnimated) {
       reflow(element);
     }
-    element.classList.add(CLASS_NAME_SHOW$5);
+    element.classNameList.add(className_NAME_SHOW$5);
     this._emulateAnimation(() => {
       execute(callback);
     });
@@ -6252,7 +6252,7 @@ class Backdrop extends Config {
       execute(callback);
       return;
     }
-    this._getElement().classList.remove(CLASS_NAME_SHOW$5);
+    this._getElement().classNameList.remove(className_NAME_SHOW$5);
     this._emulateAnimation(() => {
       this.dispose();
       execute(callback);
@@ -6269,9 +6269,9 @@ class Backdrop extends Config {
   _getElement() {
     if (!this._element) {
       const backdrop = document.createElement('div');
-      backdrop.className = this._config.className;
+      backdrop.classNameName = this._config.classNameName;
       if (this._config.isAnimated) {
-        backdrop.classList.add(CLASS_NAME_FADE$4);
+        backdrop.classNameList.add(className_NAME_FADE$4);
       }
       this._element = backdrop;
     }
@@ -6312,7 +6312,7 @@ const DefaultType$7 = {
   autofocus: 'boolean',
   trapElement: 'element'
 };
-class FocusTrap extends Config {
+className FocusTrap extends Config {
   constructor(config) {
     super();
     this._config = this._getConfig(config);
@@ -6374,7 +6374,7 @@ const SELECTOR_FIXED_CONTENT = '.fixed-top, .fixed-bottom, .is-fixed, .sticky-to
 const SELECTOR_STICKY_CONTENT = '.sticky-top';
 const PROPERTY_PADDING = 'padding-right';
 const PROPERTY_MARGIN = 'margin-right';
-class ScrollBarHelper {
+className ScrollBarHelper {
   constructor() {
     this._element = document.body;
   }
@@ -6457,10 +6457,10 @@ const EVENT_CLICK_DISMISS = `click.dismiss${EVENT_KEY$4}`;
 const EVENT_MOUSEDOWN_DISMISS = `mousedown.dismiss${EVENT_KEY$4}`;
 const EVENT_KEYDOWN_DISMISS$1 = `keydown.dismiss${EVENT_KEY$4}`;
 const EVENT_CLICK_DATA_API$2 = `click${EVENT_KEY$4}${DATA_API_KEY$2}`;
-const CLASS_NAME_OPEN = 'modal-open';
-const CLASS_NAME_FADE$3 = 'fade';
-const CLASS_NAME_SHOW$4 = 'show';
-const CLASS_NAME_STATIC = 'modal-static';
+const className_NAME_OPEN = 'modal-open';
+const className_NAME_FADE$3 = 'fade';
+const className_NAME_SHOW$4 = 'show';
+const className_NAME_STATIC = 'modal-static';
 const OPEN_SELECTOR$1 = '.modal.show';
 const SELECTOR_DIALOG = '.modal-dialog';
 const SELECTOR_MODAL_BODY = '.modal-body';
@@ -6475,7 +6475,7 @@ const DefaultType$6 = {
   focus: 'boolean',
   keyboard: 'boolean'
 };
-class Modal extends BaseComponent {
+className Modal extends BaseComponent {
   constructor(element, config) {
     super(element, config);
     this._dialog = SelectorEngine.findOne(SELECTOR_DIALOG, this._element);
@@ -6511,7 +6511,7 @@ class Modal extends BaseComponent {
     this._isShown = true;
     this._isTransitioning = true;
     this._scrollBar.hide();
-    document.body.classList.add(CLASS_NAME_OPEN);
+    document.body.classNameList.add(className_NAME_OPEN);
     this._adjustDialog();
     this._backdrop.show(() => this._showElement(relatedTarget));
   }
@@ -6526,7 +6526,7 @@ class Modal extends BaseComponent {
     this._isShown = false;
     this._isTransitioning = true;
     this._focustrap.deactivate();
-    this._element.classList.remove(CLASS_NAME_SHOW$4);
+    this._element.classNameList.remove(className_NAME_SHOW$4);
     this._queueCallback(() => this._hideModal(), this._element, this._isAnimated());
   }
   dispose() {
@@ -6564,7 +6564,7 @@ class Modal extends BaseComponent {
       modalBody.scrollTop = 0;
     }
     reflow(this._element);
-    this._element.classList.add(CLASS_NAME_SHOW$4);
+    this._element.classNameList.add(className_NAME_SHOW$4);
     const transitionComplete = () => {
       if (this._config.focus) {
         this._focustrap.activate();
@@ -6614,14 +6614,14 @@ class Modal extends BaseComponent {
     this._element.removeAttribute('role');
     this._isTransitioning = false;
     this._backdrop.hide(() => {
-      document.body.classList.remove(CLASS_NAME_OPEN);
+      document.body.classNameList.remove(className_NAME_OPEN);
       this._resetAdjustments();
       this._scrollBar.reset();
       EventHandler.trigger(this._element, EVENT_HIDDEN$4);
     });
   }
   _isAnimated() {
-    return this._element.classList.contains(CLASS_NAME_FADE$3);
+    return this._element.classNameList.contains(className_NAME_FADE$3);
   }
   _triggerBackdropTransition() {
     const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE_PREVENTED$1);
@@ -6630,15 +6630,15 @@ class Modal extends BaseComponent {
     }
     const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
     const initialOverflowY = this._element.style.overflowY;
-    if (initialOverflowY === 'hidden' || this._element.classList.contains(CLASS_NAME_STATIC)) {
+    if (initialOverflowY === 'hidden' || this._element.classNameList.contains(className_NAME_STATIC)) {
       return;
     }
     if (!isModalOverflowing) {
       this._element.style.overflowY = 'hidden';
     }
-    this._element.classList.add(CLASS_NAME_STATIC);
+    this._element.classNameList.add(className_NAME_STATIC);
     this._queueCallback(() => {
-      this._element.classList.remove(CLASS_NAME_STATIC);
+      this._element.classNameList.remove(className_NAME_STATIC);
       this._queueCallback(() => {
         this._element.style.overflowY = initialOverflowY;
       }, this._dialog);
@@ -6705,10 +6705,10 @@ const EVENT_KEY$3 = `.${DATA_KEY$3}`;
 const DATA_API_KEY$1 = '.data-api';
 const EVENT_LOAD_DATA_API$2 = `load${EVENT_KEY$3}${DATA_API_KEY$1}`;
 const ESCAPE_KEY = 'Escape';
-const CLASS_NAME_SHOW$3 = 'show';
-const CLASS_NAME_SHOWING$1 = 'showing';
-const CLASS_NAME_HIDING = 'hiding';
-const CLASS_NAME_BACKDROP = 'offcanvas-backdrop';
+const className_NAME_SHOW$3 = 'show';
+const className_NAME_SHOWING$1 = 'showing';
+const className_NAME_HIDING = 'hiding';
+const className_NAME_BACKDROP = 'offcanvas-backdrop';
 const OPEN_SELECTOR = '.offcanvas.show';
 const EVENT_SHOW$3 = `show${EVENT_KEY$3}`;
 const EVENT_SHOWN$3 = `shown${EVENT_KEY$3}`;
@@ -6729,7 +6729,7 @@ const DefaultType$5 = {
   keyboard: 'boolean',
   scroll: 'boolean'
 };
-class Offcanvas extends BaseComponent {
+className Offcanvas extends BaseComponent {
   constructor(element, config) {
     super(element, config);
     this._isShown = false;
@@ -6766,13 +6766,13 @@ class Offcanvas extends BaseComponent {
     }
     this._element.setAttribute('aria-modal', true);
     this._element.setAttribute('role', 'dialog');
-    this._element.classList.add(CLASS_NAME_SHOWING$1);
+    this._element.classNameList.add(className_NAME_SHOWING$1);
     const completeCallBack = () => {
       if (!this._config.scroll || this._config.backdrop) {
         this._focustrap.activate();
       }
-      this._element.classList.add(CLASS_NAME_SHOW$3);
-      this._element.classList.remove(CLASS_NAME_SHOWING$1);
+      this._element.classNameList.add(className_NAME_SHOW$3);
+      this._element.classNameList.remove(className_NAME_SHOWING$1);
       EventHandler.trigger(this._element, EVENT_SHOWN$3, {
         relatedTarget
       });
@@ -6790,10 +6790,10 @@ class Offcanvas extends BaseComponent {
     this._focustrap.deactivate();
     this._element.blur();
     this._isShown = false;
-    this._element.classList.add(CLASS_NAME_HIDING);
+    this._element.classNameList.add(className_NAME_HIDING);
     this._backdrop.hide();
     const completeCallback = () => {
-      this._element.classList.remove(CLASS_NAME_SHOW$3, CLASS_NAME_HIDING);
+      this._element.classNameList.remove(className_NAME_SHOW$3, className_NAME_HIDING);
       this._element.removeAttribute('aria-modal');
       this._element.removeAttribute('role');
       if (!this._config.scroll) {
@@ -6818,7 +6818,7 @@ class Offcanvas extends BaseComponent {
     };
     const isVisible = Boolean(this._config.backdrop);
     return new Backdrop({
-      className: CLASS_NAME_BACKDROP,
+      classNameName: className_NAME_BACKDROP,
       isVisible,
       isAnimated: true,
       rootElement: this._element.parentNode,
@@ -6881,7 +6881,7 @@ EventHandler.on(window, EVENT_LOAD_DATA_API$2, () => {
   }
 });
 EventHandler.on(window, EVENT_RESIZE, () => {
-  for (const element of SelectorEngine.find('[aria-modal][class*=show][class*=offcanvas-]')) {
+  for (const element of SelectorEngine.find('[aria-modal][className*=show][className*=offcanvas-]')) {
     if (getComputedStyle(element).position !== 'fixed') {
       Offcanvas.getOrCreateInstance(element).hide();
     }
@@ -6891,7 +6891,7 @@ enableDismissTrigger(Offcanvas);
 defineJQueryPlugin(Offcanvas);
 const ARIA_ATTRIBUTE_PATTERN = /^aria-[\w-]*$/i;
 const DefaultAllowlist = {
-  '*': ['class', 'dir', 'id', 'lang', 'role', ARIA_ATTRIBUTE_PATTERN],
+  '*': ['className', 'dir', 'id', 'lang', 'role', ARIA_ATTRIBUTE_PATTERN],
   a: ['target', 'href', 'title', 'rel'],
   area: [],
   b: [],
@@ -6967,7 +6967,7 @@ const NAME$5 = 'TemplateFactory';
 const Default$4 = {
   allowList: DefaultAllowlist,
   content: {},
-  extraClass: '',
+  extraclassName: '',
   html: false,
   sanitize: true,
   sanitizeFn: null,
@@ -6976,7 +6976,7 @@ const Default$4 = {
 const DefaultType$4 = {
   allowList: 'object',
   content: 'object',
-  extraClass: '(string|function)',
+  extraclassName: '(string|function)',
   html: 'boolean',
   sanitize: 'boolean',
   sanitizeFn: '(null|function)',
@@ -6986,7 +6986,7 @@ const DefaultContentType = {
   entry: '(string|element|function|null)',
   selector: '(string|element)'
 };
-class TemplateFactory extends Config {
+className TemplateFactory extends Config {
   constructor(config) {
     super();
     this._config = this._getConfig(config);
@@ -7021,9 +7021,9 @@ class TemplateFactory extends Config {
       this._setContent(templateWrapper, text, selector);
     }
     const template = templateWrapper.children[0];
-    const extraClass = this._resolvePossibleFunction(this._config.extraClass);
-    if (extraClass) {
-      template.classList.add(...extraClass.split(' '));
+    const extraclassName = this._resolvePossibleFunction(this._config.extraclassName);
+    if (extraclassName) {
+      template.classNameList.add(...extraclassName.split(' '));
     }
     return template;
   }
@@ -7076,11 +7076,11 @@ class TemplateFactory extends Config {
 }
 const NAME$4 = 'tooltip';
 const DISALLOWED_ATTRIBUTES = new Set(['sanitize', 'allowList', 'sanitizeFn']);
-const CLASS_NAME_FADE$2 = 'fade';
-const CLASS_NAME_MODAL = 'modal';
-const CLASS_NAME_SHOW$2 = 'show';
+const className_NAME_FADE$2 = 'fade';
+const className_NAME_MODAL = 'modal';
+const className_NAME_SHOW$2 = 'show';
 const SELECTOR_TOOLTIP_INNER = '.tooltip-inner';
-const SELECTOR_MODAL = `.${CLASS_NAME_MODAL}`;
+const SELECTOR_MODAL = `.${className_NAME_MODAL}`;
 const EVENT_MODAL_HIDE = 'hide.bs.modal';
 const TRIGGER_HOVER = 'hover';
 const TRIGGER_FOCUS = 'focus';
@@ -7108,7 +7108,7 @@ const Default$3 = {
   animation: true,
   boundary: 'clippingParents',
   container: false,
-  customClass: '',
+  customclassName: '',
   delay: 0,
   fallbackPlacements: ['top', 'right', 'bottom', 'left'],
   html: false,
@@ -7118,7 +7118,7 @@ const Default$3 = {
   sanitize: true,
   sanitizeFn: null,
   selector: false,
-  template: '<div class="tooltip" role="tooltip">' + '<div class="tooltip-arrow"></div>' + '<div class="tooltip-inner"></div>' + '</div>',
+  template: '<div className="tooltip" role="tooltip">' + '<div className="tooltip-arrow"></div>' + '<div className="tooltip-inner"></div>' + '</div>',
   title: '',
   trigger: 'hover focus'
 };
@@ -7127,7 +7127,7 @@ const DefaultType$3 = {
   animation: 'boolean',
   boundary: '(string|element)',
   container: '(string|element|boolean)',
-  customClass: '(string|function)',
+  customclassName: '(string|function)',
   delay: '(number|object)',
   fallbackPlacements: 'array',
   html: 'boolean',
@@ -7141,7 +7141,7 @@ const DefaultType$3 = {
   title: '(string|element|function)',
   trigger: 'string'
 };
-class Tooltip extends BaseComponent {
+className Tooltip extends BaseComponent {
   constructor(element, config) {
     if (typeof Popper === 'undefined') {
       throw new TypeError('Bootstrap\'s tooltips require Popper (https://popper.js.org)');
@@ -7222,7 +7222,7 @@ class Tooltip extends BaseComponent {
       EventHandler.trigger(this._element, this.constructor.eventName(EVENT_INSERTED));
     }
     this._popper = this._createPopper(tip);
-    tip.classList.add(CLASS_NAME_SHOW$2);
+    tip.classNameList.add(className_NAME_SHOW$2);
     if ('ontouchstart' in document.documentElement) {
       for (const element of [].concat(...document.body.children)) {
         EventHandler.on(element, 'mouseover', noop);
@@ -7246,7 +7246,7 @@ class Tooltip extends BaseComponent {
       return;
     }
     const tip = this._getTipElement();
-    tip.classList.remove(CLASS_NAME_SHOW$2);
+    tip.classNameList.remove(className_NAME_SHOW$2);
     if ('ontouchstart' in document.documentElement) {
       for (const element of [].concat(...document.body.children)) {
         EventHandler.off(element, 'mouseover', noop);
@@ -7287,12 +7287,12 @@ class Tooltip extends BaseComponent {
     if (!tip) {
       return null;
     }
-    tip.classList.remove(CLASS_NAME_FADE$2, CLASS_NAME_SHOW$2);
-    tip.classList.add(`bs-${this.constructor.NAME}-auto`);
+    tip.classNameList.remove(className_NAME_FADE$2, className_NAME_SHOW$2);
+    tip.classNameList.add(`bs-${this.constructor.NAME}-auto`);
     const tipId = getUID(this.constructor.NAME).toString();
     tip.setAttribute('id', tipId);
     if (this._isAnimated()) {
-      tip.classList.add(CLASS_NAME_FADE$2);
+      tip.classNameList.add(className_NAME_FADE$2);
     }
     return tip;
   }
@@ -7310,7 +7310,7 @@ class Tooltip extends BaseComponent {
       this._templateFactory = new TemplateFactory({
         ...this._config,
         content,
-        extraClass: this._resolvePossibleFunction(this._config.customClass)
+        extraclassName: this._resolvePossibleFunction(this._config.customclassName)
       });
     }
     return this._templateFactory;
@@ -7327,10 +7327,10 @@ class Tooltip extends BaseComponent {
     return this.constructor.getOrCreateInstance(event.delegateTarget, this._getDelegateConfig());
   }
   _isAnimated() {
-    return this._config.animation || this.tip && this.tip.classList.contains(CLASS_NAME_FADE$2);
+    return this._config.animation || this.tip && this.tip.classNameList.contains(className_NAME_FADE$2);
   }
   _isShown() {
-    return this.tip && this.tip.classList.contains(CLASS_NAME_SHOW$2);
+    return this.tip && this.tip.classNameList.contains(className_NAME_SHOW$2);
   }
   _createPopper(tip) {
     const placement = execute(this._config.placement, [this, tip, this._element]);
@@ -7535,14 +7535,14 @@ const Default$2 = {
   content: '',
   offset: [0, 8],
   placement: 'right',
-  template: '<div class="popover" role="tooltip">' + '<div class="popover-arrow"></div>' + '<h3 class="popover-header"></h3>' + '<div class="popover-body"></div>' + '</div>',
+  template: '<div className="popover" role="tooltip">' + '<div className="popover-arrow"></div>' + '<h3 className="popover-header"></h3>' + '<div className="popover-body"></div>' + '</div>',
   trigger: 'click'
 };
 const DefaultType$2 = {
   ...Tooltip.DefaultType,
   content: '(null|string|element|function)'
 };
-class Popover extends Tooltip {
+className Popover extends Tooltip {
   static get Default() {
     return Default$2;
   }
@@ -7585,8 +7585,8 @@ const DATA_API_KEY = '.data-api';
 const EVENT_ACTIVATE = `activate${EVENT_KEY$2}`;
 const EVENT_CLICK = `click${EVENT_KEY$2}`;
 const EVENT_LOAD_DATA_API$1 = `load${EVENT_KEY$2}${DATA_API_KEY}`;
-const CLASS_NAME_DROPDOWN_ITEM = 'dropdown-item';
-const CLASS_NAME_ACTIVE$1 = 'active';
+const className_NAME_DROPDOWN_ITEM = 'dropdown-item';
+const className_NAME_ACTIVE$1 = 'active';
 const SELECTOR_DATA_SPY = '[data-bs-spy="scroll"]';
 const SELECTOR_TARGET_LINKS = '[href]';
 const SELECTOR_NAV_LIST_GROUP = '.nav, .list-group';
@@ -7610,7 +7610,7 @@ const DefaultType$1 = {
   target: 'element',
   threshold: 'array'
 };
-class ScrollSpy extends BaseComponent {
+className ScrollSpy extends BaseComponent {
   constructor(element, config) {
     super(element, config);
     this._targetLinks = new Map();
@@ -7699,7 +7699,7 @@ class ScrollSpy extends BaseComponent {
     for (const entry of entries) {
       if (!entry.isIntersecting) {
         this._activeTarget = null;
-        this._clearActiveClass(targetElement(entry));
+        this._clearActiveclassName(targetElement(entry));
         continue;
       }
       const entryIsLowerThanPrevious = entry.target.offsetTop >= this._previousScrollData.visibleEntryTop;
@@ -7734,30 +7734,30 @@ class ScrollSpy extends BaseComponent {
     if (this._activeTarget === target) {
       return;
     }
-    this._clearActiveClass(this._config.target);
+    this._clearActiveclassName(this._config.target);
     this._activeTarget = target;
-    target.classList.add(CLASS_NAME_ACTIVE$1);
+    target.classNameList.add(className_NAME_ACTIVE$1);
     this._activateParents(target);
     EventHandler.trigger(this._element, EVENT_ACTIVATE, {
       relatedTarget: target
     });
   }
   _activateParents(target) {
-    if (target.classList.contains(CLASS_NAME_DROPDOWN_ITEM)) {
-      SelectorEngine.findOne(SELECTOR_DROPDOWN_TOGGLE$1, target.closest(SELECTOR_DROPDOWN)).classList.add(CLASS_NAME_ACTIVE$1);
+    if (target.classNameList.contains(className_NAME_DROPDOWN_ITEM)) {
+      SelectorEngine.findOne(SELECTOR_DROPDOWN_TOGGLE$1, target.closest(SELECTOR_DROPDOWN)).classNameList.add(className_NAME_ACTIVE$1);
       return;
     }
     for (const listGroup of SelectorEngine.parents(target, SELECTOR_NAV_LIST_GROUP)) {
       for (const item of SelectorEngine.prev(listGroup, SELECTOR_LINK_ITEMS)) {
-        item.classList.add(CLASS_NAME_ACTIVE$1);
+        item.classNameList.add(className_NAME_ACTIVE$1);
       }
     }
   }
-  _clearActiveClass(parent) {
-    parent.classList.remove(CLASS_NAME_ACTIVE$1);
-    const activeNodes = SelectorEngine.find(`${SELECTOR_TARGET_LINKS}.${CLASS_NAME_ACTIVE$1}`, parent);
+  _clearActiveclassName(parent) {
+    parent.classNameList.remove(className_NAME_ACTIVE$1);
+    const activeNodes = SelectorEngine.find(`${SELECTOR_TARGET_LINKS}.${className_NAME_ACTIVE$1}`, parent);
     for (const node of activeNodes) {
-      node.classList.remove(CLASS_NAME_ACTIVE$1);
+      node.classNameList.remove(className_NAME_ACTIVE$1);
     }
   }
   static jQueryInterface(config) {
@@ -7795,10 +7795,10 @@ const ARROW_UP_KEY = 'ArrowUp';
 const ARROW_DOWN_KEY = 'ArrowDown';
 const HOME_KEY = 'Home';
 const END_KEY = 'End';
-const CLASS_NAME_ACTIVE = 'active';
-const CLASS_NAME_FADE$1 = 'fade';
-const CLASS_NAME_SHOW$1 = 'show';
-const CLASS_DROPDOWN = 'dropdown';
+const className_NAME_ACTIVE = 'active';
+const className_NAME_FADE$1 = 'fade';
+const className_NAME_SHOW$1 = 'show';
+const className_DROPDOWN = 'dropdown';
 const SELECTOR_DROPDOWN_TOGGLE = '.dropdown-toggle';
 const SELECTOR_DROPDOWN_MENU = '.dropdown-menu';
 const NOT_SELECTOR_DROPDOWN_TOGGLE = `:not(${SELECTOR_DROPDOWN_TOGGLE})`;
@@ -7807,8 +7807,8 @@ const SELECTOR_OUTER = '.nav-item, .list-group-item';
 const SELECTOR_INNER = `.nav-link${NOT_SELECTOR_DROPDOWN_TOGGLE}, .list-group-item${NOT_SELECTOR_DROPDOWN_TOGGLE}, [role="tab"]${NOT_SELECTOR_DROPDOWN_TOGGLE}`;
 const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]';
 const SELECTOR_INNER_ELEM = `${SELECTOR_INNER}, ${SELECTOR_DATA_TOGGLE}`;
-const SELECTOR_DATA_TOGGLE_ACTIVE = `.${CLASS_NAME_ACTIVE}[data-bs-toggle="tab"], .${CLASS_NAME_ACTIVE}[data-bs-toggle="pill"], .${CLASS_NAME_ACTIVE}[data-bs-toggle="list"]`;
-class Tab extends BaseComponent {
+const SELECTOR_DATA_TOGGLE_ACTIVE = `.${className_NAME_ACTIVE}[data-bs-toggle="tab"], .${className_NAME_ACTIVE}[data-bs-toggle="pill"], .${className_NAME_ACTIVE}[data-bs-toggle="list"]`;
+className Tab extends BaseComponent {
   constructor(element) {
     super(element);
     this._parent = this._element.closest(SELECTOR_TAB_PANEL);
@@ -7843,11 +7843,11 @@ class Tab extends BaseComponent {
     if (!element) {
       return;
     }
-    element.classList.add(CLASS_NAME_ACTIVE);
+    element.classNameList.add(className_NAME_ACTIVE);
     this._activate(SelectorEngine.getElementFromSelector(element));
     const complete = () => {
       if (element.getAttribute('role') !== 'tab') {
-        element.classList.add(CLASS_NAME_SHOW$1);
+        element.classNameList.add(className_NAME_SHOW$1);
         return;
       }
       element.removeAttribute('tabindex');
@@ -7857,18 +7857,18 @@ class Tab extends BaseComponent {
         relatedTarget: relatedElem
       });
     };
-    this._queueCallback(complete, element, element.classList.contains(CLASS_NAME_FADE$1));
+    this._queueCallback(complete, element, element.classNameList.contains(className_NAME_FADE$1));
   }
   _deactivate(element, relatedElem) {
     if (!element) {
       return;
     }
-    element.classList.remove(CLASS_NAME_ACTIVE);
+    element.classNameList.remove(className_NAME_ACTIVE);
     element.blur();
     this._deactivate(SelectorEngine.getElementFromSelector(element));
     const complete = () => {
       if (element.getAttribute('role') !== 'tab') {
-        element.classList.remove(CLASS_NAME_SHOW$1);
+        element.classNameList.remove(className_NAME_SHOW$1);
         return;
       }
       element.setAttribute('aria-selected', false);
@@ -7878,7 +7878,7 @@ class Tab extends BaseComponent {
         relatedTarget: relatedElem
       });
     };
-    this._queueCallback(complete, element, element.classList.contains(CLASS_NAME_FADE$1));
+    this._queueCallback(complete, element, element.classNameList.contains(className_NAME_FADE$1));
   }
   _keydown(event) {
     if (![ARROW_LEFT_KEY, ARROW_RIGHT_KEY, ARROW_UP_KEY, ARROW_DOWN_KEY, HOME_KEY, END_KEY].includes(event.key)) {
@@ -7939,17 +7939,17 @@ class Tab extends BaseComponent {
   }
   _toggleDropDown(element, open) {
     const outerElem = this._getOuterElement(element);
-    if (!outerElem.classList.contains(CLASS_DROPDOWN)) {
+    if (!outerElem.classNameList.contains(className_DROPDOWN)) {
       return;
     }
-    const toggle = (selector, className) => {
+    const toggle = (selector, classNameName) => {
       const element = SelectorEngine.findOne(selector, outerElem);
       if (element) {
-        element.classList.toggle(className, open);
+        element.classNameList.toggle(classNameName, open);
       }
     };
-    toggle(SELECTOR_DROPDOWN_TOGGLE, CLASS_NAME_ACTIVE);
-    toggle(SELECTOR_DROPDOWN_MENU, CLASS_NAME_SHOW$1);
+    toggle(SELECTOR_DROPDOWN_TOGGLE, className_NAME_ACTIVE);
+    toggle(SELECTOR_DROPDOWN_MENU, className_NAME_SHOW$1);
     outerElem.setAttribute('aria-expanded', open);
   }
   _setAttributeIfNotExists(element, attribute, value) {
@@ -7958,7 +7958,7 @@ class Tab extends BaseComponent {
     }
   }
   _elemIsActive(elem) {
-    return elem.classList.contains(CLASS_NAME_ACTIVE);
+    return elem.classNameList.contains(className_NAME_ACTIVE);
   }
   _getInnerElement(elem) {
     return elem.matches(SELECTOR_INNER_ELEM) ? elem : SelectorEngine.findOne(SELECTOR_INNER_ELEM, elem);
@@ -8005,10 +8005,10 @@ const EVENT_HIDE = `hide${EVENT_KEY}`;
 const EVENT_HIDDEN = `hidden${EVENT_KEY}`;
 const EVENT_SHOW = `show${EVENT_KEY}`;
 const EVENT_SHOWN = `shown${EVENT_KEY}`;
-const CLASS_NAME_FADE = 'fade';
-const CLASS_NAME_HIDE = 'hide';
-const CLASS_NAME_SHOW = 'show';
-const CLASS_NAME_SHOWING = 'showing';
+const className_NAME_FADE = 'fade';
+const className_NAME_HIDE = 'hide';
+const className_NAME_SHOW = 'show';
+const className_NAME_SHOWING = 'showing';
 const DefaultType = {
   animation: 'boolean',
   autohide: 'boolean',
@@ -8019,7 +8019,7 @@ const Default = {
   autohide: true,
   delay: 5000
 };
-class Toast extends BaseComponent {
+className Toast extends BaseComponent {
   constructor(element, config) {
     super(element, config);
     this._timeout = null;
@@ -8043,16 +8043,16 @@ class Toast extends BaseComponent {
     }
     this._clearTimeout();
     if (this._config.animation) {
-      this._element.classList.add(CLASS_NAME_FADE);
+      this._element.classNameList.add(className_NAME_FADE);
     }
     const complete = () => {
-      this._element.classList.remove(CLASS_NAME_SHOWING);
+      this._element.classNameList.remove(className_NAME_SHOWING);
       EventHandler.trigger(this._element, EVENT_SHOWN);
       this._maybeScheduleHide();
     };
-    this._element.classList.remove(CLASS_NAME_HIDE);
+    this._element.classNameList.remove(className_NAME_HIDE);
     reflow(this._element);
-    this._element.classList.add(CLASS_NAME_SHOW, CLASS_NAME_SHOWING);
+    this._element.classNameList.add(className_NAME_SHOW, className_NAME_SHOWING);
     this._queueCallback(complete, this._element, this._config.animation);
   }
   hide() {
@@ -8064,22 +8064,22 @@ class Toast extends BaseComponent {
       return;
     }
     const complete = () => {
-      this._element.classList.add(CLASS_NAME_HIDE);
-      this._element.classList.remove(CLASS_NAME_SHOWING, CLASS_NAME_SHOW);
+      this._element.classNameList.add(className_NAME_HIDE);
+      this._element.classNameList.remove(className_NAME_SHOWING, className_NAME_SHOW);
       EventHandler.trigger(this._element, EVENT_HIDDEN);
     };
-    this._element.classList.add(CLASS_NAME_SHOWING);
+    this._element.classNameList.add(className_NAME_SHOWING);
     this._queueCallback(complete, this._element, this._config.animation);
   }
   dispose() {
     this._clearTimeout();
     if (this.isShown()) {
-      this._element.classList.remove(CLASS_NAME_SHOW);
+      this._element.classNameList.remove(className_NAME_SHOW);
     }
     super.dispose();
   }
   isShown() {
-    return this._element.classList.contains(CLASS_NAME_SHOW);
+    return this._element.classNameList.contains(className_NAME_SHOW);
   }
   _maybeScheduleHide() {
     if (!this._config.autohide) {
@@ -8182,7 +8182,7 @@ var switchesTriggerList = [].slice.call(document.querySelectorAll('[data-bs-togg
 switchesTriggerList.map(function (switchTriggerEl) {
   switchTriggerEl.addEventListener('click', function (e) {
     e.stopPropagation();
-    switchTriggerEl.classList.toggle('active');
+    switchTriggerEl.classNameList.toggle('active');
   });
 });
 

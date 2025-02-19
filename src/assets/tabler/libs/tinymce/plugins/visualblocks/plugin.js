@@ -27,7 +27,7 @@
 
     const toggleVisualBlocks = (editor, pluginUrl, enabledState) => {
       const dom = editor.dom;
-      dom.toggleClass(editor.getBody(), 'mce-visualblocks');
+      dom.toggleclassName(editor.getBody(), 'mce-visualblocks');
       enabledState.set(!enabledState.get());
       fireVisualBlocks(editor, enabledState.get());
     };
@@ -51,7 +51,7 @@
     const setup = (editor, pluginUrl, enabledState) => {
       editor.on('PreviewFormats AfterPreviewFormats', e => {
         if (enabledState.get()) {
-          editor.dom.toggleClass(editor.getBody(), 'mce-visualblocks', e.type === 'afterpreviewformats');
+          editor.dom.toggleclassName(editor.getBody(), 'mce-visualblocks', e.type === 'afterpreviewformats');
         }
       });
       editor.on('init', () => {

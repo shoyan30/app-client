@@ -34,7 +34,7 @@
     const isNullable = a => a === null || a === undefined;
     const isNonNullable = a => !isNullable(a);
 
-    class Optional {
+    className Optional {
       constructor(tag, value) {
         this.tag = tag;
         this.value = value;
@@ -595,7 +595,7 @@
       });
       editor.on('click keyup touchend', () => {
         const selectedNode = editor.selection.getNode();
-        if (selectedNode && editor.dom.hasClass(selectedNode, 'mce-preview-object')) {
+        if (selectedNode && editor.dom.hasclassName(selectedNode, 'mce-preview-object')) {
           if (editor.dom.getAttrib(selectedNode, 'data-mce-selected')) {
             selectedNode.setAttribute('data-mce-selected', '2');
           }
@@ -971,7 +971,7 @@
         'style': node.attr('style'),
         'src': global.transparentSrc,
         'data-mce-object': name,
-        'class': 'mce-object mce-object-' + name
+        'className': 'mce-object mce-object-' + name
       });
       return placeHolder;
     };
@@ -983,7 +983,7 @@
         'contentEditable': 'false',
         'style': node.attr('style'),
         'data-mce-object': name,
-        'class': 'mce-preview-object mce-object-' + name
+        'className': 'mce-preview-object mce-object-' + name
       });
       retainAttributesAndInnerHtml(editor, node, previewWrapper);
       const styles = editor.dom.parseStyle((_a = node.attr('style')) !== null && _a !== void 0 ? _a : '');
@@ -992,7 +992,7 @@
       previewNode.attr({
         src: node.attr('src'),
         style: node.attr('style'),
-        class: node.attr('class')
+        className: node.attr('className')
       });
       if (name === 'iframe') {
         previewNode.attr({
@@ -1020,7 +1020,7 @@
         }
       }
       const shimNode = new global$2('span', 1);
-      shimNode.attr('class', 'mce-shim');
+      shimNode.attr('className', 'mce-shim');
       previewWrapper.append(previewNode);
       previewWrapper.append(shimNode);
       return previewWrapper;
@@ -1049,8 +1049,8 @@
       }
     };
     const isPageEmbedWrapper = node => {
-      const nodeClass = node.attr('class');
-      return isString(nodeClass) && /\btiny-pageembed\b/.test(nodeClass);
+      const nodeclassName = node.attr('className');
+      return isString(nodeclassName) && /\btiny-pageembed\b/.test(nodeclassName);
     };
     const isWithinEmbedWrapper = node => {
       let tempNode = node;
@@ -1122,8 +1122,8 @@
             const realElmName = node.attr(name);
             const realElm = new global$2(realElmName, 1);
             if (realElmName !== 'audio') {
-              const className = node.attr('class');
-              if (className && className.indexOf('mce-preview-object') !== -1 && node.firstChild) {
+              const classNameName = node.attr('className');
+              if (classNameName && classNameName.indexOf('mce-preview-object') !== -1 && node.firstChild) {
                 realElm.attr({
                   width: node.firstChild.attr('width'),
                   height: node.firstChild.attr('height')
@@ -1157,7 +1157,7 @@
         const dom = editor.dom;
         each$1(dom.select('span.mce-preview-object'), elm => {
           if (dom.select('span.mce-shim', elm).length === 0) {
-            dom.add(elm, 'span', { class: 'mce-shim' });
+            dom.add(elm, 'span', { className: 'mce-shim' });
           }
         });
       });

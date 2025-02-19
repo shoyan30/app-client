@@ -63,7 +63,7 @@
 
     const punctuation$1 = constant(punctuationStr);
 
-    class Optional {
+    className Optional {
       constructor(tag, value) {
         this.tag = tag;
         this.value = value;
@@ -575,7 +575,7 @@
     };
     const markAllMatches = (editor, currentSearchState, pattern, inSelection) => {
       const marker = editor.dom.create('span', { 'data-mce-bogus': 1 });
-      marker.className = 'mce-match-marker';
+      marker.classNameName = 'mce-match-marker';
       const node = editor.getBody();
       done(editor, currentSearchState, false);
       if (inSelection) {
@@ -625,10 +625,10 @@
           testIndex--;
         }
       }
-      dom.removeClass(findSpansByIndex(editor, searchState.index), 'mce-match-marker-selected');
+      dom.removeclassName(findSpansByIndex(editor, searchState.index), 'mce-match-marker-selected');
       const spans = findSpansByIndex(editor, testIndex);
       if (spans.length) {
-        dom.addClass(findSpansByIndex(editor, testIndex), 'mce-match-marker-selected');
+        dom.addclassName(findSpansByIndex(editor, testIndex), 'mce-match-marker-selected');
         editor.selection.scrollIntoView(spans[0]);
         return testIndex;
       }

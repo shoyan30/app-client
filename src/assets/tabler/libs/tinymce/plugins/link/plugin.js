@@ -61,7 +61,7 @@
       return a === b;
     };
 
-    class Optional {
+    className Optional {
       constructor(tag, value) {
         this.tag = tag;
         this.value = value;
@@ -263,7 +263,7 @@
         processor: 'object[]',
         default: []
       });
-      registerOption('link_class_list', {
+      registerOption('link_className_list', {
         processor: 'object[]',
         default: []
       });
@@ -287,7 +287,7 @@
     const getDefaultLinkProtocol = option('link_default_protocol');
     const getTargetList = option('link_target_list');
     const getRelList = option('link_rel_list');
-    const getLinkClassList = option('link_class_list');
+    const getLinkclassNameList = option('link_className_list');
     const shouldShowLinkTitle = option('link_title');
     const allowUnsafeLinkTarget = option('allow_unsafe_link_target');
     const useQuickLink = option('link_quicklink');
@@ -393,13 +393,13 @@
         return true;
       }
     };
-    const isImageFigure = elm => isNonNullable(elm) && elm.nodeName === 'FIGURE' && /\bimage\b/i.test(elm.className);
+    const isImageFigure = elm => isNonNullable(elm) && elm.nodeName === 'FIGURE' && /\bimage\b/i.test(elm.classNameName);
 
     const getLinkAttrs = data => {
       const attrs = [
         'title',
         'rel',
-        'class',
+        'className',
         'target'
       ];
       return foldl(attrs, (acc, key) => {
@@ -495,7 +495,7 @@
     };
     const unwrapOptions = data => {
       const {
-        class: cls,
+        className: cls,
         href,
         rel,
         target,
@@ -503,7 +503,7 @@
         title
       } = data;
       return filter({
-        class: cls.getOrNull(),
+        className: cls.getOrNull(),
         href,
         rel: rel.getOrNull(),
         target: target.getOrNull(),
@@ -739,14 +739,14 @@
     };
     const AnchorListOptions = { getAnchors };
 
-    const getClasses = editor => {
-      const list = getLinkClassList(editor);
+    const getclassNamees = editor => {
+      const list = getLinkclassNameList(editor);
       if (list.length > 0) {
         return ListOptions.sanitize(list);
       }
       return Optional.none();
     };
-    const ClassListOptions = { getClasses };
+    const classNameListOptions = { getclassNamees };
 
     const parseJson = text => {
       try {
@@ -825,7 +825,7 @@
       const url = anchor.bind(anchorElm => Optional.from(dom.getAttrib(anchorElm, 'href')));
       const target = anchor.bind(anchorElm => Optional.from(dom.getAttrib(anchorElm, 'target')));
       const rel = anchor.bind(anchorElm => nonEmptyAttr(dom, anchorElm, 'rel'));
-      const linkClass = anchor.bind(anchorElm => nonEmptyAttr(dom, anchorElm, 'class'));
+      const linkclassName = anchor.bind(anchorElm => nonEmptyAttr(dom, anchorElm, 'className'));
       const title = anchor.bind(anchorElm => nonEmptyAttr(dom, anchorElm, 'title'));
       return {
         url,
@@ -833,7 +833,7 @@
         title,
         target,
         rel,
-        linkClass
+        linkclassName
       };
     };
     const collect = (editor, linkNode) => LinkListOptions.getLinks(editor).then(links => {
@@ -843,7 +843,7 @@
         catalogs: {
           targets: TargetOptions.getTargets(editor),
           rels: RelOptions.getRels(editor, anchor.target),
-          classes: ClassListOptions.getClasses(editor),
+          classNamees: classNameListOptions.getclassNamees(editor),
           anchor: AnchorListOptions.getAnchors(editor),
           link: links
         },
@@ -866,7 +866,7 @@
         text: getChangedValue('text'),
         target: getChangedValue('target'),
         rel: getChangedValue('rel'),
-        class: getChangedValue('linkClass'),
+        className: getChangedValue('linkclassName'),
         title: getChangedValue('title')
       };
       const attachState = {
@@ -896,7 +896,7 @@
         link: url,
         rel: anchor.rel.getOr(''),
         target: anchor.target.or(defaultTarget).getOr(''),
-        linkClass: anchor.linkClass.getOr('')
+        linkclassName: anchor.linkclassName.getOr('')
       };
     };
     const makeDialog = (settings, onSubmit, editor) => {
@@ -932,7 +932,7 @@
             catalogs.rels.map(ListOptions.createUi('rel', 'Rel')),
             catalogs.targets.map(ListOptions.createUi('target', 'Open link in...')),
             catalogs.link.map(ListOptions.createUi('link', 'Link list')),
-            catalogs.classes.map(ListOptions.createUi('linkClass', 'Class'))
+            catalogs.classNamees.map(ListOptions.createUi('linkclassName', 'className'))
           ])
         ])
       };
@@ -1267,7 +1267,7 @@
                 title: Optional.none(),
                 rel: Optional.none(),
                 target: Optional.from(getDefaultLinkTarget(editor)),
-                class: Optional.none()
+                className: Optional.none()
               });
               collapseSelectionToEnd(editor);
               formApi.hide();

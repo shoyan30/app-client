@@ -58,7 +58,7 @@
     };
     const never = constant(false);
 
-    class Optional {
+    className Optional {
       constructor(tag, value) {
         this.tag = tag;
         this.value = value;
@@ -731,9 +731,9 @@
     });
 
     const accordionTag = 'details';
-    const accordionDetailsClass = 'mce-accordion';
-    const accordionSummaryClass = 'mce-accordion-summary';
-    const accordionBodyWrapperClass = 'mce-accordion-body';
+    const accordionDetailsclassName = 'mce-accordion';
+    const accordionSummaryclassName = 'mce-accordion-summary';
+    const accordionBodyWrapperclassName = 'mce-accordion-body';
     const accordionBodyWrapperTag = 'div';
 
     var global$3 = tinymce.util.Tools.resolve('tinymce.util.Tools');
@@ -793,11 +793,11 @@
       const uid = generate('acc');
       const summaryText = editor.dom.encode(editor.selection.getRng().toString() || editor.translate('Accordion summary...'));
       const bodyText = editor.dom.encode(editor.translate('Accordion body...'));
-      const accordionSummaryHtml = `<summary class="${ accordionSummaryClass }">${ summaryText }</summary>`;
-      const accordionBodyHtml = `<${ accordionBodyWrapperTag } class="${ accordionBodyWrapperClass }"><p>${ bodyText }</p></${ accordionBodyWrapperTag }>`;
+      const accordionSummaryHtml = `<summary className="${ accordionSummaryclassName }">${ summaryText }</summary>`;
+      const accordionBodyHtml = `<${ accordionBodyWrapperTag } className="${ accordionBodyWrapperclassName }"><p>${ bodyText }</p></${ accordionBodyWrapperTag }>`;
       editor.undoManager.transact(() => {
         editor.insertContent([
-          `<details data-mce-id="${ uid }" class="${ accordionDetailsClass }" open="open">`,
+          `<details data-mce-id="${ uid }" className="${ accordionDetailsclassName }" open="open">`,
           accordionSummaryHtml,
           accordionBodyHtml,
           `</details>`
@@ -860,26 +860,26 @@
 
     var global$2 = tinymce.util.Tools.resolve('tinymce.html.Node');
 
-    const getClassList = node => {
+    const getclassNameList = node => {
       var _a, _b;
-      return (_b = (_a = node.attr('class')) === null || _a === void 0 ? void 0 : _a.split(' ')) !== null && _b !== void 0 ? _b : [];
+      return (_b = (_a = node.attr('className')) === null || _a === void 0 ? void 0 : _a.split(' ')) !== null && _b !== void 0 ? _b : [];
     };
-    const addClasses = (node, classes) => {
-      const classListSet = new Set([
-        ...getClassList(node),
-        ...classes
+    const addclassNamees = (node, classNamees) => {
+      const classNameListSet = new Set([
+        ...getclassNameList(node),
+        ...classNamees
       ]);
-      const newClassList = Array.from(classListSet);
-      if (newClassList.length > 0) {
-        node.attr('class', newClassList.join(' '));
+      const newclassNameList = Array.from(classNameListSet);
+      if (newclassNameList.length > 0) {
+        node.attr('className', newclassNameList.join(' '));
       }
     };
-    const removeClasses = (node, classes) => {
-      const newClassList = filter(getClassList(node), clazz => !classes.has(clazz));
-      node.attr('class', newClassList.length > 0 ? newClassList.join(' ') : null);
+    const removeclassNamees = (node, classNamees) => {
+      const newclassNameList = filter(getclassNameList(node), clazz => !classNamees.has(clazz));
+      node.attr('className', newclassNameList.length > 0 ? newclassNameList.join(' ') : null);
     };
-    const isAccordionDetailsNode = node => node.name === accordionTag && contains(getClassList(node), accordionDetailsClass);
-    const isAccordionBodyWrapperNode = node => node.name === accordionBodyWrapperTag && contains(getClassList(node), accordionBodyWrapperClass);
+    const isAccordionDetailsNode = node => node.name === accordionTag && contains(getclassNameList(node), accordionDetailsclassName);
+    const isAccordionBodyWrapperNode = node => node.name === accordionBodyWrapperTag && contains(getclassNameList(node), accordionBodyWrapperclassName);
     const getAccordionChildren = accordionNode => {
       const children = accordionNode.children();
       let summaryNode;
@@ -921,7 +921,7 @@
               if (isNullable(newSummaryNode.firstChild)) {
                 padInputNode(newSummaryNode);
               }
-              addClasses(newSummaryNode, [accordionSummaryClass]);
+              addclassNamees(newSummaryNode, [accordionSummaryclassName]);
               if (!hasSummaryNode) {
                 if (isNonNullable(accordionNode.firstChild)) {
                   accordionNode.insert(newSummaryNode, accordionNode.firstChild, true);
@@ -932,7 +932,7 @@
               const hasWrapperNode = isNonNullable(wrapperNode);
               const newWrapperNode = hasWrapperNode ? wrapperNode : new global$2(accordionBodyWrapperTag, 1);
               newWrapperNode.attr('data-mce-bogus', '1');
-              addClasses(newWrapperNode, [accordionBodyWrapperClass]);
+              addclassNamees(newWrapperNode, [accordionBodyWrapperclassName]);
               if (otherNodes.length > 0) {
                 for (let j = 0; j < otherNodes.length; j++) {
                   const otherNode = otherNodes[j];
@@ -951,14 +951,14 @@
           }
         });
         serializer.addNodeFilter(accordionTag, nodes => {
-          const summaryClassRemoveSet = new Set([accordionSummaryClass]);
+          const summaryclassNameRemoveSet = new Set([accordionSummaryclassName]);
           for (let i = 0; i < nodes.length; i++) {
             const node = nodes[i];
             if (isAccordionDetailsNode(node)) {
               const accordionNode = node;
               const {summaryNode, wrapperNode} = getAccordionChildren(accordionNode);
               if (isNonNullable(summaryNode)) {
-                removeClasses(summaryNode, summaryClassRemoveSet);
+                removeclassNamees(summaryNode, summaryclassNameRemoveSet);
               }
               if (isNonNullable(wrapperNode)) {
                 wrapperNode.unwrap();

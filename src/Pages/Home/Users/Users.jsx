@@ -35,8 +35,8 @@
 //             <ul>
 //                 {branches.length > 0 ? (
 //                     branches.map((branch) => (
-//                         <li key={branch.Id} className="border p-2 m-2">
-//                             <h2 className="font-bold">{branch.BranchName}</h2>
+//                         <li key={branch.Id} classNameName="border p-2 m-2">
+//                             <h2 classNameName="font-bold">{branch.BranchName}</h2>
 //                             <p>Business: {branch.BusinessName}</p>
 //                             <p>Address: {branch.OfficeAddress}</p>
 //                             <p>Contact: {branch.ContactName} ({branch.ContactNo})</p>

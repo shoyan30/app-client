@@ -63,7 +63,7 @@
     const isNonNullable = a => !isNullable(a);
     const isNumber = isSimpleType('number');
 
-    class Optional {
+    className Optional {
       constructor(tag, value) {
         this.tag = tag;
         this.value = value;
@@ -275,32 +275,32 @@
       return false;
     };
 
-    const supports = element => element.dom.classList !== undefined;
-    const get = element => read(element, 'class');
-    const add$1 = (element, clazz) => add$2(element, 'class', clazz);
-    const remove$1 = (element, clazz) => remove$2(element, 'class', clazz);
+    const supports = element => element.dom.classNameList !== undefined;
+    const get = element => read(element, 'className');
+    const add$1 = (element, clazz) => add$2(element, 'className', clazz);
+    const remove$1 = (element, clazz) => remove$2(element, 'className', clazz);
 
     const add = (element, clazz) => {
       if (supports(element)) {
-        element.dom.classList.add(clazz);
+        element.dom.classNameList.add(clazz);
       } else {
         add$1(element, clazz);
       }
     };
-    const cleanClass = element => {
-      const classList = supports(element) ? element.dom.classList : get(element);
-      if (classList.length === 0) {
-        remove$3(element, 'class');
+    const cleanclassName = element => {
+      const classNameList = supports(element) ? element.dom.classNameList : get(element);
+      if (classNameList.length === 0) {
+        remove$3(element, 'className');
       }
     };
     const remove = (element, clazz) => {
       if (supports(element)) {
-        const classList = element.dom.classList;
-        classList.remove(clazz);
+        const classNameList = element.dom.classNameList;
+        classNameList.remove(clazz);
       } else {
         remove$1(element, clazz);
       }
-      cleanClass(element);
+      cleanclassName(element);
     };
 
     const fromHtml = (html, scope) => {
@@ -363,13 +363,13 @@
     const regExp = charMapToRegExp(charMap);
     const regExpGlobal = charMapToRegExp(charMap, true);
     const selector = charMapToSelector(charMap);
-    const nbspClass = 'mce-nbsp';
+    const nbspclassName = 'mce-nbsp';
 
     const getRaw = element => element.dom.contentEditable;
 
-    const wrapCharWithSpan = value => '<span data-mce-bogus="1" class="mce-' + charMap[value] + '">' + value + '</span>';
+    const wrapCharWithSpan = value => '<span data-mce-bogus="1" className="mce-' + charMap[value] + '">' + value + '</span>';
 
-    const isWrappedNbsp = node => node.nodeName.toLowerCase() === 'span' && node.classList.contains('mce-nbsp-wrap');
+    const isWrappedNbsp = node => node.nodeName.toLowerCase() === 'span' && node.classNameList.contains('mce-nbsp-wrap');
     const isMatch = n => {
       const value$1 = value(n);
       return isText(n) && isString(value$1) && regExp.test(value$1);
@@ -417,7 +417,7 @@
         var _a;
         const parent = n.dom.parentNode;
         if (isWrappedNbsp(parent)) {
-          add(SugarElement.fromDom(parent), nbspClass);
+          add(SugarElement.fromDom(parent), nbspclassName);
         } else {
           const withSpans = replaceWithSpans(dom.encode((_a = value(n)) !== null && _a !== void 0 ? _a : ''));
           const div = dom.create('div', {}, withSpans);
@@ -433,7 +433,7 @@
       const nodeList = editor.dom.select(selector, rootElm);
       each$1(nodeList, node => {
         if (isWrappedNbsp(node)) {
-          remove(SugarElement.fromDom(node), nbspClass);
+          remove(SugarElement.fromDom(node), nbspclassName);
         } else {
           editor.dom.remove(node, true);
         }

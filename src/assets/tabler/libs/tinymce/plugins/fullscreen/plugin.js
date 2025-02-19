@@ -79,7 +79,7 @@
     const never = constant(false);
     const always = constant(true);
 
-    class Optional {
+    className Optional {
       constructor(tag, value) {
         this.tag = tag;
         this.value = value;
@@ -364,9 +364,9 @@
       element.dom.removeAttribute(key);
     };
 
-    const supports = element => element.dom.classList !== undefined;
+    const supports = element => element.dom.classNameList !== undefined;
 
-    const has = (element, clazz) => supports(element) && element.dom.classList.contains(clazz);
+    const has = (element, clazz) => supports(element) && element.dom.classNameList.contains(clazz);
 
     const contains = (str, substr, start = 0, end) => {
       const idx = str.indexOf(substr, start);
@@ -1123,7 +1123,7 @@
       const editorContainerStyle = editorContainer.style;
       const iframe = editor.iframeElement;
       const iframeStyle = iframe === null || iframe === void 0 ? void 0 : iframe.style;
-      const handleClasses = handler => {
+      const handleclassNamees = handler => {
         handler(body, 'tox-fullscreen');
         handler(documentElement, 'tox-fullscreen');
         handler(editorContainer, 'tox-fullscreen');
@@ -1136,7 +1136,7 @@
         if (isTouch) {
           restoreStyles(editor.dom);
         }
-        handleClasses(DOM.removeClass);
+        handleclassNamees(DOM.removeclassName);
         viewportUpdate.unbind();
         Optional.from(fullscreenState.get()).each(info => info.fullscreenChangeHandler.unbind());
       };
@@ -1164,7 +1164,7 @@
         }
         iframeStyle.width = iframeStyle.height = '100%';
         editorContainerStyle.width = editorContainerStyle.height = '';
-        handleClasses(DOM.addClass);
+        handleclassNamees(DOM.addclassName);
         sinkContainerS.each(elm => {
           set(elm, 'position', 'fixed');
         });

@@ -39,7 +39,7 @@
     const isNullable = a => a === null || a === undefined;
     const isNonNullable = a => !isNullable(a);
 
-    class Optional {
+    className Optional {
       constructor(tag, value) {
         this.tag = tag;
         this.value = value;
@@ -173,7 +173,7 @@
 
     var global = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
-    const isCustomList = list => /\btox\-/.test(list.className);
+    const isCustomList = list => /\btox\-/.test(list.classNameName);
     const isChildOfBody = (editor, elm) => {
       return editor.dom.isChildOf(elm, editor.getBody());
     };

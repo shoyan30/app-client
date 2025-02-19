@@ -58,7 +58,7 @@
     const not = f => t => !f(t);
     const never = constant(false);
 
-    class Optional {
+    className Optional {
       constructor(tag, value) {
         this.tag = tag;
         this.value = value;
@@ -831,7 +831,7 @@
       return unique(listRoots);
     };
 
-    const isCustomList = list => /\btox\-/.test(list.className);
+    const isCustomList = list => /\btox\-/.test(list.classNameName);
     const inList = (parents, listName) => findUntil(parents, isListNode, isTableCellNode).exists(list => list.nodeName === listName && !isCustomList(list));
     const isWithinNonEditable = (editor, element) => element !== null && !editor.dom.isEditable(element);
     const selectionIsWithinNonEditableList = editor => {
@@ -1479,11 +1479,11 @@
       const style = dom.getStyle(list2, 'list-style-type', true);
       return targetStyle === style;
     };
-    const hasSameClasses = (elm1, elm2) => {
-      return elm1.className === elm2.className;
+    const hasSameclassNamees = (elm1, elm2) => {
+      return elm1.classNameName === elm2.classNameName;
     };
     const shouldMerge = (dom, list1, list2) => {
-      return isValidLists(list1, list2) && hasSameListStyle(dom, list1, list2) && hasSameClasses(list1, list2);
+      return isValidLists(list1, list2) && hasSameListStyle(dom, list1, list2) && hasSameclassNamees(list1, list2);
     };
     const mergeWithAdjacentLists = (dom, listBlock) => {
       let node;
@@ -1515,11 +1515,11 @@
       }
     };
     const updateCustomList = (editor, list, listName, detail) => {
-      list.classList.forEach((cls, _, classList) => {
+      list.classNameList.forEach((cls, _, classNameList) => {
         if (cls.startsWith('tox-')) {
-          classList.remove(cls);
-          if (classList.length === 0) {
-            list.removeAttribute('class');
+          classNameList.remove(cls);
+          if (classNameList.length === 0) {
+            list.removeAttribute('className');
           }
         }
       });
@@ -1563,11 +1563,11 @@
         } else {
           const bookmark = createBookmark(editor.selection.getRng());
           if (isCustomList(parentList)) {
-            parentList.classList.forEach((cls, _, classList) => {
+            parentList.classNameList.forEach((cls, _, classNameList) => {
               if (cls.startsWith('tox-')) {
-                classList.remove(cls);
-                if (classList.length === 0) {
-                  parentList.removeAttribute('class');
+                classNameList.remove(cls);
+                if (classNameList.length === 0) {
+                  parentList.removeAttribute('className');
                 }
               }
             });

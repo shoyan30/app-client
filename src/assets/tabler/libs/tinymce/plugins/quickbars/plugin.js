@@ -194,7 +194,7 @@
     };
     const never = constant(false);
 
-    class Optional {
+    className Optional {
       constructor(tag, value) {
         this.tag = tag;
         this.value = value;
@@ -411,15 +411,15 @@
       }
     };
 
-    const supports = element => element.dom.classList !== undefined;
+    const supports = element => element.dom.classNameList !== undefined;
 
-    const has = (element, clazz) => supports(element) && element.dom.classList.contains(clazz);
+    const has = (element, clazz) => supports(element) && element.dom.classNameList.contains(clazz);
 
     const addToEditor = editor => {
       const isEditable = node => editor.dom.isEditable(node);
       const isInEditableContext = el => isEditable(el.parentElement);
       const isImage = node => {
-        const isImageFigure = node.nodeName === 'FIGURE' && /image/i.test(node.className);
+        const isImageFigure = node.nodeName === 'FIGURE' && /image/i.test(node.classNameName);
         const isImage = node.nodeName === 'IMG' || isImageFigure;
         const isPagebreak = has(SugarElement.fromDom(node), 'mce-pagebreak');
         return isImage && isInEditableContext(node) && !isPagebreak;

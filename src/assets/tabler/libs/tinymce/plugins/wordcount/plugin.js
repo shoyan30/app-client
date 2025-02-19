@@ -101,7 +101,7 @@
         }
       };
     };
-    const classify = characters => {
+    const classNameify = characters => {
       const memoized = memoize(getType);
       return map(characters, memoized);
     };
@@ -227,7 +227,7 @@
         ...options
       };
       const extractedChars = map(chars, extract);
-      const characterMap = classify(extractedChars);
+      const characterMap = classNameify(extractedChars);
       return findWordsWithIndices(chars, extractedChars, characterMap, options);
     };
     const getWords$1 = (chars, extract, options) => getWordsWithIndices(chars, extract, options).words;

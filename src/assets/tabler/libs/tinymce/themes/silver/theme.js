@@ -91,7 +91,7 @@
     const never = constant$1(false);
     const always = constant$1(true);
 
-    class Optional {
+    className Optional {
       constructor(tag, value) {
         this.tag = tag;
         this.value = value;
@@ -2443,7 +2443,7 @@
     };
 
     const nu$8 = s => ({
-      classes: isUndefined(s.classes) ? [] : s.classes,
+      classNamees: isUndefined(s.classNamees) ? [] : s.classNamees,
       attributes: isUndefined(s.attributes) ? {} : s.attributes,
       styles: isUndefined(s.styles) ? {} : s.styles
     });
@@ -2457,7 +2457,7 @@
         ...defnA.styles,
         ...mod.styles
       },
-      classes: defnA.classes.concat(mod.classes)
+      classNamees: defnA.classNamees.concat(mod.classNamees)
     });
 
     const executeEvent = (bConfig, bState, executor) => runOnExecute$1(component => {
@@ -2585,10 +2585,10 @@
       return false;
     };
 
-    const supports = element => element.dom.classList !== undefined;
-    const get$a = element => read$1(element, 'class');
-    const add$3 = (element, clazz) => add$4(element, 'class', clazz);
-    const remove$4 = (element, clazz) => remove$5(element, 'class', clazz);
+    const supports = element => element.dom.classNameList !== undefined;
+    const get$a = element => read$1(element, 'className');
+    const add$3 = (element, clazz) => add$4(element, 'className', clazz);
+    const remove$4 = (element, clazz) => remove$5(element, 'className', clazz);
     const toggle$5 = (element, clazz) => {
       if (contains$2(get$a(element), clazz)) {
         return remove$4(element, clazz);
@@ -2599,54 +2599,54 @@
 
     const add$2 = (element, clazz) => {
       if (supports(element)) {
-        element.dom.classList.add(clazz);
+        element.dom.classNameList.add(clazz);
       } else {
         add$3(element, clazz);
       }
     };
-    const cleanClass = element => {
-      const classList = supports(element) ? element.dom.classList : get$a(element);
-      if (classList.length === 0) {
-        remove$8(element, 'class');
+    const cleanclassName = element => {
+      const classNameList = supports(element) ? element.dom.classNameList : get$a(element);
+      if (classNameList.length === 0) {
+        remove$8(element, 'className');
       }
     };
     const remove$3 = (element, clazz) => {
       if (supports(element)) {
-        const classList = element.dom.classList;
-        classList.remove(clazz);
+        const classNameList = element.dom.classNameList;
+        classNameList.remove(clazz);
       } else {
         remove$4(element, clazz);
       }
-      cleanClass(element);
+      cleanclassName(element);
     };
     const toggle$4 = (element, clazz) => {
-      const result = supports(element) ? element.dom.classList.toggle(clazz) : toggle$5(element, clazz);
-      cleanClass(element);
+      const result = supports(element) ? element.dom.classNameList.toggle(clazz) : toggle$5(element, clazz);
+      cleanclassName(element);
       return result;
     };
-    const has = (element, clazz) => supports(element) && element.dom.classList.contains(clazz);
+    const has = (element, clazz) => supports(element) && element.dom.classNameList.contains(clazz);
 
-    const add$1 = (element, classes) => {
-      each$1(classes, x => {
+    const add$1 = (element, classNamees) => {
+      each$1(classNamees, x => {
         add$2(element, x);
       });
     };
-    const remove$2 = (element, classes) => {
-      each$1(classes, x => {
+    const remove$2 = (element, classNamees) => {
+      each$1(classNamees, x => {
         remove$3(element, x);
       });
     };
-    const toggle$3 = (element, classes) => {
-      each$1(classes, x => {
+    const toggle$3 = (element, classNamees) => {
+      each$1(classNamees, x => {
         toggle$4(element, x);
       });
     };
-    const hasAll = (element, classes) => forall(classes, clazz => has(element, clazz));
+    const hasAll = (element, classNamees) => forall(classNamees, clazz => has(element, clazz));
     const getNative = element => {
-      const classList = element.dom.classList;
-      const r = new Array(classList.length);
-      for (let i = 0; i < classList.length; i++) {
-        const item = classList.item(i);
+      const classNameList = element.dom.classNameList;
+      const r = new Array(classNameList.length);
+      for (let i = 0; i < classNameList.length; i++) {
+        const item = classNameList.item(i);
         if (item !== null) {
           r[i] = item;
         }
@@ -2690,16 +2690,16 @@
 
     const appear = (component, contextualInfo) => {
       const elem = component.element;
-      add$2(elem, contextualInfo.transitionClass);
-      remove$3(elem, contextualInfo.fadeOutClass);
-      add$2(elem, contextualInfo.fadeInClass);
+      add$2(elem, contextualInfo.transitionclassName);
+      remove$3(elem, contextualInfo.fadeOutclassName);
+      add$2(elem, contextualInfo.fadeInclassName);
       contextualInfo.onShow(component);
     };
     const disappear = (component, contextualInfo) => {
       const elem = component.element;
-      add$2(elem, contextualInfo.transitionClass);
-      remove$3(elem, contextualInfo.fadeInClass);
-      add$2(elem, contextualInfo.fadeOutClass);
+      add$2(elem, contextualInfo.transitionclassName);
+      remove$3(elem, contextualInfo.fadeInclassName);
+      add$2(elem, contextualInfo.fadeOutclassName);
       contextualInfo.onHide(component);
     };
     const isPartiallyVisible = (box, bounds) => box.y < bounds.bottom && box.bottom > bounds.y;
@@ -2883,7 +2883,7 @@
           if (isVisible !== state.isVisible()) {
             state.setVisible(isVisible);
             if (morphToDocked && !isVisible) {
-              add$1(component.element, [contextInfo.fadeOutClass]);
+              add$1(component.element, [contextInfo.fadeOutclassName]);
               contextInfo.onHide(component);
             } else {
               const method = isVisible ? appear : disappear;
@@ -2936,9 +2936,9 @@
       state.setVisible(true);
       config.contextual.each(contextInfo => {
         remove$2(elem, [
-          contextInfo.fadeInClass,
-          contextInfo.fadeOutClass,
-          contextInfo.transitionClass
+          contextInfo.fadeInclassName,
+          contextInfo.fadeOutclassName,
+          contextInfo.transitionclassName
         ]);
         contextInfo.onShow(component);
       });
@@ -2981,10 +2981,10 @@
     const events$i = (dockInfo, dockState) => derive$2([
       runOnSource(transitionend(), (component, simulatedEvent) => {
         dockInfo.contextual.each(contextInfo => {
-          if (has(component.element, contextInfo.transitionClass)) {
+          if (has(component.element, contextInfo.transitionclassName)) {
             remove$2(component.element, [
-              contextInfo.transitionClass,
-              contextInfo.fadeInClass
+              contextInfo.transitionclassName,
+              contextInfo.fadeInclassName
             ]);
             const notify = dockState.isVisible() ? contextInfo.onShown : contextInfo.onHidden;
             notify(component);
@@ -3198,9 +3198,9 @@
 
     var DockingSchema = [
       optionObjOf('contextual', [
-        requiredString('fadeInClass'),
-        requiredString('fadeOutClass'),
-        requiredString('transitionClass'),
+        requiredString('fadeInclassName'),
+        requiredString('fadeOutclassName'),
+        requiredString('transitionclassName'),
         requiredFunction('lazyContext'),
         onHandler('onShow'),
         onHandler('onShown'),
@@ -3403,11 +3403,11 @@
         ...a.modification,
         ...b
       }), {});
-      const combinedClasses = foldr(byAspect.classes, (b, a) => a.modification.concat(b), []);
+      const combinedclassNamees = foldr(byAspect.classNamees, (b, a) => a.modification.concat(b), []);
       const combinedAttributes = combineObjects(byAspect.attributes);
       const combinedStyles = combineObjects(byAspect.styles);
       return nu$8({
-        classes: combinedClasses,
+        classNamees: combinedclassNamees,
         attributes: combinedAttributes,
         styles: combinedStyles
       });
@@ -3516,7 +3516,7 @@
       field$1('dom', 'dom', required$2(), objOf([
         required$1('tag'),
         defaulted('styles', {}),
-        defaulted('classes', []),
+        defaulted('classNamees', []),
         defaulted('attributes', {}),
         option$3('value'),
         option$3('innerHtml')
@@ -3652,7 +3652,7 @@
     };
     const reconcileToDom = (definition, obsoleted) => {
       const {
-        class: clazz,
+        className: clazz,
         style,
         ...existingAttributes
       } = clone$2(obsoleted);
@@ -3673,12 +3673,12 @@
         each$1(stylesToRemove, s => remove$7(obsoleted, s));
         setAll(obsoleted, stylesToSet);
       };
-      const existingClasses = get$9(obsoleted);
-      const classesToRemove = difference(existingClasses, definition.classes);
-      const classesToAdd = difference(definition.classes, existingClasses);
-      const updateClasses = () => {
-        add$1(obsoleted, classesToAdd);
-        remove$2(obsoleted, classesToRemove);
+      const existingclassNamees = get$9(obsoleted);
+      const classNameesToRemove = difference(existingclassNamees, definition.classNamees);
+      const classNameesToAdd = difference(definition.classNamees, existingclassNamees);
+      const updateclassNamees = () => {
+        add$1(obsoleted, classNameesToAdd);
+        remove$2(obsoleted, classNameesToRemove);
       };
       const updateHtml = html => {
         set$6(obsoleted, html);
@@ -3695,7 +3695,7 @@
         }
       };
       updateAttrs();
-      updateClasses();
+      updateclassNamees();
       updateStyles();
       definition.innerHtml.fold(updateChildren, updateHtml);
       updateValue();
@@ -3705,7 +3705,7 @@
     const introduceToDom = definition => {
       const subject = SugarElement.fromTag(definition.tag);
       setAll$1(subject, definition.attributes);
-      add$1(subject, definition.classes);
+      add$1(subject, definition.classNamees);
       setAll(subject, definition.styles);
       definition.innerHtml.each(html => set$6(subject, html));
       const children = definition.domChildren;
@@ -4155,7 +4155,7 @@
     });
 
     const exhibit$6 = (base, posConfig) => nu$8({
-      classes: [],
+      classNamees: [],
       styles: posConfig.useFixed() ? {} : { position: 'relative' }
     });
 
@@ -4350,9 +4350,9 @@
         maxWidth,
         direction: candidate.direction,
         placement: candidate.placement,
-        classes: {
-          on: bubble.classesOn,
-          off: bubble.classesOff
+        classNamees: {
+          on: bubble.classNameesOn,
+          off: bubble.classNameesOff
         },
         layout: candidate.label,
         testY: newY
@@ -4379,7 +4379,7 @@
         maxWidth: elementBox.width,
         direction: southeast$3(),
         placement: 'southeast',
-        classes: {
+        classNamees: {
           on: [],
           off: []
         },
@@ -4401,7 +4401,7 @@
       'left'
     ];
     const timerAttr = 'data-alloy-transition-timer';
-    const isTransitioning$1 = (element, transition) => hasAll(element, transition.classes);
+    const isTransitioning$1 = (element, transition) => hasAll(element, transition.classNamees);
     const shouldApplyTransitionCss = (transition, decision, lastPlacement) => {
       return lastPlacement.exists(placer => {
         const mode = transition.mode;
@@ -4454,7 +4454,7 @@
           if (isNullable(type) || type === transitionend()) {
             clearTimeout(timer);
             remove$8(element, timerAttr);
-            remove$2(element, transition.classes);
+            remove$2(element, transition.classNamees);
           }
         }
       };
@@ -4472,7 +4472,7 @@
       });
     };
     const startTransitioning = (element, transition) => {
-      add$1(element, transition.classes);
+      add$1(element, transition.classNamees);
       getOpt(element, timerAttr).each(timerId => {
         clearTimeout(parseInt(timerId, 10));
         remove$8(element, timerAttr);
@@ -4497,7 +4497,7 @@
           reflow(element);
         }
       } else {
-        remove$2(element, transition.classes);
+        remove$2(element, transition.classNamees);
       }
     };
 
@@ -4511,10 +4511,10 @@
       const elementBox = elementSize(element);
       return attempts(element, options.preference, anchorBox, elementBox, bubbles, options.bounds);
     };
-    const setClasses = (element, decision) => {
-      const classInfo = decision.classes;
-      remove$2(element, classInfo.off);
-      add$1(element, classInfo.on);
+    const setclassNamees = (element, decision) => {
+      const classNameInfo = decision.classNamees;
+      remove$2(element, classNameInfo.off);
+      add$1(element, classNameInfo.on);
     };
     const setHeight = (element, decision, options) => {
       const maxHeightFunction = options.maxHeightFunction;
@@ -4570,7 +4570,7 @@
       const decision = layout(anchorBox, element, bubble, options);
       position$2(element, decision, options);
       setPlacement(element, decision);
-      setClasses(element, decision);
+      setclassNamees(element, decision);
       setHeight(element, decision, options);
       setWidth(element, decision, options);
       return {
@@ -4590,16 +4590,16 @@
       'right',
       'inset'
     ];
-    const nu$5 = (xOffset, yOffset, classes, insetModifier = 1) => {
+    const nu$5 = (xOffset, yOffset, classNamees, insetModifier = 1) => {
       const insetXOffset = xOffset * insetModifier;
       const insetYOffset = yOffset * insetModifier;
-      const getClasses = prop => get$h(classes, prop).getOr([]);
+      const getclassNamees = prop => get$h(classNamees, prop).getOr([]);
       const make = (xDelta, yDelta, alignmentsOn) => {
         const alignmentsOff = difference(allAlignments, alignmentsOn);
         return {
           offset: SugarPosition(xDelta, yDelta),
-          classesOn: bind$3(alignmentsOn, getClasses),
-          classesOff: bind$3(alignmentsOff, getClasses)
+          classNameesOn: bind$3(alignmentsOn, getclassNamees),
+          classNameesOff: bind$3(alignmentsOff, getclassNamees)
         };
       };
       return {
@@ -5231,7 +5231,7 @@
     });
 
     const TransitionSchema = [
-      requiredArrayOf('classes', string),
+      requiredArrayOf('classNamees', string),
       defaultedStringEnum('mode', 'all', [
         'all',
         'layout',
@@ -6262,16 +6262,16 @@
       set$9(component.element, 'aria-disabled', 'false');
     };
     const disable = (component, disableConfig, _disableState) => {
-      disableConfig.disableClass.each(disableClass => {
-        add$2(component.element, disableClass);
+      disableConfig.disableclassName.each(disableclassName => {
+        add$2(component.element, disableclassName);
       });
       const f = hasNative(component, disableConfig) ? nativeDisable : ariaDisable;
       f(component);
       disableConfig.onDisabled(component);
     };
     const enable = (component, disableConfig, _disableState) => {
-      disableConfig.disableClass.each(disableClass => {
-        remove$3(component.element, disableClass);
+      disableConfig.disableclassName.each(disableclassName => {
+        remove$3(component.element, disableclassName);
       });
       const f = hasNative(component, disableConfig) ? nativeEnable : ariaEnable;
       f(component);
@@ -6292,7 +6292,7 @@
         set: set$4
     });
 
-    const exhibit$5 = (base, disableConfig) => nu$8({ classes: disableConfig.disabled() ? disableConfig.disableClass.toArray() : [] });
+    const exhibit$5 = (base, disableConfig) => nu$8({ classNamees: disableConfig.disabled() ? disableConfig.disableclassName.toArray() : [] });
     const events$d = (disableConfig, disableState) => derive$2([
       abort(execute$5(), (component, _simulatedEvent) => isDisabled$1(component, disableConfig)),
       loadEvent(disableConfig, disableState, onLoad$1)
@@ -6307,7 +6307,7 @@
     var DisableSchema = [
       defaultedFunction('disabled', never),
       defaulted('useNative', true),
-      option$3('disableClass'),
+      option$3('disableclassName'),
       onHandler('onDisabled'),
       onHandler('onEnabled')
     ];
@@ -6320,11 +6320,11 @@
     });
 
     const dehighlightAllExcept = (component, hConfig, hState, skip) => {
-      const highlighted = descendants(component.element, '.' + hConfig.highlightClass);
+      const highlighted = descendants(component.element, '.' + hConfig.highlightclassName);
       each$1(highlighted, h => {
         const shouldSkip = exists(skip, skipComp => eq(skipComp.element, h));
         if (!shouldSkip) {
-          remove$3(h, hConfig.highlightClass);
+          remove$3(h, hConfig.highlightclassName);
           component.getSystem().getByDom(h).each(target => {
             hConfig.onDehighlight(component, target);
             emit(target, dehighlight$1());
@@ -6335,7 +6335,7 @@
     const dehighlightAll = (component, hConfig, hState) => dehighlightAllExcept(component, hConfig, hState, []);
     const dehighlight = (component, hConfig, hState, target) => {
       if (isHighlighted(component, hConfig, hState, target)) {
-        remove$3(target.element, hConfig.highlightClass);
+        remove$3(target.element, hConfig.highlightclassName);
         hConfig.onDehighlight(component, target);
         emit(target, dehighlight$1());
       }
@@ -6343,7 +6343,7 @@
     const highlight = (component, hConfig, hState, target) => {
       dehighlightAllExcept(component, hConfig, hState, [target]);
       if (!isHighlighted(component, hConfig, hState, target)) {
-        add$2(target.element, hConfig.highlightClass);
+        add$2(target.element, hConfig.highlightclassName);
         hConfig.onHighlight(component, target);
         emit(target, highlight$1());
       }
@@ -6372,21 +6372,21 @@
         highlight(component, hConfig, hState, c);
       });
     };
-    const isHighlighted = (component, hConfig, hState, queryTarget) => has(queryTarget.element, hConfig.highlightClass);
-    const getHighlighted = (component, hConfig, _hState) => descendant(component.element, '.' + hConfig.highlightClass).bind(e => component.getSystem().getByDom(e).toOptional());
+    const isHighlighted = (component, hConfig, hState, queryTarget) => has(queryTarget.element, hConfig.highlightclassName);
+    const getHighlighted = (component, hConfig, _hState) => descendant(component.element, '.' + hConfig.highlightclassName).bind(e => component.getSystem().getByDom(e).toOptional());
     const getByIndex = (component, hConfig, hState, index) => {
-      const items = descendants(component.element, '.' + hConfig.itemClass);
+      const items = descendants(component.element, '.' + hConfig.itemclassName);
       return Optional.from(items[index]).fold(() => Result.error(new Error('No element found with index ' + index)), component.getSystem().getByDom);
     };
-    const getFirst = (component, hConfig, _hState) => descendant(component.element, '.' + hConfig.itemClass).bind(e => component.getSystem().getByDom(e).toOptional());
+    const getFirst = (component, hConfig, _hState) => descendant(component.element, '.' + hConfig.itemclassName).bind(e => component.getSystem().getByDom(e).toOptional());
     const getLast = (component, hConfig, _hState) => {
-      const items = descendants(component.element, '.' + hConfig.itemClass);
+      const items = descendants(component.element, '.' + hConfig.itemclassName);
       const last = items.length > 0 ? Optional.some(items[items.length - 1]) : Optional.none();
       return last.bind(c => component.getSystem().getByDom(c).toOptional());
     };
     const getDelta$2 = (component, hConfig, hState, delta) => {
-      const items = descendants(component.element, '.' + hConfig.itemClass);
-      const current = findIndex$1(items, item => has(item, hConfig.highlightClass));
+      const items = descendants(component.element, '.' + hConfig.itemclassName);
+      const current = findIndex$1(items, item => has(item, hConfig.highlightclassName));
       return current.bind(selected => {
         const dest = cycleBy(selected, delta, 0, items.length - 1);
         return component.getSystem().getByDom(items[dest]).toOptional();
@@ -6395,7 +6395,7 @@
     const getPrevious = (component, hConfig, hState) => getDelta$2(component, hConfig, hState, -1);
     const getNext = (component, hConfig, hState) => getDelta$2(component, hConfig, hState, +1);
     const getCandidates = (component, hConfig, _hState) => {
-      const items = descendants(component.element, '.' + hConfig.itemClass);
+      const items = descendants(component.element, '.' + hConfig.itemclassName);
       return cat(map$2(items, i => component.getSystem().getByDom(i).toOptional()));
     };
 
@@ -6418,8 +6418,8 @@
     });
 
     var HighlightSchema = [
-      required$1('highlightClass'),
-      required$1('itemClass'),
+      required$1('highlightclassName'),
+      required$1('itemclassName'),
       onHandler('onHighlight'),
       onHandler('onDehighlight')
     ];
@@ -6476,11 +6476,11 @@
 
     const rule = (matches, action) => ({
       matches,
-      classification: action
+      classNameification: action
     });
     const choose = (transitions, event) => {
       const transition = find$5(transitions, t => t.matches(event));
-      return transition.map(t => t.classification);
+      return transition.map(t => t.classNameification);
     };
 
     const reportFocusShifting = (component, prevFocus, newFocus) => {
@@ -7263,19 +7263,19 @@
       const ariaInfo = toggleConfig.aria;
       ariaInfo.update(component, ariaInfo, toggleState.get());
     };
-    const updateClass = (component, toggleConfig, toggleState) => {
-      toggleConfig.toggleClass.each(toggleClass => {
+    const updateclassName = (component, toggleConfig, toggleState) => {
+      toggleConfig.toggleclassName.each(toggleclassName => {
         if (toggleState.get()) {
-          add$2(component.element, toggleClass);
+          add$2(component.element, toggleclassName);
         } else {
-          remove$3(component.element, toggleClass);
+          remove$3(component.element, toggleclassName);
         }
       });
     };
     const set$2 = (component, toggleConfig, toggleState, state) => {
       const initialState = toggleState.get();
       toggleState.set(state);
-      updateClass(component, toggleConfig, toggleState);
+      updateclassName(component, toggleConfig, toggleState);
       updateAriaState(component, toggleConfig, toggleState);
       if (initialState !== state) {
         toggleConfig.onToggled(component, state);
@@ -7339,7 +7339,7 @@
 
     var ToggleSchema = [
       defaulted('selected', false),
-      option$3('toggleClass'),
+      option$3('toggleclassName'),
       defaulted('toggleOnExecute', true),
       onHandler('onToggled'),
       defaultedOf('aria', { mode: 'none' }, choose$1('mode', {
@@ -7638,7 +7638,7 @@
           return {
             type: u.type,
             ignoreFocus: detail.fakeFocus,
-            domModification: { classes: [detail.markers.item] }
+            domModification: { classNamees: [detail.markers.item] }
           };
         }
       })]);
@@ -7699,8 +7699,8 @@
       markers: detail.markers,
       behaviours: augment(detail.menuBehaviours, [
         Highlighting.config({
-          highlightClass: detail.markers.selectedItem,
-          itemClass: detail.markers.item,
+          highlightclassName: detail.markers.selectedItem,
+          itemclassName: detail.markers.item,
           onHighlight: detail.onHighlight,
           onDehighlight: detail.onDehighlight
         }),
@@ -8126,8 +8126,8 @@
             }
           }),
           Highlighting.config({
-            highlightClass: detail.markers.selectedMenu,
-            itemClass: detail.markers.menu
+            highlightclassName: detail.markers.selectedMenu,
+            itemclassName: detail.markers.menu
           }),
           Composing.config({
             find: container => {
@@ -8859,7 +8859,7 @@
     const getAttrs = elem => {
       const attributes = elem.dom.attributes !== undefined ? elem.dom.attributes : [];
       return foldl(attributes, (b, attr) => {
-        if (attr.name === 'class') {
+        if (attr.name === 'className') {
           return b;
         } else {
           return {
@@ -8869,16 +8869,16 @@
         }
       }, {});
     };
-    const getClasses = elem => Array.prototype.slice.call(elem.dom.classList, 0);
+    const getclassNamees = elem => Array.prototype.slice.call(elem.dom.classNameList, 0);
     const fromHtml = html => {
       const elem = SugarElement.fromHtml(html);
       const children$1 = children(elem);
       const attrs = getAttrs(elem);
-      const classes = getClasses(elem);
+      const classNamees = getclassNamees(elem);
       const contents = children$1.length === 0 ? {} : { innerHtml: get$8(elem) };
       return {
         tag: name$3(elem),
-        classes,
+        classNamees,
         attributes: attrs,
         ...contents
       };
@@ -9400,8 +9400,8 @@
     const mathMlDisallowed = freeze(['maction', 'maligngroup', 'malignmark', 'mlongdiv', 'mscarries', 'mscarry', 'msgroup', 'mstack', 'msline', 'msrow', 'semantics', 'annotation', 'annotation-xml', 'mprescripts', 'none']);
     const text$1 = freeze(['#text']);
 
-    const html = freeze(['accept', 'action', 'align', 'alt', 'autocapitalize', 'autocomplete', 'autopictureinpicture', 'autoplay', 'background', 'bgcolor', 'border', 'capture', 'cellpadding', 'cellspacing', 'checked', 'cite', 'class', 'clear', 'color', 'cols', 'colspan', 'controls', 'controlslist', 'coords', 'crossorigin', 'datetime', 'decoding', 'default', 'dir', 'disabled', 'disablepictureinpicture', 'disableremoteplayback', 'download', 'draggable', 'enctype', 'enterkeyhint', 'face', 'for', 'headers', 'height', 'hidden', 'high', 'href', 'hreflang', 'id', 'inputmode', 'integrity', 'ismap', 'kind', 'label', 'lang', 'list', 'loading', 'loop', 'low', 'max', 'maxlength', 'media', 'method', 'min', 'minlength', 'multiple', 'muted', 'name', 'nonce', 'noshade', 'novalidate', 'nowrap', 'open', 'optimum', 'pattern', 'placeholder', 'playsinline', 'popover', 'popovertarget', 'popovertargetaction', 'poster', 'preload', 'pubdate', 'radiogroup', 'readonly', 'rel', 'required', 'rev', 'reversed', 'role', 'rows', 'rowspan', 'spellcheck', 'scope', 'selected', 'shape', 'size', 'sizes', 'span', 'srclang', 'start', 'src', 'srcset', 'step', 'style', 'summary', 'tabindex', 'title', 'translate', 'type', 'usemap', 'valign', 'value', 'width', 'wrap', 'xmlns', 'slot']);
-    const svg = freeze(['accent-height', 'accumulate', 'additive', 'alignment-baseline', 'amplitude', 'ascent', 'attributename', 'attributetype', 'azimuth', 'basefrequency', 'baseline-shift', 'begin', 'bias', 'by', 'class', 'clip', 'clippathunits', 'clip-path', 'clip-rule', 'color', 'color-interpolation', 'color-interpolation-filters', 'color-profile', 'color-rendering', 'cx', 'cy', 'd', 'dx', 'dy', 'diffuseconstant', 'direction', 'display', 'divisor', 'dur', 'edgemode', 'elevation', 'end', 'exponent', 'fill', 'fill-opacity', 'fill-rule', 'filter', 'filterunits', 'flood-color', 'flood-opacity', 'font-family', 'font-size', 'font-size-adjust', 'font-stretch', 'font-style', 'font-variant', 'font-weight', 'fx', 'fy', 'g1', 'g2', 'glyph-name', 'glyphref', 'gradientunits', 'gradienttransform', 'height', 'href', 'id', 'image-rendering', 'in', 'in2', 'intercept', 'k', 'k1', 'k2', 'k3', 'k4', 'kerning', 'keypoints', 'keysplines', 'keytimes', 'lang', 'lengthadjust', 'letter-spacing', 'kernelmatrix', 'kernelunitlength', 'lighting-color', 'local', 'marker-end', 'marker-mid', 'marker-start', 'markerheight', 'markerunits', 'markerwidth', 'maskcontentunits', 'maskunits', 'max', 'mask', 'media', 'method', 'mode', 'min', 'name', 'numoctaves', 'offset', 'operator', 'opacity', 'order', 'orient', 'orientation', 'origin', 'overflow', 'paint-order', 'path', 'pathlength', 'patterncontentunits', 'patterntransform', 'patternunits', 'points', 'preservealpha', 'preserveaspectratio', 'primitiveunits', 'r', 'rx', 'ry', 'radius', 'refx', 'refy', 'repeatcount', 'repeatdur', 'restart', 'result', 'rotate', 'scale', 'seed', 'shape-rendering', 'slope', 'specularconstant', 'specularexponent', 'spreadmethod', 'startoffset', 'stddeviation', 'stitchtiles', 'stop-color', 'stop-opacity', 'stroke-dasharray', 'stroke-dashoffset', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'stroke-opacity', 'stroke', 'stroke-width', 'style', 'surfacescale', 'systemlanguage', 'tabindex', 'tablevalues', 'targetx', 'targety', 'transform', 'transform-origin', 'text-anchor', 'text-decoration', 'text-rendering', 'textlength', 'type', 'u1', 'u2', 'unicode', 'values', 'viewbox', 'visibility', 'version', 'vert-adv-y', 'vert-origin-x', 'vert-origin-y', 'width', 'word-spacing', 'wrap', 'writing-mode', 'xchannelselector', 'ychannelselector', 'x', 'x1', 'x2', 'xmlns', 'y', 'y1', 'y2', 'z', 'zoomandpan']);
+    const html = freeze(['accept', 'action', 'align', 'alt', 'autocapitalize', 'autocomplete', 'autopictureinpicture', 'autoplay', 'background', 'bgcolor', 'border', 'capture', 'cellpadding', 'cellspacing', 'checked', 'cite', 'className', 'clear', 'color', 'cols', 'colspan', 'controls', 'controlslist', 'coords', 'crossorigin', 'datetime', 'decoding', 'default', 'dir', 'disabled', 'disablepictureinpicture', 'disableremoteplayback', 'download', 'draggable', 'enctype', 'enterkeyhint', 'face', 'for', 'headers', 'height', 'hidden', 'high', 'href', 'hreflang', 'id', 'inputmode', 'integrity', 'ismap', 'kind', 'label', 'lang', 'list', 'loading', 'loop', 'low', 'max', 'maxlength', 'media', 'method', 'min', 'minlength', 'multiple', 'muted', 'name', 'nonce', 'noshade', 'novalidate', 'nowrap', 'open', 'optimum', 'pattern', 'placeholder', 'playsinline', 'popover', 'popovertarget', 'popovertargetaction', 'poster', 'preload', 'pubdate', 'radiogroup', 'readonly', 'rel', 'required', 'rev', 'reversed', 'role', 'rows', 'rowspan', 'spellcheck', 'scope', 'selected', 'shape', 'size', 'sizes', 'span', 'srclang', 'start', 'src', 'srcset', 'step', 'style', 'summary', 'tabindex', 'title', 'translate', 'type', 'usemap', 'valign', 'value', 'width', 'wrap', 'xmlns', 'slot']);
+    const svg = freeze(['accent-height', 'accumulate', 'additive', 'alignment-baseline', 'amplitude', 'ascent', 'attributename', 'attributetype', 'azimuth', 'basefrequency', 'baseline-shift', 'begin', 'bias', 'by', 'className', 'clip', 'clippathunits', 'clip-path', 'clip-rule', 'color', 'color-interpolation', 'color-interpolation-filters', 'color-profile', 'color-rendering', 'cx', 'cy', 'd', 'dx', 'dy', 'diffuseconstant', 'direction', 'display', 'divisor', 'dur', 'edgemode', 'elevation', 'end', 'exponent', 'fill', 'fill-opacity', 'fill-rule', 'filter', 'filterunits', 'flood-color', 'flood-opacity', 'font-family', 'font-size', 'font-size-adjust', 'font-stretch', 'font-style', 'font-variant', 'font-weight', 'fx', 'fy', 'g1', 'g2', 'glyph-name', 'glyphref', 'gradientunits', 'gradienttransform', 'height', 'href', 'id', 'image-rendering', 'in', 'in2', 'intercept', 'k', 'k1', 'k2', 'k3', 'k4', 'kerning', 'keypoints', 'keysplines', 'keytimes', 'lang', 'lengthadjust', 'letter-spacing', 'kernelmatrix', 'kernelunitlength', 'lighting-color', 'local', 'marker-end', 'marker-mid', 'marker-start', 'markerheight', 'markerunits', 'markerwidth', 'maskcontentunits', 'maskunits', 'max', 'mask', 'media', 'method', 'mode', 'min', 'name', 'numoctaves', 'offset', 'operator', 'opacity', 'order', 'orient', 'orientation', 'origin', 'overflow', 'paint-order', 'path', 'pathlength', 'patterncontentunits', 'patterntransform', 'patternunits', 'points', 'preservealpha', 'preserveaspectratio', 'primitiveunits', 'r', 'rx', 'ry', 'radius', 'refx', 'refy', 'repeatcount', 'repeatdur', 'restart', 'result', 'rotate', 'scale', 'seed', 'shape-rendering', 'slope', 'specularconstant', 'specularexponent', 'spreadmethod', 'startoffset', 'stddeviation', 'stitchtiles', 'stop-color', 'stop-opacity', 'stroke-dasharray', 'stroke-dashoffset', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'stroke-opacity', 'stroke', 'stroke-width', 'style', 'surfacescale', 'systemlanguage', 'tabindex', 'tablevalues', 'targetx', 'targety', 'transform', 'transform-origin', 'text-anchor', 'text-decoration', 'text-rendering', 'textlength', 'type', 'u1', 'u2', 'unicode', 'values', 'viewbox', 'visibility', 'version', 'vert-adv-y', 'vert-origin-x', 'vert-origin-y', 'width', 'word-spacing', 'wrap', 'writing-mode', 'xchannelselector', 'ychannelselector', 'x', 'x1', 'x2', 'xmlns', 'y', 'y1', 'y2', 'z', 'zoomandpan']);
     const mathMl = freeze(['accent', 'accentunder', 'align', 'bevelled', 'close', 'columnsalign', 'columnlines', 'columnspan', 'denomalign', 'depth', 'dir', 'display', 'displaystyle', 'encoding', 'fence', 'frame', 'height', 'href', 'id', 'largeop', 'length', 'linethickness', 'lspace', 'lquote', 'mathbackground', 'mathcolor', 'mathsize', 'mathvariant', 'maxsize', 'minsize', 'movablelimits', 'notation', 'numalign', 'open', 'rowalign', 'rowlines', 'rowspacing', 'rowspan', 'rspace', 'rquote', 'scriptlevel', 'scriptminsize', 'scriptsizemultiplier', 'selection', 'separator', 'separators', 'stretchy', 'subscriptshift', 'supscriptshift', 'symmetric', 'voffset', 'width', 'xmlns']);
     const xml = freeze(['xlink:href', 'xml:id', 'xlink:title', 'xml:space', 'xmlns:xlink']);
 
@@ -9714,7 +9714,7 @@
 
       /* Attributes safe for values like "javascript:" */
       let URI_SAFE_ATTRIBUTES = null;
-      const DEFAULT_URI_SAFE_ATTRIBUTES = addToSet({}, ['alt', 'class', 'for', 'id', 'label', 'name', 'pattern', 'placeholder', 'role', 'summary', 'title', 'value', 'style', 'xmlns']);
+      const DEFAULT_URI_SAFE_ATTRIBUTES = addToSet({}, ['alt', 'className', 'for', 'id', 'label', 'name', 'pattern', 'placeholder', 'role', 'summary', 'title', 'value', 'style', 'xmlns']);
       const MATHML_NAMESPACE = 'http://www.w3.org/1998/Math/MathML';
       const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
       const HTML_NAMESPACE = 'http://www.w3.org/1999/xhtml';
@@ -10800,13 +10800,13 @@
       })]);
     const renderIcon$3 = (spec, iconName, icons, fallbackIcon) => {
       var _a, _b;
-      const rtlIconClasses = needsRtlTransform(iconName) ? ['tox-icon--flip'] : [];
+      const rtlIconclassNamees = needsRtlTransform(iconName) ? ['tox-icon--flip'] : [];
       const iconHtml = get$h(icons, getIconName(iconName, icons)).or(fallbackIcon).getOrThunk(defaultIcon(icons));
       return {
         dom: {
           tag: spec.tag,
           attributes: (_a = spec.attributes) !== null && _a !== void 0 ? _a : {},
-          classes: spec.classes.concat(rtlIconClasses),
+          classNamees: spec.classNamees.concat(rtlIconclassNamees),
           innerHtml: iconHtml
         },
         behaviours: derive$1([
@@ -10839,21 +10839,21 @@
       const renderPercentBar = percent => ({
         dom: {
           tag: 'div',
-          classes: ['tox-bar'],
+          classNamees: ['tox-bar'],
           styles: { width: `${ percent }%` }
         }
       });
       const renderPercentText = percent => ({
         dom: {
           tag: 'div',
-          classes: ['tox-text'],
+          classNamees: ['tox-text'],
           innerHtml: `${ percent }%`
         }
       });
       const memBannerProgress = record({
         dom: {
           tag: 'div',
-          classes: detail.progress ? [
+          classNamees: detail.progress ? [
             'tox-progress-bar',
             'tox-progress-indicator'
           ] : ['tox-progress-bar']
@@ -10862,7 +10862,7 @@
           {
             dom: {
               tag: 'div',
-              classes: ['tox-bar-container']
+              classNamees: ['tox-bar-container']
             },
             components: [renderPercentBar(0)]
           },
@@ -10877,7 +10877,7 @@
               {
                 dom: {
                   tag: 'div',
-                  classes: ['tox-bar-container']
+                  classNamees: ['tox-bar-container']
                 },
                 components: [renderPercentBar(percent)]
               },
@@ -10904,7 +10904,7 @@
       const memButton = record(Button.sketch({
         dom: {
           tag: 'button',
-          classes: [
+          classNamees: [
             'tox-notification__dismiss',
             'tox-button',
             'tox-button--naked',
@@ -10914,7 +10914,7 @@
         },
         components: [render$3('close', {
             tag: 'span',
-            classes: ['tox-icon']
+            classNamees: ['tox-icon']
           }, detail.iconProvider)],
         buttonBehaviours: derive$1([
           Tabstopping.config({}),
@@ -10926,12 +10926,12 @@
       }));
       const notificationIconSpec = renderFirst(iconChoices, {
         tag: 'div',
-        classes: ['tox-notification__icon']
+        classNamees: ['tox-notification__icon']
       }, detail.iconProvider);
       const notificationBodySpec = {
         dom: {
           tag: 'div',
-          classes: ['tox-notification__body']
+          classNamees: ['tox-notification__body']
         },
         components: [memBannerText.asSpec()],
         behaviours: derive$1([Replacing.config({})])
@@ -10948,7 +10948,7 @@
             'role': 'alert',
             'aria-labelledby': notificationTextId
           },
-          classes: detail.level.map(level => [
+          classNamees: detail.level.map(level => [
             'tox-notification',
             'tox-notification--in',
             `tox-notification--${ level }`
@@ -11062,7 +11062,7 @@
           const notificationWrapper = build$1(InlineView.sketch({
             dom: {
               tag: 'div',
-              classes: ['tox-notifications-container'],
+              classNamees: ['tox-notifications-container'],
               attributes: {
                 'aria-label': 'Notifications',
                 'role': 'region'
@@ -11080,9 +11080,9 @@
               ...isStickyToolbar(editor) && !sharedBackstage.header.isPositionedAtTop() ? [] : [Docking.config({
                   contextual: {
                     lazyContext: () => Optional.some(box$1(getBoundsContainer())),
-                    fadeInClass: 'tox-notification-container-dock-fadein',
-                    fadeOutClass: 'tox-notification-container-dock-fadeout',
-                    transitionClass: 'tox-notification-container-dock-transition'
+                    fadeInclassName: 'tox-notification-container-dock-fadein',
+                    fadeOutclassName: 'tox-notification-container-dock-fadeout',
+                    transitionclassName: 'tox-notification-container-dock-transition'
                   },
                   modes: ['top'],
                   lazyViewport: comp => {
@@ -11213,30 +11213,30 @@
     }(ItemResponse || (ItemResponse = {})));
     var ItemResponse$1 = ItemResponse;
 
-    const navClass = 'tox-menu-nav__js';
-    const selectableClass = 'tox-collection__item';
-    const colorClass = 'tox-swatch';
-    const presetClasses = {
-      normal: navClass,
-      color: colorClass
+    const navclassName = 'tox-menu-nav__js';
+    const selectableclassName = 'tox-collection__item';
+    const colorclassName = 'tox-swatch';
+    const presetclassNamees = {
+      normal: navclassName,
+      color: colorclassName
     };
-    const tickedClass = 'tox-collection__item--enabled';
-    const groupHeadingClass = 'tox-collection__group-heading';
-    const iconClass = 'tox-collection__item-icon';
-    const textClass = 'tox-collection__item-label';
-    const accessoryClass = 'tox-collection__item-accessory';
-    const caretClass = 'tox-collection__item-caret';
-    const checkmarkClass = 'tox-collection__item-checkmark';
-    const activeClass = 'tox-collection__item--active';
-    const containerClass = 'tox-collection__item-container';
-    const containerColumnClass = 'tox-collection__item-container--column';
-    const containerRowClass = 'tox-collection__item-container--row';
-    const containerAlignRightClass = 'tox-collection__item-container--align-right';
-    const containerAlignLeftClass = 'tox-collection__item-container--align-left';
-    const containerValignTopClass = 'tox-collection__item-container--valign-top';
-    const containerValignMiddleClass = 'tox-collection__item-container--valign-middle';
-    const containerValignBottomClass = 'tox-collection__item-container--valign-bottom';
-    const classForPreset = presets => get$h(presetClasses, presets).getOr(navClass);
+    const tickedclassName = 'tox-collection__item--enabled';
+    const groupHeadingclassName = 'tox-collection__group-heading';
+    const iconclassName = 'tox-collection__item-icon';
+    const textclassName = 'tox-collection__item-label';
+    const accessoryclassName = 'tox-collection__item-accessory';
+    const caretclassName = 'tox-collection__item-caret';
+    const checkmarkclassName = 'tox-collection__item-checkmark';
+    const activeclassName = 'tox-collection__item--active';
+    const containerclassName = 'tox-collection__item-container';
+    const containerColumnclassName = 'tox-collection__item-container--column';
+    const containerRowclassName = 'tox-collection__item-container--row';
+    const containerAlignRightclassName = 'tox-collection__item-container--align-right';
+    const containerAlignLeftclassName = 'tox-collection__item-container--align-left';
+    const containerValignTopclassName = 'tox-collection__item-container--valign-top';
+    const containerValignMiddleclassName = 'tox-collection__item-container--valign-middle';
+    const containerValignBottomclassName = 'tox-collection__item-container--valign-bottom';
+    const classNameForPreset = presets => get$h(presetclassNamees, presets).getOr(navclassName);
 
     const forMenu = presets => {
       if (presets === 'color') {
@@ -11245,7 +11245,7 @@
         return 'tox-menu';
       }
     };
-    const classes = presets => ({
+    const classNamees = presets => ({
       backgroundMenu: 'tox-background-menu',
       selectedMenu: 'tox-selected-menu',
       selectedItem: 'tox-collection__item--active',
@@ -11255,34 +11255,34 @@
     });
 
     const markers = presets => {
-      const menuClasses = classes(presets);
+      const menuclassNamees = classNamees(presets);
       return {
-        backgroundMenu: menuClasses.backgroundMenu,
-        selectedMenu: menuClasses.selectedMenu,
-        menu: menuClasses.menu,
-        selectedItem: menuClasses.selectedItem,
-        item: classForPreset(presets)
+        backgroundMenu: menuclassNamees.backgroundMenu,
+        selectedMenu: menuclassNamees.selectedMenu,
+        menu: menuclassNamees.menu,
+        selectedItem: menuclassNamees.selectedItem,
+        item: classNameForPreset(presets)
       };
     };
     const dom$1 = (hasIcons, columns, presets) => {
-      const menuClasses = classes(presets);
+      const menuclassNamees = classNamees(presets);
       return {
         tag: 'div',
-        classes: flatten([
+        classNamees: flatten([
           [
-            menuClasses.menu,
+            menuclassNamees.menu,
             `tox-menu-${ columns }-column`
           ],
-          hasIcons ? [menuClasses.hasIcons] : []
+          hasIcons ? [menuclassNamees.hasIcons] : []
         ])
       };
     };
     const components = [Menu.parts.items({})];
     const part = (hasIcons, columns, presets) => {
-      const menuClasses = classes(presets);
+      const menuclassNamees = classNamees(presets);
       const d = {
         tag: 'div',
-        classes: flatten([[menuClasses.tieredMenu]])
+        classNamees: flatten([[menuclassNamees.tieredMenu]])
       };
       return {
         dom: d,
@@ -11296,7 +11296,7 @@
       defaulted('inputAttributes', {}),
       defaulted('inputStyles', {}),
       defaulted('tag', 'input'),
-      defaulted('inputClasses', []),
+      defaulted('inputclassNamees', []),
       onHandler('onSetValue'),
       defaultedFunction('fromInputValue', identity),
       defaultedFunction('toInputValue', identity),
@@ -11343,7 +11343,7 @@
         ...detail.inputAttributes
       },
       styles: detail.inputStyles,
-      classes: detail.inputClasses
+      classNamees: detail.inputclassNamees
     });
 
     const factory$l = (detail, _spec) => ({
@@ -11362,9 +11362,9 @@
     const refetchTriggerEvent = generate$6('refetch-trigger-event');
     const redirectMenuItemInteractionEvent = generate$6('redirect-menu-item-interaction');
 
-    const menuSearcherClass = 'tox-menu__searcher';
+    const menuSearcherclassName = 'tox-menu__searcher';
     const findWithinSandbox = sandboxComp => {
-      return descendant(sandboxComp.element, `.${ menuSearcherClass }`).bind(inputElem => sandboxComp.getSystem().getByDom(inputElem).toOptional());
+      return descendant(sandboxComp.element, `.${ menuSearcherclassName }`).bind(inputElem => sandboxComp.getSystem().getByDom(inputElem).toOptional());
     };
     const findWithinMenu = findWithinSandbox;
     const restoreState = (inputComp, searcherState) => {
@@ -11402,11 +11402,11 @@
       return {
         dom: {
           tag: 'div',
-          classes: [selectableClass]
+          classNamees: [selectableclassName]
         },
         components: [Input.sketch({
-            inputClasses: [
-              menuSearcherClass,
+            inputclassNamees: [
+              menuSearcherclassName,
               'tox-textfield'
             ],
             inputAttributes: {
@@ -11446,7 +11446,7 @@
       };
     };
 
-    const searchResultsClass = 'tox-collection--results__js';
+    const searchResultsclassName = 'tox-collection--results__js';
     const augmentWithAria = item => {
       var _a;
       if (item.dom) {
@@ -11476,7 +11476,7 @@
     const forSwatch = columns => ({
       dom: {
         tag: 'div',
-        classes: [
+        classNamees: [
           'tox-menu',
           'tox-swatches-menu'
         ]
@@ -11484,12 +11484,12 @@
       components: [{
           dom: {
             tag: 'div',
-            classes: ['tox-swatches']
+            classNamees: ['tox-swatches']
           },
           components: [Menu.parts.items({
               preprocess: columns !== 'auto' ? chunk({
                 tag: 'div',
-                classes: ['tox-swatches__row']
+                classNamees: ['tox-swatches__row']
               }, columns) : identity
             })]
         }]
@@ -11497,7 +11497,7 @@
     const forToolbar = columns => ({
       dom: {
         tag: 'div',
-        classes: [
+        classNamees: [
           'tox-menu',
           'tox-collection',
           'tox-collection--toolbar',
@@ -11507,7 +11507,7 @@
       components: [Menu.parts.items({
           preprocess: chunk({
             tag: 'div',
-            classes: ['tox-collection__group']
+            classNamees: ['tox-collection__group']
           }, columns)
         })]
     });
@@ -11533,7 +11533,7 @@
       return map$2(allSplits, s => ({
         dom: {
           tag: 'div',
-          classes: ['tox-collection__group']
+          classNamees: ['tox-collection__group']
         },
         components: s
       }));
@@ -11545,7 +11545,7 @@
           if (columns !== 'auto' && columns > 1) {
             return chunk({
               tag: 'div',
-              classes: ['tox-collection__group']
+              classNamees: ['tox-collection__group']
             }, columns)(enrichedItems);
           } else {
             return preprocessCollection(enrichedItems, (_item, i) => initItems[i].type === 'separator');
@@ -11556,7 +11556,7 @@
     const forCollection = (columns, initItems, _hasIcons = true) => ({
       dom: {
         tag: 'div',
-        classes: [
+        classNamees: [
           'tox-menu',
           'tox-collection'
         ].concat(columns === 1 ? ['tox-collection--list'] : ['tox-collection--grid'])
@@ -11568,10 +11568,10 @@
       return {
         dom: {
           tag: 'div',
-          classes: [
+          classNamees: [
             'tox-menu',
             'tox-collection',
-            searchResultsClass
+            searchResultsclassName
           ].concat(columns === 1 ? ['tox-collection--list'] : ['tox-collection--grid']),
           attributes: { id: ariaControlsSearchResults }
         },
@@ -11583,7 +11583,7 @@
       return {
         dom: {
           tag: 'div',
-          classes: [
+          classNamees: [
             'tox-menu',
             'tox-collection'
           ].concat(columns === 1 ? ['tox-collection--list'] : ['tox-collection--grid'])
@@ -11596,9 +11596,9 @@
           {
             dom: {
               tag: 'div',
-              classes: [
+              classNamees: [
                 ...columns === 1 ? ['tox-collection--list'] : ['tox-collection--grid'],
-                searchResultsClass
+                searchResultsclassName
               ],
               attributes: { id: ariaControlsSearchResults }
             },
@@ -11610,7 +11610,7 @@
     const forHorizontalCollection = (initItems, _hasIcons = true) => ({
       dom: {
         tag: 'div',
-        classes: [
+        classNamees: [
           'tox-collection',
           'tox-collection--horizontal'
         ]
@@ -11855,7 +11855,7 @@
       type,
       requiredString('src'),
       optionString('alt'),
-      defaultedArrayOf('classes', [], string)
+      defaultedArrayOf('classNamees', [], string)
     ];
     const cardImageSchema = objOf(cardImageFields);
 
@@ -11863,7 +11863,7 @@
       type,
       text,
       optionalName,
-      defaultedArrayOf('classes', ['tox-collection__item-label'], string)
+      defaultedArrayOf('classNamees', ['tox-collection__item-label'], string)
     ];
     const cardTextSchema = objOf(cardTextFields);
 
@@ -11951,8 +11951,8 @@
     ].concat(commonMenuItemFields));
     const createToggleMenuItem = spec => asRaw('togglemenuitem', toggleMenuItemSchema, spec);
 
-    const detectSize = (comp, margin, selectorClass) => {
-      const descendants$1 = descendants(comp.element, '.' + selectorClass);
+    const detectSize = (comp, margin, selectorclassName) => {
+      const descendants$1 = descendants(comp.element, '.' + selectorclassName);
       if (descendants$1.length > 0) {
         const columnLength = findIndex$1(descendants$1, c => {
           const thisTop = c.dom.getBoundingClientRect().top;
@@ -11979,16 +11979,16 @@
 
     const item = disabled => Disabling.config({
       disabled,
-      disableClass: 'tox-collection__item--state-disabled'
+      disableclassName: 'tox-collection__item--state-disabled'
     });
     const button = disabled => Disabling.config({ disabled });
     const splitButton = disabled => Disabling.config({
       disabled,
-      disableClass: 'tox-tbtn--disabled'
+      disableclassName: 'tox-tbtn--disabled'
     });
     const toolbarButton = disabled => Disabling.config({
       disabled,
-      disableClass: 'tox-tbtn--disabled',
+      disableclassName: 'tox-tbtn--disabled',
       useNative: false
     });
     const DisablingConfigs = {
@@ -12151,28 +12151,28 @@
       return isMac ? updated.join('') : updated.join('+');
     };
 
-    const renderIcon$2 = (name, icons, classes = [iconClass]) => render$3(name, {
+    const renderIcon$2 = (name, icons, classNamees = [iconclassName]) => render$3(name, {
       tag: 'div',
-      classes
+      classNamees
     }, icons);
     const renderText = text => ({
       dom: {
         tag: 'div',
-        classes: [textClass]
+        classNamees: [textclassName]
       },
       components: [text$2(global$5.translate(text))]
     });
-    const renderHtml = (html, classes) => ({
+    const renderHtml = (html, classNamees) => ({
       dom: {
         tag: 'div',
-        classes,
+        classNamees,
         innerHtml: html
       }
     });
     const renderStyledText = (style, text) => ({
       dom: {
         tag: 'div',
-        classes: [textClass]
+        classNamees: [textclassName]
       },
       components: [{
           dom: {
@@ -12185,43 +12185,43 @@
     const renderShortcut = shortcut => ({
       dom: {
         tag: 'div',
-        classes: [accessoryClass]
+        classNamees: [accessoryclassName]
       },
       components: [text$2(convertText(shortcut))]
     });
-    const renderCheckmark = icons => renderIcon$2('checkmark', icons, [checkmarkClass]);
-    const renderSubmenuCaret = icons => renderIcon$2('chevron-right', icons, [caretClass]);
-    const renderDownwardsCaret = icons => renderIcon$2('chevron-down', icons, [caretClass]);
+    const renderCheckmark = icons => renderIcon$2('checkmark', icons, [checkmarkclassName]);
+    const renderSubmenuCaret = icons => renderIcon$2('chevron-right', icons, [caretclassName]);
+    const renderDownwardsCaret = icons => renderIcon$2('chevron-down', icons, [caretclassName]);
     const renderContainer = (container, components) => {
-      const directionClass = container.direction === 'vertical' ? containerColumnClass : containerRowClass;
-      const alignClass = container.align === 'left' ? containerAlignLeftClass : containerAlignRightClass;
-      const getValignClass = () => {
+      const directionclassName = container.direction === 'vertical' ? containerColumnclassName : containerRowclassName;
+      const alignclassName = container.align === 'left' ? containerAlignLeftclassName : containerAlignRightclassName;
+      const getValignclassName = () => {
         switch (container.valign) {
         case 'top':
-          return containerValignTopClass;
+          return containerValignTopclassName;
         case 'middle':
-          return containerValignMiddleClass;
+          return containerValignMiddleclassName;
         case 'bottom':
-          return containerValignBottomClass;
+          return containerValignBottomclassName;
         }
       };
       return {
         dom: {
           tag: 'div',
-          classes: [
-            containerClass,
-            directionClass,
-            alignClass,
-            getValignClass()
+          classNamees: [
+            containerclassName,
+            directionclassName,
+            alignclassName,
+            getValignclassName()
           ]
         },
         components
       };
     };
-    const renderImage = (src, classes, alt) => ({
+    const renderImage = (src, classNamees, alt) => ({
       dom: {
         tag: 'img',
-        classes,
+        classNamees,
         attributes: {
           src,
           alt: alt.getOr('')
@@ -12239,19 +12239,19 @@
         'data-mce-name': al
       })).getOr({});
       const getDom = () => {
-        const common = colorClass;
+        const common = colorclassName;
         const icon = iconSvg.getOr('');
         const baseDom = {
           tag: 'div',
           attributes,
-          classes: [common]
+          classNamees: [common]
         };
         if (itemValue === colorPickerCommand) {
           return {
             ...baseDom,
             tag: 'button',
-            classes: [
-              ...baseDom.classes,
+            classNamees: [
+              ...baseDom.classNamees,
               'tox-swatches__picker-btn'
             ],
             innerHtml: icon
@@ -12259,8 +12259,8 @@
         } else if (itemValue === removeColorCommand) {
           return {
             ...baseDom,
-            classes: [
-              ...baseDom.classes,
+            classNamees: [
+              ...baseDom.classNamees,
               'tox-swatch--remove'
             ],
             innerHtml: icon
@@ -12293,9 +12293,9 @@
       })).getOr({});
       return {
         tag: 'div',
-        classes: [
-          navClass,
-          selectableClass
+        classNamees: [
+          navclassName,
+          selectableclassName
         ],
         ...domTitle
       };
@@ -12303,14 +12303,14 @@
     const renderNormalItemStructure = (info, providersBackstage, renderIcons, fallbackIcon) => {
       const iconSpec = {
         tag: 'div',
-        classes: [iconClass]
+        classNamees: [iconclassName]
       };
       const renderIcon = iconName => render$3(iconName, iconSpec, providersBackstage.icons, fallbackIcon);
       const renderEmptyIcon = () => Optional.some({ dom: iconSpec });
       const leftIcon = renderIcons ? info.iconContent.map(renderIcon).orThunk(renderEmptyIcon) : Optional.none();
       const checkmark = info.checkMark;
       const textRender = Optional.from(info.meta).fold(() => renderText, meta => has$2(meta, 'style') ? curry(renderStyledText, meta.style) : renderText);
-      const content = info.htmlContent.fold(() => info.textContent.map(textRender), html => Optional.some(renderHtml(html, [textClass])));
+      const content = info.htmlContent.fold(() => info.textContent.map(textRender), html => Optional.some(renderHtml(html, [textclassName])));
       const menuItem = {
         dom: renderItemDomStructure(info.ariaLabel),
         optComponents: [
@@ -12335,7 +12335,7 @@
         lazySink: sharedBackstage.getSink,
         tooltipDom: {
           tag: 'div',
-          classes: ['tox-tooltip-worker-container']
+          classNamees: ['tox-tooltip-worker-container']
         },
         tooltipComponents: [],
         anchor: comp => ({
@@ -12361,7 +12361,7 @@
       const encoded = encodeText(translated);
       if (matchText.length > 0) {
         const escapedMatchRegex = new RegExp(escape(matchText), 'gi');
-        return encoded.replace(escapedMatchRegex, match => `<span class="tox-autocompleter-highlight">${ match }</span>`);
+        return encoded.replace(escapedMatchRegex, match => `<span className="tox-autocompleter-highlight">${ match }</span>`);
       } else {
         return encoded;
       }
@@ -12396,11 +12396,11 @@
       case 'cardcontainer':
         return renderContainer(item, render$2(item.items, extras));
       case 'cardimage':
-        return renderImage(item.src, item.classes, item.alt);
+        return renderImage(item.src, item.classNamees, item.alt);
       case 'cardtext':
         const shouldHighlight = item.name.exists(name => contains$2(extras.cardText.highlightOn, name));
         const matchText = shouldHighlight ? Optional.from(extras.cardText.matchText).getOr('') : '';
-        return renderHtml(replaceText(item.text, matchText), item.classes);
+        return renderHtml(replaceText(item.text, matchText), item.classNamees);
       }
     });
     const renderCardMenuItem = (spec, itemResponse, sharedBackstage, extras) => {
@@ -12422,9 +12422,9 @@
         optComponents: [Optional.some({
             dom: {
               tag: 'div',
-              classes: [
-                containerClass,
-                containerRowClass
+              classNamees: [
+                containerclassName,
+                containerRowclassName
               ]
             },
             components: render$2(spec.items, extras)
@@ -12480,7 +12480,7 @@
         itemBehaviours: [...optTooltipping.toArray()]
       }, structure, itemResponse, providersBackstage), {
         toggling: {
-          toggleClass: tickedClass,
+          toggleclassName: tickedclassName,
           toggleOnExecute: false,
           selected: spec.active,
           exclusive: true
@@ -13259,10 +13259,10 @@
           }
         };
       } else {
-        const rowClass = presets === 'color' ? 'tox-swatches__row' : 'tox-collection__group';
+        const rowclassName = presets === 'color' ? 'tox-swatches__row' : 'tox-collection__group';
         return {
           mode: 'matrix',
-          rowSelector: '.' + rowClass,
+          rowSelector: '.' + rowclassName,
           previousSelector: menu => {
             return presets === 'color' ? descendant(menu.element, '[aria-checked=true]') : Optional.none();
           }
@@ -13290,7 +13290,7 @@
           mode: 'matrix',
           selectors: {
             row: presets === 'color' ? '.tox-swatches__row' : '.tox-collection__group',
-            cell: presets === 'color' ? `.${ colorClass }` : `.${ selectableClass }`
+            cell: presets === 'color' ? `.${ colorclassName }` : `.${ selectableclassName }`
           }
         };
       }
@@ -13314,7 +13314,7 @@
         data: { value: generate$6('widget-id') },
         dom: {
           tag: 'div',
-          classes: ['tox-fancymenuitem']
+          classNamees: ['tox-fancymenuitem']
         },
         autofocus: true,
         components: [parts$f.widget(Menu.sketch(widgetSpec))]
@@ -13361,7 +13361,7 @@
             run$1(tap(), onClick)
           ]),
           Toggling.config({
-            toggleClass: 'tox-insert-table-picker__selected',
+            toggleclassName: 'tox-insert-table-picker__selected',
             toggleOnExecute: false
           }),
           Focusing.config({ onFocus: emitCellOver })
@@ -13398,7 +13398,7 @@
       const memLabel = record({
         dom: {
           tag: 'span',
-          classes: ['tox-insert-table-picker__label']
+          classNamees: ['tox-insert-table-picker__label']
         },
         components: [emptyLabelText],
         behaviours: derive$1([Replacing.config({})])
@@ -13408,13 +13408,13 @@
         data: { value: generate$6('widget-id') },
         dom: {
           tag: 'div',
-          classes: ['tox-fancymenuitem']
+          classNamees: ['tox-fancymenuitem']
         },
         autofocus: true,
         components: [parts$f.widget({
             dom: {
               tag: 'div',
-              classes: ['tox-insert-table-picker']
+              classNamees: ['tox-insert-table-picker']
             },
             components: makeComponents(cells).concat(memLabel.asSpec()),
             behaviours: derive$1([
@@ -13461,7 +13461,7 @@
         isEnabled: () => !Disabling.isDisabled(component),
         setEnabled: state => Disabling.set(component, !state),
         setIconFill: (id, value) => {
-          descendant(component.element, `svg path[class="${ id }"], rect[class="${ id }"]`).each(underlinePath => {
+          descendant(component.element, `svg path[className="${ id }"], rect[className="${ id }"]`).each(underlinePath => {
             set$9(underlinePath, 'fill', value);
           });
         },
@@ -13523,9 +13523,9 @@
       type: 'separator',
       dom: {
         tag: 'div',
-        classes: [
-          selectableClass,
-          groupHeadingClass
+        classNamees: [
+          selectableclassName,
+          groupHeadingclassName
         ]
       },
       components: spec.text.map(text$2).toArray()
@@ -13562,7 +13562,7 @@
         itemBehaviours: []
       }, structure, itemResponse, providersBackstage), {
         toggling: {
-          toggleClass: tickedClass,
+          toggleclassName: tickedclassName,
           toggleOnExecute: false,
           selected: spec.active
         },
@@ -13882,7 +13882,7 @@
       return {
         dom: {
           tag: 'div',
-          classes: detail.sandboxClasses,
+          classNamees: detail.sandboxclassNamees,
           attributes: { id: ariaControls.id }
         },
         behaviours: SketchBehaviours.augment(detail.sandboxBehaviours, [
@@ -13922,7 +13922,7 @@
     };
 
     const sandboxFields = () => [
-      defaulted('sandboxClasses', []),
+      defaulted('sandboxclassNamees', []),
       SketchBehaviours.field('sandboxBehaviours', [
         Composing,
         Receiving,
@@ -13945,7 +13945,7 @@
         Keying,
         Focusing
       ]),
-      required$1('toggleClass'),
+      required$1('toggleclassName'),
       defaulted('eventOrder', {}),
       option$3('lazySink'),
       defaulted('matchWidth', false),
@@ -14022,7 +14022,7 @@
         components,
         behaviours: augment(detail.dropdownBehaviours, [
           Toggling.config({
-            toggleClass: detail.toggleClass,
+            toggleclassName: detail.toggleclassName,
             aria: { mode: 'expanded' }
           }),
           Coupling.config({
@@ -14123,7 +14123,7 @@
       return Sandboxing.getState(sandboxComp).bind(Highlighting.getHighlighted).bind(Highlighting.getHighlighted);
     };
     const getSearchResults = activeMenuComp => {
-      return has(activeMenuComp.element, searchResultsClass) ? Optional.some(activeMenuComp.element) : descendant(activeMenuComp.element, '.' + searchResultsClass);
+      return has(activeMenuComp.element, searchResultsclassName) ? Optional.some(activeMenuComp.element) : descendant(activeMenuComp.element, '.' + searchResultsclassName);
     };
     const updateAriaOnHighlight = (tmenuComp, menuComp, itemComp) => {
       findWithinMenu(tmenuComp).each(inputComp => {
@@ -14250,7 +14250,7 @@
       const autocompleter = build$1(InlineView.sketch({
         dom: {
           tag: 'div',
-          classes: ['tox-autocompleter'],
+          classNamees: ['tox-autocompleter'],
           attributes: { id: autocompleterId }
         },
         components: [],
@@ -14914,7 +14914,7 @@
     const renderBar = (spec, backstage) => ({
       dom: {
         tag: 'div',
-        classes: [
+        classNamees: [
           'tox-bar',
           'tox-form__controls-h-stack'
         ]
@@ -15029,25 +15029,25 @@
 
     var global$3 = tinymce.util.Tools.resolve('tinymce.html.Entities');
 
-    const renderFormFieldWith = (pLabel, pField, extraClasses, extraBehaviours) => {
-      const spec = renderFormFieldSpecWith(pLabel, pField, extraClasses, extraBehaviours);
+    const renderFormFieldWith = (pLabel, pField, extraclassNamees, extraBehaviours) => {
+      const spec = renderFormFieldSpecWith(pLabel, pField, extraclassNamees, extraBehaviours);
       return FormField.sketch(spec);
     };
     const renderFormField = (pLabel, pField) => renderFormFieldWith(pLabel, pField, [], []);
-    const renderFormFieldSpecWith = (pLabel, pField, extraClasses, extraBehaviours) => ({
-      dom: renderFormFieldDomWith(extraClasses),
+    const renderFormFieldSpecWith = (pLabel, pField, extraclassNamees, extraBehaviours) => ({
+      dom: renderFormFieldDomWith(extraclassNamees),
       components: pLabel.toArray().concat([pField]),
       fieldBehaviours: derive$1(extraBehaviours)
     });
     const renderFormFieldDom = () => renderFormFieldDomWith([]);
-    const renderFormFieldDomWith = extraClasses => ({
+    const renderFormFieldDomWith = extraclassNamees => ({
       tag: 'div',
-      classes: ['tox-form__group'].concat(extraClasses)
+      classNamees: ['tox-form__group'].concat(extraclassNamees)
     });
     const renderLabel$3 = (label, providersBackstage) => FormField.parts.label({
       dom: {
         tag: 'label',
-        classes: ['tox-label']
+        classNamees: ['tox-label']
       },
       components: [text$2(providersBackstage.translate(label))]
     });
@@ -15077,21 +15077,21 @@
       };
       const setContents = (comp, items) => {
         const disabled = providersBackstage.checkUiComponentContext('mode:design').shouldDisable || providersBackstage.isDisabled();
-        const disabledClass = disabled ? ' tox-collection__item--state-disabled' : '';
+        const disabledclassName = disabled ? ' tox-collection__item--state-disabled' : '';
         const htmlLines = map$2(items, item => {
           const itemText = global$5.translate(item.text);
-          const textContent = spec.columns === 1 ? `<div class="tox-collection__item-label">${ itemText }</div>` : '';
-          const iconContent = `<div class="tox-collection__item-icon">${ getIcon(item.icon) }</div>`;
+          const textContent = spec.columns === 1 ? `<div className="tox-collection__item-label">${ itemText }</div>` : '';
+          const iconContent = `<div className="tox-collection__item-icon">${ getIcon(item.icon) }</div>`;
           const mapItemName = {
             '_': ' ',
             ' - ': ' ',
             '-': ' '
           };
           const ariaLabel = itemText.replace(/\_| \- |\-/g, match => mapItemName[match]);
-          return `<div data-mce-tooltip="${ ariaLabel }" class="tox-collection__item${ disabledClass }" tabindex="-1" data-collection-item-value="${ global$3.encodeAllRaw(item.value) }" aria-label="${ ariaLabel }">${ iconContent }${ textContent }</div>`;
+          return `<div data-mce-tooltip="${ ariaLabel }" className="tox-collection__item${ disabledclassName }" tabindex="-1" data-collection-item-value="${ global$3.encodeAllRaw(item.value) }" aria-label="${ ariaLabel }">${ iconContent }${ textContent }</div>`;
         });
         const chunks = spec.columns !== 'auto' && spec.columns > 1 ? chunk$1(htmlLines, spec.columns) : [htmlLines];
-        const html = map$2(chunks, ch => `<div class="tox-collection__group">${ ch.join('') }</div>`);
+        const html = map$2(chunks, ch => `<div className="tox-collection__group">${ ch.join('') }</div>`);
         set$6(comp.element, html.join(''));
       };
       const onClick = runOnItem((comp, se, tgt, itemValue) => {
@@ -15110,14 +15110,14 @@
         run$1(click(), onClick),
         run$1(tap(), onClick),
         run$1(focusin(), runOnItem((comp, se, tgt) => {
-          descendant(comp.element, '.' + activeClass).each(currentActive => {
-            remove$3(currentActive, activeClass);
+          descendant(comp.element, '.' + activeclassName).each(currentActive => {
+            remove$3(currentActive, activeclassName);
           });
-          add$2(tgt, activeClass);
+          add$2(tgt, activeclassName);
         })),
         run$1(focusout(), runOnItem(comp => {
-          descendant(comp.element, '.' + activeClass).each(currentActive => {
-            remove$3(currentActive, activeClass);
+          descendant(comp.element, '.' + activeclassName).each(currentActive => {
+            remove$3(currentActive, activeclassName);
             blur$1(currentActive);
           });
         })),
@@ -15132,7 +15132,7 @@
       const pField = FormField.parts.field({
         dom: {
           tag: 'div',
-          classes: ['tox-collection'].concat(spec.columns !== 1 ? ['tox-collection--grid'] : ['tox-collection--list'])
+          classNamees: ['tox-collection'].concat(spec.columns !== 1 ? ['tox-collection--grid'] : ['tox-collection--list'])
         },
         components: [],
         factory: { sketch: identity },
@@ -15158,7 +15158,7 @@
             ...providersBackstage.tooltips.getConfig({
               tooltipText: '',
               onShow: comp => {
-                descendant(comp.element, '.' + activeClass + '[data-mce-tooltip]').each(current => {
+                descendant(comp.element, '.' + activeclassName + '[data-mce-tooltip]').each(current => {
                   getOpt(current, 'data-mce-tooltip').each(text => {
                     Tooltipping.setComponents(comp, providersBackstage.tooltips.getComponents({ tooltipText: text }));
                   });
@@ -15168,7 +15168,7 @@
             mode: 'children-keyboard-focus',
             anchor: comp => ({
               type: 'node',
-              node: descendant(comp.element, '.' + activeClass).orThunk(() => first$1('.tox-collection__item')),
+              node: descendant(comp.element, '.' + activeclassName).orThunk(() => first$1('.tox-collection__item')),
               root: comp.element,
               layouts: {
                 onLtr: constant$1([
@@ -15222,8 +15222,8 @@
           ]
         }
       });
-      const extraClasses = ['tox-form__group--collection'];
-      return renderFormFieldWith(pLabel, pField, extraClasses, []);
+      const extraclassNamees = ['tox-form__group--collection'];
+      return renderFormFieldWith(pLabel, pField, extraclassNamees, []);
     };
 
     const ariaElements = [
@@ -15236,7 +15236,7 @@
     };
     const markValid = (component, invalidConfig) => {
       const elem = invalidConfig.getRoot(component).getOr(component.element);
-      remove$3(elem, invalidConfig.invalidClass);
+      remove$3(elem, invalidConfig.invalidclassName);
       invalidConfig.notify.each(notifyInfo => {
         if (isAriaElement(component.element)) {
           set$9(component.element, 'aria-invalid', false);
@@ -15249,7 +15249,7 @@
     };
     const markInvalid = (component, invalidConfig, invalidState, text) => {
       const elem = invalidConfig.getRoot(component).getOr(component.element);
-      add$2(elem, invalidConfig.invalidClass);
+      add$2(elem, invalidConfig.invalidclassName);
       invalidConfig.notify.each(notifyInfo => {
         if (isAriaElement(component.element)) {
           set$9(component.element, 'aria-invalid', true);
@@ -15281,7 +15281,7 @@
     };
     const isInvalid = (component, invalidConfig) => {
       const elem = invalidConfig.getRoot(component).getOr(component.element);
-      return has(elem, invalidConfig.invalidClass);
+      return has(elem, invalidConfig.invalidclassName);
     };
 
     var InvalidateApis = /*#__PURE__*/Object.freeze({
@@ -15305,7 +15305,7 @@
     });
 
     var InvalidateSchema = [
-      required$1('invalidClass'),
+      required$1('invalidclassName'),
       defaulted('getRoot', Optional.none),
       optionObjOf('notify', [
         defaulted('aria', 'alert'),
@@ -15363,7 +15363,7 @@
     const renderPanelButton = (spec, sharedBackstage) => Dropdown.sketch({
       dom: spec.dom,
       components: spec.components,
-      toggleClass: 'mce-active',
+      toggleclassName: 'mce-active',
       dropdownBehaviours: derive$1([
         DisablingConfigs.button(() => sharedBackstage.providers.isDisabled() || sharedBackstage.providers.checkUiComponentContext(spec.context).shouldDisable),
         toggleOnReceive(() => sharedBackstage.providers.checkUiComponentContext(spec.context)),
@@ -15371,7 +15371,7 @@
         Tabstopping.config({})
       ]),
       layouts: spec.layouts,
-      sandboxClasses: ['tox-dialog__popups'],
+      sandboxclassNamees: ['tox-dialog__popups'],
       lazySink: sharedBackstage.getSink,
       fetch: comp => Future.nu(callback => spec.fetch(callback)).map(items => Optional.from(createTieredDataFrom(deepMerge(createPartialChoiceMenu(generate$6('menu-value'), items, value => {
         spec.onItemAction(comp, value);
@@ -15385,7 +15385,7 @@
     const renderColorInput = (spec, sharedBackstage, colorInputBackstage, initialData) => {
       const pField = FormField.parts.field({
         factory: Input,
-        inputClasses: ['tox-textfield'],
+        inputclassNamees: ['tox-textfield'],
         data: initialData,
         onSetValue: c => Invalidating.run(c).get(noop),
         inputBehaviours: derive$1([
@@ -15393,7 +15393,7 @@
           toggleOnReceive(() => sharedBackstage.providers.checkUiComponentContext(spec.context)),
           Tabstopping.config({}),
           Invalidating.config({
-            invalidClass: 'tox-textbox-field-invalid',
+            invalidclassName: 'tox-textbox-field-invalid',
             getRoot: comp => parentElement(comp.element),
             notify: {
               onValid: comp => {
@@ -15466,12 +15466,12 @@
       return FormField.sketch({
         dom: {
           tag: 'div',
-          classes: ['tox-form__group']
+          classNamees: ['tox-form__group']
         },
         components: pLabel.toArray().concat([{
             dom: {
               tag: 'div',
-              classes: ['tox-color-input']
+              classNamees: ['tox-color-input']
             },
             components: [
               pField,
@@ -16259,25 +16259,25 @@
     const sliderUpdate = generate$6('slider-update');
     const paletteUpdate = generate$6('palette-update');
 
-    const sliderFactory = (translate, getClass) => {
+    const sliderFactory = (translate, getclassName) => {
       const spectrum = Slider.parts.spectrum({
         dom: {
           tag: 'div',
-          classes: [getClass('hue-slider-spectrum')],
+          classNamees: [getclassName('hue-slider-spectrum')],
           attributes: { role: 'presentation' }
         }
       });
       const thumb = Slider.parts.thumb({
         dom: {
           tag: 'div',
-          classes: [getClass('hue-slider-thumb')],
+          classNamees: [getclassName('hue-slider-thumb')],
           attributes: { role: 'presentation' }
         }
       });
       return Slider.sketch({
         dom: {
           tag: 'div',
-          classes: [getClass('hue-slider')],
+          classNamees: [getclassName('hue-slider')],
           attributes: {
             'role': 'slider',
             'aria-valuemin': 0,
@@ -16372,7 +16372,7 @@
       immediatelyShow: noop,
       immediatelyHide: noop
     };
-    const rgbFormFactory = (translate, getClass, onValidHexx, onInvalidHexx, tooltipGetConfig, makeIcon) => {
+    const rgbFormFactory = (translate, getclassName, onValidHexx, onInvalidHexx, tooltipGetConfig, makeIcon) => {
       const setTooltipEnabled = (enabled, tooltipApi) => {
         const api = tooltipApi.get();
         if (enabled === api.isEnabled()) {
@@ -16386,7 +16386,7 @@
         }
       };
       const invalidation = (label, isValid, tooltipApi) => Invalidating.config({
-        invalidClass: getClass('invalid'),
+        invalidclassName: getclassName('invalid'),
         notify: {
           onValidate: comp => {
             emitWith(comp, validatingInput, { type: label });
@@ -16430,7 +16430,7 @@
             'aria-label': description,
             ...name === 'hex' ? { 'aria-live': 'polite' } : {}
           },
-          inputClasses: [getClass('textfield')],
+          inputclassNamees: [getclassName('textfield')],
           inputBehaviours: derive$1([
             invalidation(name, isValid, tooltipApi),
             Tabstopping.config({}),
@@ -16458,7 +16458,7 @@
                   Tooltipping.setComponents(component, [{
                       dom: {
                         tag: 'p',
-                        classes: [getClass('rgb-warning-note')]
+                        classNamees: [getclassName('rgb-warning-note')]
                       },
                       components: [text$2(translate(name === 'hex' ? 'colorcustom.rgb.invalidHex' : 'colorcustom.rgb.invalid'))]
                     }]);
@@ -16478,7 +16478,7 @@
         const memStatus = record({
           dom: {
             tag: 'div',
-            classes: [getClass('invalid-icon')]
+            classNamees: [getclassName('invalid-icon')]
           },
           components: [memInvalidIcon.asSpec()]
         });
@@ -16493,7 +16493,7 @@
           dom: {
             tag: 'div',
             attributes: { role: 'presentation' },
-            classes: [getClass('rgb-container')]
+            classNamees: [getclassName('rgb-container')]
           },
           components
         };
@@ -16520,7 +16520,7 @@
       const memPreview = record({
         dom: {
           tag: 'div',
-          classes: [getClass('rgba-preview')],
+          classNamees: [getclassName('rgba-preview')],
           styles: { 'background-color': 'white' },
           attributes: { role: 'presentation' }
         }
@@ -16602,7 +16602,7 @@
         return deepMerge(Form.sketch(parts => ({
           dom: {
             tag: 'form',
-            classes: [getClass('rgb-form')],
+            classNamees: [getclassName('rgb-form')],
             attributes: { 'aria-label': translate('aria.color.picker') }
           },
           components: [
@@ -16613,7 +16613,7 @@
             memPreview.asSpec()
           ],
           formBehaviours: derive$1([
-            Invalidating.config({ invalidClass: getClass('form-invalid') }),
+            Invalidating.config({ invalidclassName: getclassName('form-invalid') }),
             config('rgb-form-events', [
               run$1(validInput, onValidInput),
               run$1(invalidInput, onInvalidInput),
@@ -16644,20 +16644,20 @@
       return rgbFormSketcher;
     };
 
-    const paletteFactory = (translate, getClass) => {
+    const paletteFactory = (translate, getclassName) => {
       const spectrumPart = Slider.parts.spectrum({
         dom: {
           tag: 'canvas',
           attributes: { role: 'presentation' },
-          classes: [getClass('sv-palette-spectrum')]
+          classNamees: [getclassName('sv-palette-spectrum')]
         }
       });
       const thumbPart = Slider.parts.thumb({
         dom: {
           tag: 'div',
           attributes: { role: 'presentation' },
-          classes: [getClass('sv-palette-thumb')],
-          innerHtml: `<div class=${ getClass('sv-palette-inner-thumb') } role="presentation"></div>`
+          classNamees: [getclassName('sv-palette-thumb')],
+          innerHtml: `<div className=${ getclassName('sv-palette-inner-thumb') } role="presentation"></div>`
         }
       });
       const setColour = (canvas, rgba) => {
@@ -16730,7 +16730,7 @@
                 0
               ])
             },
-            classes: [getClass('sv-palette')]
+            classNamees: [getclassName('sv-palette')]
           },
           model: {
             mode: 'xy',
@@ -16763,17 +16763,17 @@
       return saturationBrightnessPaletteSketcher;
     };
 
-    const makeFactory = (translate, getClass, tooltipConfig, makeIcon) => {
+    const makeFactory = (translate, getclassName, tooltipConfig, makeIcon) => {
       const factory = detail => {
-        const rgbForm = rgbFormFactory(translate, getClass, detail.onValidHex, detail.onInvalidHex, tooltipConfig, makeIcon);
-        const sbPalette = paletteFactory(translate, getClass);
+        const rgbForm = rgbFormFactory(translate, getclassName, detail.onValidHex, detail.onInvalidHex, tooltipConfig, makeIcon);
+        const sbPalette = paletteFactory(translate, getclassName);
         const hueSliderToDegrees = hue => (100 - hue) / 100 * 360;
         const hueDegreesToSlider = hue => 100 - hue / 360 * 100;
         const state = {
           paletteRgba: Cell(red),
           paletteHue: Cell(0)
         };
-        const memSlider = record(sliderFactory(translate, getClass));
+        const memSlider = record(sliderFactory(translate, getclassName));
         const memPalette = record(sbPalette.sketch({}));
         const memRgb = record(rgbForm.sketch({}));
         const updatePalette = (anyInSystem, _hex, hue) => {
@@ -16945,10 +16945,10 @@
       }
     };
     const renderColorPicker = (_spec, providerBackstage, initialData) => {
-      const getClass = key => 'tox-' + key;
+      const getclassName = key => 'tox-' + key;
       const renderIcon = (name, errId, icon = name, label = name) => render$3(icon, {
         tag: 'div',
-        classes: [
+        classNamees: [
           'tox-icon',
           'tox-control-wrap__status-icon-' + name
         ],
@@ -16958,7 +16958,7 @@
           ...errId.fold(() => ({}), id => ({ id }))
         }
       }, providerBackstage.icons);
-      const colourPickerFactory = makeFactory(translate$1(providerBackstage), getClass, providerBackstage.tooltips.getConfig, renderIcon);
+      const colourPickerFactory = makeFactory(translate$1(providerBackstage), getclassName, providerBackstage.tooltips.getConfig, renderIcon);
       const onValidHex = form => {
         emitWith(form, formActionEvent, {
           name: 'hex-valid',
@@ -16974,7 +16974,7 @@
       const memPicker = record(colourPickerFactory.sketch({
         dom: {
           tag: 'div',
-          classes: [getClass('color-picker-container')],
+          classNamees: [getclassName('color-picker-container')],
           attributes: { role: 'presentation' }
         },
         onValidHex,
@@ -17031,7 +17031,7 @@
       return {
         dom: {
           tag: 'div',
-          classes: ['tox-custom-editor']
+          classNamees: ['tox-custom-editor']
         },
         behaviours: derive$1([
           config('custom-editor-events', [runOnAttached(component => {
@@ -17108,7 +17108,7 @@
         dom: {
           tag: 'button',
           styles: { position: 'relative' },
-          classes: [
+          classNamees: [
             'tox-button',
             'tox-button--secondary'
           ]
@@ -17132,13 +17132,13 @@
       const wrapper = {
         dom: {
           tag: 'div',
-          classes: ['tox-dropzone-container']
+          classNamees: ['tox-dropzone-container']
         },
         behaviours: derive$1([
           Disabling.config({ disabled: () => providersBackstage.checkUiComponentContext(spec.context).shouldDisable }),
           toggleOnReceive(() => providersBackstage.checkUiComponentContext(spec.context)),
           Toggling.config({
-            toggleClass: 'dragenter',
+            toggleclassName: 'dragenter',
             toggleOnExecute: false
           }),
           config('dropzone-events', [
@@ -17161,7 +17161,7 @@
         components: [{
             dom: {
               tag: 'div',
-              classes: ['tox-dropzone'],
+              classNamees: ['tox-dropzone'],
               styles: {}
             },
             components: [
@@ -17183,7 +17183,7 @@
     const renderGrid = (spec, backstage) => ({
       dom: {
         tag: 'div',
-        classes: [
+        classNamees: [
           'tox-form__grid',
           `tox-form__grid--${ spec.columns }col`
         ]
@@ -17261,7 +17261,7 @@
 
     const beforeObject = generate$6('alloy-fake-before-tabstop');
     const afterObject = generate$6('alloy-fake-after-tabstop');
-    const craftWithClasses = classes => {
+    const craftWithclassNamees = classNamees => {
       return {
         dom: {
           tag: 'div',
@@ -17271,7 +17271,7 @@
             outline: 'none'
           },
           attributes: { tabindex: '0' },
-          classes
+          classNamees
         },
         behaviours: derive$1([
           Focusing.config({ ignore: true }),
@@ -17279,19 +17279,19 @@
         ])
       };
     };
-    const craft = (containerClasses, spec) => {
+    const craft = (containerclassNamees, spec) => {
       return {
         dom: {
           tag: 'div',
-          classes: [
+          classNamees: [
             'tox-navobj',
-            ...containerClasses.getOr([])
+            ...containerclassNamees.getOr([])
           ]
         },
         components: [
-          craftWithClasses([beforeObject]),
+          craftWithclassNamees([beforeObject]),
           spec,
-          craftWithClasses([afterObject])
+          craftWithclassNamees([afterObject])
         ],
         behaviours: derive$1([ComposingConfigs.childAt(1)])
       };
@@ -17387,9 +17387,9 @@
       };
     };
     const renderIFrame = (spec, providersBackstage, initialData) => {
-      const baseClass = 'tox-dialog__iframe';
-      const opaqueClass = spec.transparent ? [] : [`${ baseClass }--opaque`];
-      const containerBorderedClass = spec.border ? [`tox-navobj-bordered`] : [];
+      const baseclassName = 'tox-dialog__iframe';
+      const opaqueclassName = spec.transparent ? [] : [`${ baseclassName }--opaque`];
+      const containerBorderedclassName = spec.border ? [`tox-navobj-bordered`] : [];
       const attributes = {
         ...spec.label.map(title => ({ title })).getOr({}),
         ...initialData.map(html => ({ srcdoc: html })).getOr({}),
@@ -17397,14 +17397,14 @@
       };
       const sourcing = getDynamicSource(initialData, spec.streamContent);
       const pLabel = spec.label.map(label => renderLabel$3(label, providersBackstage));
-      const factory = newSpec => craft(Optional.from(containerBorderedClass), {
+      const factory = newSpec => craft(Optional.from(containerBorderedclassName), {
         uid: newSpec.uid,
         dom: {
           tag: 'iframe',
           attributes,
-          classes: [
-            baseClass,
-            ...opaqueClass
+          classNamees: [
+            baseclassName,
+            ...opaqueclassName
           ]
         },
         behaviours: derive$1([
@@ -17471,14 +17471,14 @@
       const memImage = record({
         dom: {
           tag: 'img',
-          classes: ['tox-imagepreview__image'],
+          classNamees: ['tox-imagepreview__image'],
           attributes: initialData.map(data => ({ src: data.url })).getOr({})
         }
       });
       const memContainer = record({
         dom: {
           tag: 'div',
-          classes: ['tox-imagepreview__container'],
+          classNamees: ['tox-imagepreview__container'],
           attributes: { role: 'presentation' }
         },
         components: [memImage.asSpec()]
@@ -17530,7 +17530,7 @@
       return {
         dom: {
           tag: 'div',
-          classes: ['tox-imagepreview'],
+          classNamees: ['tox-imagepreview'],
           styles,
           attributes: { role: 'presentation' }
         },
@@ -17543,16 +17543,16 @@
     };
 
     const renderLabel$2 = (spec, backstageShared, getCompByName) => {
-      const baseClass = 'tox-label';
-      const centerClass = spec.align === 'center' ? [`${ baseClass }--center`] : [];
-      const endClass = spec.align === 'end' ? [`${ baseClass }--end`] : [];
+      const baseclassName = 'tox-label';
+      const centerclassName = spec.align === 'center' ? [`${ baseclassName }--center`] : [];
+      const endclassName = spec.align === 'end' ? [`${ baseclassName }--end`] : [];
       const label = record({
         dom: {
           tag: 'label',
-          classes: [
-            baseClass,
-            ...centerClass,
-            ...endClass
+          classNamees: [
+            baseclassName,
+            ...centerclassName,
+            ...endclassName
           ]
         },
         components: [text$2(backstageShared.providers.translate(spec.label))]
@@ -17561,7 +17561,7 @@
       return {
         dom: {
           tag: 'div',
-          classes: ['tox-form__group']
+          classNamees: ['tox-form__group']
         },
         components: [
           label.asSpec(),
@@ -17624,7 +17624,7 @@
 
     const renderIcon$1 = (iconName, iconsProvider, behaviours) => render$3(iconName, {
       tag: 'span',
-      classes: [
+      classNamees: [
         'tox-icon',
         'tox-tbtn__icon-wrap'
       ],
@@ -17635,7 +17635,7 @@
     const renderLabel$1 = (text, prefix, providersBackstage) => ({
       dom: {
         tag: 'span',
-        classes: [`${ prefix }__select-label`]
+        classNamees: [`${ prefix }__select-label`]
       },
       components: [text$2(providersBackstage.translate(text))],
       behaviours: derive$1([Replacing.config({})])
@@ -17662,7 +17662,7 @@
       });
       const iconSpec = render$3('chevron-down', {
         tag: 'div',
-        classes: [`${ prefix }__select-chevron`]
+        classNamees: [`${ prefix }__select-chevron`]
       }, sharedBackstage.providers.icons);
       const fixWidthBehaviourName = generate$6('common-button-display-events');
       const customEventsName = 'dropdown-events';
@@ -17672,10 +17672,10 @@
         ...listRole,
         dom: {
           tag: 'button',
-          classes: [
+          classNamees: [
             prefix,
             `${ prefix }--select`
-          ].concat(map$2(spec.classes, c => `${ prefix }--${ c }`)),
+          ].concat(map$2(spec.classNamees, c => `${ prefix }--${ c }`)),
           attributes: {
             ...ariaLabelAttribute,
             ...isNonNullable(btnName) ? { 'data-mce-name': btnName } : {}
@@ -17755,7 +17755,7 @@
           ])
         ]),
         lazySink: sharedBackstage.getSink,
-        toggleClass: `${ prefix }--active`,
+        toggleclassName: `${ prefix }--active`,
         parts: {
           menu: {
             ...part(false, spec.columns, spec.presets),
@@ -17935,7 +17935,7 @@
             getApi: constant$1({}),
             columns: 1,
             presets: 'normal',
-            classes: [],
+            classNamees: [],
             dropdownBehaviours: [
               Tabstopping.config({}),
               withComp(initialItem.map(item => item.value), comp => get$g(comp.element, dataAttribute), (comp, data) => {
@@ -17951,14 +17951,14 @@
       const listBoxWrap = {
         dom: {
           tag: 'div',
-          classes: ['tox-listboxfield']
+          classNamees: ['tox-listboxfield']
         },
         components: [pField]
       };
       return FormField.sketch({
         dom: {
           tag: 'div',
-          classes: ['tox-form__group']
+          classNamees: ['tox-form__group']
         },
         components: flatten([
           pLabel.toArray(),
@@ -17979,7 +17979,7 @@
     const renderPanel = (spec, backstage) => ({
       dom: {
         tag: 'div',
-        classes: spec.classes
+        classNamees: spec.classNamees
       },
       components: map$2(spec.items, backstage.shared.interpreter)
     });
@@ -17997,7 +17997,7 @@
         uid: detail.uid,
         dom: {
           tag: 'select',
-          classes: detail.selectClasses,
+          classNamees: detail.selectclassNamees,
           attributes: detail.selectAttributes
         },
         components: options,
@@ -18032,7 +18032,7 @@
           Focusing,
           Representing
         ]),
-        defaulted('selectClasses', []),
+        defaulted('selectclassNamees', []),
         defaulted('selectAttributes', {}),
         option$3('data')
       ],
@@ -18061,12 +18061,12 @@
       });
       const chevron = spec.size > 1 ? Optional.none() : Optional.some(render$3('chevron-down', {
         tag: 'div',
-        classes: ['tox-selectfield__icon-js']
+        classNamees: ['tox-selectfield__icon-js']
       }, providersBackstage.icons));
       const selectWrap = {
         dom: {
           tag: 'div',
-          classes: ['tox-selectfield']
+          classNamees: ['tox-selectfield']
         },
         components: flatten([
           [pField],
@@ -18076,7 +18076,7 @@
       return FormField.sketch({
         dom: {
           tag: 'div',
-          classes: ['tox-form__group']
+          classNamees: ['tox-form__group']
         },
         components: flatten([
           pLabel.toArray(),
@@ -18101,7 +18101,7 @@
       defaulted('field1Name', 'field1'),
       defaulted('field2Name', 'field2'),
       onStrictHandler('onLockedChange'),
-      markers$1(['lockClass']),
+      markers$1(['lockclassName']),
       defaulted('locked', false),
       SketchBehaviours.field('coupledFieldBehaviours', [
         Composing,
@@ -18139,7 +18139,7 @@
           return {
             buttonBehaviours: derive$1([Toggling.config({
                 selected: detail.locked,
-                toggleClass: detail.markers.lockClass,
+                toggleclassName: detail.markers.lockclassName,
                 aria: { mode: 'pressed' }
               })])
           };
@@ -18274,7 +18274,7 @@
       const ratioEvent = generate$6('ratio-event');
       const makeIcon = iconName => render$3(iconName, {
         tag: 'span',
-        classes: [
+        classNamees: [
           'tox-icon',
           'tox-lock-icon__' + iconName
         ]
@@ -18286,7 +18286,7 @@
       const pLock = FormCoupledInputs.parts.lock({
         dom: {
           tag: 'button',
-          classes: [
+          classNamees: [
             'tox-lock',
             'tox-button',
             'tox-button--naked',
@@ -18311,13 +18311,13 @@
       const formGroup = components => ({
         dom: {
           tag: 'div',
-          classes: [spec.inDialog ? 'tox-form__group' : 'tox-context-form__group']
+          classNamees: [spec.inDialog ? 'tox-form__group' : 'tox-context-form__group']
         },
         components
       });
       const getFieldPart = isField1 => FormField.parts.field({
         factory: Input,
-        inputClasses: spec.inDialog ? ['tox-textfield'] : [
+        inputclassNamees: spec.inDialog ? ['tox-textfield'] : [
           'tox-textfield',
           'tox-toolbar-textfield',
           'tox-textfield-size'
@@ -18345,7 +18345,7 @@
       const getLabel = label => ({
         dom: {
           tag: 'label',
-          classes: ['tox-label']
+          classNamees: ['tox-label']
         },
         components: [text$2(providersBackstage.translate(label))]
       });
@@ -18368,12 +18368,12 @@
       return FormCoupledInputs.sketch({
         dom: {
           tag: 'div',
-          classes: [spec.inDialog ? 'tox-form__group' : 'tox-context-form__group']
+          classNamees: [spec.inDialog ? 'tox-form__group' : 'tox-context-form__group']
         },
         components: [{
             dom: {
               tag: 'div',
-              classes: ['tox-form__controls-h-stack']
+              classNamees: ['tox-form__controls-h-stack']
             },
             components: [
               widthField,
@@ -18387,7 +18387,7 @@
         field1Name: 'width',
         field2Name: 'height',
         locked: true,
-        markers: { lockClass: 'tox-locked' },
+        markers: { lockclassName: 'tox-locked' },
         onLockedChange: (current, other, _lock) => {
           parseSize(Representing.getValue(current)).each(size => {
             converter(size).each(newSize => {
@@ -18449,28 +18449,28 @@
       const labelPart = Slider.parts.label({
         dom: {
           tag: 'label',
-          classes: ['tox-label']
+          classNamees: ['tox-label']
         },
         components: [text$2(providerBackstage.translate(spec.label))]
       });
       const spectrum = Slider.parts.spectrum({
         dom: {
           tag: 'div',
-          classes: ['tox-slider__rail'],
+          classNamees: ['tox-slider__rail'],
           attributes: { role: 'presentation' }
         }
       });
       const thumb = Slider.parts.thumb({
         dom: {
           tag: 'div',
-          classes: ['tox-slider__handle'],
+          classNamees: ['tox-slider__handle'],
           attributes: { role: 'presentation' }
         }
       });
       return Slider.sketch({
         dom: {
           tag: 'div',
-          classes: ['tox-slider'],
+          classNamees: ['tox-slider'],
           attributes: { role: 'presentation' }
         },
         model: {
@@ -18534,7 +18534,7 @@
       return {
         dom: {
           tag: 'table',
-          classes: ['tox-dialog__table']
+          classNamees: ['tox-dialog__table']
         },
         components: [
           renderHeader(spec.header),
@@ -18575,7 +18575,7 @@
         getRoot: input => {
           return parentElement(input.element);
         },
-        invalidClass: 'tox-invalid',
+        invalidclassName: 'tox-invalid',
         validator: {
           validate: input => {
             const v = Representing.getValue(input);
@@ -18596,7 +18596,7 @@
         tag: spec.multiline === true ? 'textarea' : 'input',
         ...spec.data.map(data => ({ data })).getOr({}),
         inputAttributes,
-        inputClasses: [spec.classname],
+        inputclassNamees: [spec.classNamename],
         inputBehaviours: derive$1(flatten([
           baseInputBehaviours,
           validatingBehaviours
@@ -18607,12 +18607,12 @@
       const pTextField = spec.multiline ? {
         dom: {
           tag: 'div',
-          classes: ['tox-textarea-wrap']
+          classNamees: ['tox-textarea-wrap']
         },
         components: [pField]
       } : pField;
-      const extraClasses = spec.flex ? ['tox-form__group--stretched'] : [];
-      const extraClasses2 = extraClasses.concat(spec.maximized ? ['tox-form-group--maximize'] : []);
+      const extraclassNamees = spec.flex ? ['tox-form__group--stretched'] : [];
+      const extraclassNamees2 = extraclassNamees.concat(spec.maximized ? ['tox-form-group--maximize'] : []);
       const extraBehaviours = [
         Disabling.config({
           disabled: () => spec.disabled || providersBackstage.checkUiComponentContext(spec.context).shouldDisable,
@@ -18625,7 +18625,7 @@
         }),
         toggleOnReceive(() => providersBackstage.checkUiComponentContext(spec.context))
       ];
-      return renderFormFieldWith(pLabel, pTextField, extraClasses2, extraBehaviours);
+      return renderFormFieldWith(pLabel, pTextField, extraclassNamees2, extraBehaviours);
     };
     const renderInput = (spec, providersBackstage, initialData) => renderTextField({
       name: spec.name,
@@ -18635,7 +18635,7 @@
       placeholder: spec.placeholder,
       flex: false,
       disabled: !spec.enabled,
-      classname: 'tox-textfield',
+      classNamename: 'tox-textfield',
       validation: Optional.none(),
       maximized: spec.maximized,
       data: initialData,
@@ -18649,7 +18649,7 @@
       placeholder: spec.placeholder,
       flex: true,
       disabled: !spec.enabled,
-      classname: 'tox-textarea',
+      classNamename: 'tox-textarea',
       validation: Optional.none(),
       maximized: spec.maximized,
       data: initialData,
@@ -18663,19 +18663,19 @@
     const disableTransitions = (component, slideConfig) => {
       const root = getAnimationRoot(component, slideConfig);
       remove$2(root, [
-        slideConfig.shrinkingClass,
-        slideConfig.growingClass
+        slideConfig.shrinkingclassName,
+        slideConfig.growingclassName
       ]);
     };
     const setShrunk = (component, slideConfig) => {
-      remove$3(component.element, slideConfig.openClass);
-      add$2(component.element, slideConfig.closedClass);
+      remove$3(component.element, slideConfig.openclassName);
+      add$2(component.element, slideConfig.closedclassName);
       set$8(component.element, getDimensionProperty(slideConfig), '0px');
       reflow(component.element);
     };
     const setGrown = (component, slideConfig) => {
-      remove$3(component.element, slideConfig.closedClass);
-      add$2(component.element, slideConfig.openClass);
+      remove$3(component.element, slideConfig.closedclassName);
+      add$2(component.element, slideConfig.openclassName);
       remove$7(component.element, getDimensionProperty(slideConfig));
     };
     const doImmediateShrink = (component, slideConfig, slideState, _calculatedSize) => {
@@ -18692,8 +18692,8 @@
       set$8(component.element, getDimensionProperty(slideConfig), size);
       reflow(component.element);
       const root = getAnimationRoot(component, slideConfig);
-      remove$3(root, slideConfig.growingClass);
-      add$2(root, slideConfig.shrinkingClass);
+      remove$3(root, slideConfig.growingclassName);
+      add$2(root, slideConfig.shrinkingclassName);
       setShrunk(component, slideConfig);
       slideConfig.onStartShrink(component);
     };
@@ -18704,7 +18704,7 @@
     };
     const doStartGrow = (component, slideConfig, slideState) => {
       const root = getAnimationRoot(component, slideConfig);
-      const wasShrinking = has(root, slideConfig.shrinkingClass);
+      const wasShrinking = has(root, slideConfig.shrinkingclassName);
       const beforeSize = getDimension(slideConfig, component.element);
       setGrown(component, slideConfig);
       const fullSize = getDimension(slideConfig, component.element);
@@ -18717,8 +18717,8 @@
       };
       const setStartSize = wasShrinking ? startPartialGrow : startCompleteGrow;
       setStartSize();
-      remove$3(root, slideConfig.shrinkingClass);
-      add$2(root, slideConfig.growingClass);
+      remove$3(root, slideConfig.shrinkingclassName);
+      add$2(root, slideConfig.growingclassName);
       setGrown(component, slideConfig);
       set$8(component.element, getDimensionProperty(slideConfig), fullSize);
       slideState.setExpanded();
@@ -18750,11 +18750,11 @@
     const hasShrunk = (component, slideConfig, slideState) => slideState.isCollapsed();
     const isGrowing = (component, slideConfig, _slideState) => {
       const root = getAnimationRoot(component, slideConfig);
-      return has(root, slideConfig.growingClass) === true;
+      return has(root, slideConfig.growingclassName) === true;
     };
     const isShrinking = (component, slideConfig, _slideState) => {
       const root = getAnimationRoot(component, slideConfig);
-      return has(root, slideConfig.shrinkingClass) === true;
+      return has(root, slideConfig.shrinkingclassName) === true;
     };
     const isTransitioning = (component, slideConfig, slideState) => isGrowing(component, slideConfig) || isShrinking(component, slideConfig);
     const toggleGrow = (component, slideConfig, slideState) => {
@@ -18791,10 +18791,10 @@
     const exhibit = (base, slideConfig, _slideState) => {
       const expanded = slideConfig.expanded;
       return expanded ? nu$8({
-        classes: [slideConfig.openClass],
+        classNamees: [slideConfig.openclassName],
         styles: {}
       }) : nu$8({
-        classes: [slideConfig.closedClass],
+        classNamees: [slideConfig.closedclassName],
         styles: wrap$1(slideConfig.dimension.property, '0px')
       });
     };
@@ -18817,10 +18817,10 @@
     });
 
     var SlidingSchema = [
-      required$1('closedClass'),
-      required$1('openClass'),
-      required$1('shrinkingClass'),
-      required$1('growingClass'),
+      required$1('closedclassName'),
+      required$1('openclassName'),
+      required$1('shrinkingclassName'),
+      required$1('growingclassName'),
       option$3('getAnimationRoot'),
       onHandler('onShrunk'),
       onHandler('onStartShrink'),
@@ -18904,7 +18904,7 @@
         getApi: getMenuButtonApi,
         columns: 1,
         presets: 'normal',
-        classes: [],
+        classNamees: [],
         dropdownBehaviours: [...tabstopping ? [Tabstopping.config({})] : []],
         context: spec.context
       }, prefix, backstage.shared, btnName);
@@ -18945,7 +18945,7 @@
     const renderLabel = text => ({
       dom: {
         tag: 'span',
-        classes: ['tox-tree__label'],
+        classNamees: ['tox-tree__label'],
         attributes: { 'aria-label': text }
       },
       components: [text$2(text)]
@@ -18962,7 +18962,7 @@
       return Button.sketch({
         dom: {
           tag: 'div',
-          classes: [
+          classNamees: [
             'tox-tree--leaf__label',
             'tox-trbtn'
           ].concat(visible ? ['tox-tree--leaf__label--visible'] : [])
@@ -18982,7 +18982,7 @@
         buttonBehaviours: derive$1([
           ...visible ? [Tabstopping.config({})] : [],
           Toggling.config({
-            toggleClass: 'tox-trbtn--enabled',
+            toggleclassName: 'tox-trbtn--enabled',
             toggleOnExecute: false,
             aria: { mode: 'selected' }
           }),
@@ -19022,12 +19022,12 @@
         ])
       });
     };
-    const renderIcon = (iconName, iconsProvider, behaviours, extraClasses, extraAttributes) => render$3(iconName, {
+    const renderIcon = (iconName, iconsProvider, behaviours, extraclassNamees, extraAttributes) => render$3(iconName, {
       tag: 'span',
-      classes: [
+      classNamees: [
         'tox-tree__icon-wrap',
         'tox-icon'
-      ].concat(extraClasses || []),
+      ].concat(extraclassNamees || []),
       behaviours,
       attributes: extraAttributes
     }, iconsProvider);
@@ -19039,7 +19039,7 @@
         {
           dom: {
             tag: 'div',
-            classes: ['tox-chevron']
+            classNamees: ['tox-chevron']
           },
           components: [renderIconFromPack('chevron-right', backstage.shared.providers.icons)]
         },
@@ -19064,7 +19064,7 @@
       return Button.sketch({
         dom: {
           tag: 'div',
-          classes: [
+          classNamees: [
             'tox-tree--directory__label',
             'tox-trbtn'
           ].concat(visible ? ['tox-tree--directory__label--visible'] : [])
@@ -19110,7 +19110,7 @@
       return {
         dom: {
           tag: 'div',
-          classes: ['tox-tree--directory__children']
+          classNamees: ['tox-tree--directory__children']
         },
         components: children.map(item => {
           return item.type === 'leaf' ? renderLeafLabel({
@@ -19133,10 +19133,10 @@
         behaviours: derive$1([
           Sliding.config({
             dimension: { property: 'height' },
-            closedClass: 'tox-tree--directory__children--closed',
-            openClass: 'tox-tree--directory__children--open',
-            growingClass: 'tox-tree--directory__children--growing',
-            shrinkingClass: 'tox-tree--directory__children--shrinking',
+            closedclassName: 'tox-tree--directory__children--closed',
+            openclassName: 'tox-tree--directory__children--open',
+            growingclassName: 'tox-tree--directory__children--growing',
+            shrinkingclassName: 'tox-tree--directory__children--shrinking',
             expanded: visible
           }),
           Replacing.config({})
@@ -19169,7 +19169,7 @@
       return {
         dom: {
           tag: 'div',
-          classes: ['tox-tree--directory'],
+          classNamees: ['tox-tree--directory'],
           attributes: { role: 'treeitem' }
         },
         components: [
@@ -19204,7 +19204,7 @@
           ]),
           Toggling.config({
             ...directory.children.length > 0 ? { aria: { mode: 'expanded' } } : {},
-            toggleClass: 'tox-tree--directory--expanded',
+            toggleclassName: 'tox-tree--directory--expanded',
             onToggled: (comp, childrenVisible) => {
               const childrenComp = comp.components()[1];
               const newChildren = computedChildrenComponents(childrenVisible);
@@ -19248,7 +19248,7 @@
       return {
         dom: {
           tag: 'div',
-          classes: ['tox-tree'],
+          classNamees: ['tox-tree'],
           attributes: { role: 'tree' }
         },
         components: children(selectedIdCell.get(), expandedIds.get()),
@@ -19515,7 +19515,7 @@
           }
         }),
         Toggling.config({
-          toggleClass: detail.markers.openClass,
+          toggleclassName: detail.markers.openclassName,
           aria: { mode: 'expanded' }
         }),
         Coupling.config({
@@ -19600,13 +19600,13 @@
       onHandler('onSetValue'),
       onKeyboardHandler('onExecute'),
       onHandler('onItemExecute'),
-      defaulted('inputClasses', []),
+      defaulted('inputclassNamees', []),
       defaulted('inputAttributes', {}),
       defaulted('inputStyles', {}),
       defaulted('matchWidth', true),
       defaulted('useMinWidth', false),
       defaulted('dismissOnBlur', true),
-      markers$1(['openClass']),
+      markers$1(['openclassName']),
       option$3('initialData'),
       option$3('listRole'),
       field('typeaheadBehaviours', [
@@ -19784,7 +19784,7 @@
       const tooltipAttributes = spec.tooltip.map(tooltip => ({ 'aria-label': providersBackstage.translate(tooltip) })).getOr({});
       const dom = {
         tag: 'button',
-        classes: ['tox-tbtn'],
+        classNamees: ['tox-tbtn'],
         attributes: {
           ...tooltipAttributes,
           'data-mce-name': btnName
@@ -19794,7 +19794,7 @@
       const components = componentRenderPipeline([icon]);
       return renderCommonSpec(spec, action, extraBehaviours, dom, components, spec.tooltip, providersBackstage);
     };
-    const calculateClassesFromButtonType = buttonType => {
+    const calculateclassNameesFromButtonType = buttonType => {
       switch (buttonType) {
       case 'primary':
         return ['tox-button'];
@@ -19808,21 +19808,21 @@
         ];
       }
     };
-    const renderButtonSpec = (spec, action, providersBackstage, extraBehaviours = [], extraClasses = []) => {
+    const renderButtonSpec = (spec, action, providersBackstage, extraBehaviours = [], extraclassNamees = []) => {
       const translatedText = providersBackstage.translate(spec.text);
       const icon = spec.icon.map(iconName => renderIconFromPack$1(iconName, providersBackstage.icons));
       const components = [icon.getOrThunk(() => text$2(translatedText))];
       const buttonType = spec.buttonType.getOr(!spec.primary && !spec.borderless ? 'secondary' : 'primary');
-      const baseClasses = calculateClassesFromButtonType(buttonType);
-      const classes = [
-        ...baseClasses,
+      const baseclassNamees = calculateclassNameesFromButtonType(buttonType);
+      const classNamees = [
+        ...baseclassNamees,
         ...icon.isSome() ? ['tox-button--icon'] : [],
         ...spec.borderless ? ['tox-button--naked'] : [],
-        ...extraClasses
+        ...extraclassNamees
       ];
       const dom = {
         tag: 'button',
-        classes,
+        classNamees,
         attributes: {
           'aria-label': translatedText,
           'data-mce-name': spec.text
@@ -19831,8 +19831,8 @@
       const optTooltip = spec.icon.map(constant$1(translatedText));
       return renderCommonSpec(spec, action, extraBehaviours, dom, components, optTooltip, providersBackstage);
     };
-    const renderButton$1 = (spec, action, providersBackstage, extraBehaviours = [], extraClasses = []) => {
-      const buttonSpec = renderButtonSpec(spec, Optional.some(action), providersBackstage, extraBehaviours, extraClasses);
+    const renderButton$1 = (spec, action, providersBackstage, extraBehaviours = [], extraclassNamees = []) => {
+      const buttonSpec = renderButtonSpec(spec, Optional.some(action), providersBackstage, extraBehaviours, extraclassNamees);
       return Button.sketch(buttonSpec);
     };
     const getAction = (name, buttonType) => comp => {
@@ -19877,12 +19877,12 @@
         borderless: false
       };
       const tooltipAttributes = buttonSpec.tooltip.or(spec.text).map(tooltip => ({ 'aria-label': providers.translate(tooltip) })).getOr({});
-      const buttonTypeClasses = calculateClassesFromButtonType(buttonType !== null && buttonType !== void 0 ? buttonType : 'secondary');
+      const buttonTypeclassNamees = calculateclassNameesFromButtonType(buttonType !== null && buttonType !== void 0 ? buttonType : 'secondary');
       const showIconAndText = spec.icon.isSome() && spec.text.isSome();
       const dom = {
         tag: 'button',
-        classes: [
-          ...buttonTypeClasses.concat(spec.icon.isSome() ? ['tox-button--icon'] : []),
+        classNamees: [
+          ...buttonTypeclassNamees.concat(spec.icon.isSome() ? ['tox-button--icon'] : []),
           ...spec.active ? ['tox-button--enabled'] : [],
           ...showIconAndText ? ['tox-button--icon-and-text'] : []
         ],
@@ -20011,8 +20011,8 @@
       const typeaheadSpec = {
         ...initialData.map(initialData => ({ initialData })).getOr({}),
         dismissOnBlur: true,
-        inputClasses: ['tox-textfield'],
-        sandboxClasses: ['tox-dialog__popups'],
+        inputclassNamees: ['tox-textfield'],
+        sandboxclassNamees: ['tox-dialog__popups'],
         inputAttributes: {
           'aria-errormessage': errorId,
           'type': 'url'
@@ -20036,7 +20036,7 @@
         typeaheadBehaviours: derive$1([
           ...urlBackstage.getValidationHandler().map(handler => Invalidating.config({
             getRoot: comp => parentElement(comp.element),
-            invalidClass: 'tox-control-wrap--status-invalid',
+            invalidclassName: 'tox-control-wrap--status-invalid',
             notify: {
               onInvalid: (comp, err) => {
                 memInvalidIcon.getOpt(comp).each(invalidComp => {
@@ -20100,7 +20100,7 @@
           selectsOver: false,
           populateFromBrowse: false
         },
-        markers: { openClass: 'tox-textfield--popup-open' },
+        markers: { openclassName: 'tox-textfield--popup-open' },
         lazySink: backstage.shared.getSink,
         parts: { menu: part(false, 1, 'normal') },
         onExecute: (_menu, component, _entry) => {
@@ -20118,7 +20118,7 @@
       const pLabel = spec.label.map(label => renderLabel$3(label, providersBackstage));
       const makeIcon = (name, errId, icon = name, label = name) => render$3(icon, {
         tag: 'div',
-        classes: [
+        classNamees: [
           'tox-icon',
           'tox-control-wrap__status-icon-' + name
         ],
@@ -20132,7 +20132,7 @@
       const memStatus = record({
         dom: {
           tag: 'div',
-          classes: ['tox-control-wrap__status-icon-wrap']
+          classNamees: ['tox-control-wrap__status-icon-wrap']
         },
         components: [memInvalidIcon.asSpec()]
       });
@@ -20141,7 +20141,7 @@
       const memUrlBox = record({
         dom: {
           tag: 'div',
-          classes: ['tox-control-wrap']
+          classNamees: ['tox-control-wrap']
         },
         components: [
           pField,
@@ -20162,7 +20162,7 @@
       const controlHWrapper = () => ({
         dom: {
           tag: 'div',
-          classes: ['tox-form__controls-h-stack']
+          classNamees: ['tox-form__controls-h-stack']
         },
         components: flatten([
           [memUrlBox.asSpec()],
@@ -20211,7 +20211,7 @@
         dom: {
           tag: 'div',
           attributes: { role: 'alert' },
-          classes: [
+          classNamees: [
             'tox-notification',
             'tox-notification--in',
             `tox-notification--${ spec.level }`
@@ -20221,13 +20221,13 @@
           {
             dom: {
               tag: 'div',
-              classes: ['tox-notification__icon'],
+              classNamees: ['tox-notification__icon'],
               innerHtml: !spec.url ? icon : undefined
             },
             components: spec.url ? [Button.sketch({
                 dom: {
                   tag: 'button',
-                  classes: [
+                  classNamees: [
                     'tox-button',
                     'tox-button--naked',
                     'tox-button--icon'
@@ -20245,7 +20245,7 @@
           {
             dom: {
               tag: 'div',
-              classes: ['tox-notification__body'],
+              classNamees: ['tox-notification__body'],
               innerHtml: providersBackstage.translate(spec.text)
             }
           }
@@ -20267,7 +20267,7 @@
         factory: { sketch: identity },
         dom: {
           tag: 'input',
-          classes: ['tox-checkbox__input'],
+          classNamees: ['tox-checkbox__input'],
           attributes: { type: 'checkbox' }
         },
         behaviours: derive$1([
@@ -20298,25 +20298,25 @@
       const pLabel = FormField.parts.label({
         dom: {
           tag: 'span',
-          classes: ['tox-checkbox__label']
+          classNamees: ['tox-checkbox__label']
         },
         components: [text$2(providerBackstage.translate(spec.label))],
         behaviours: derive$1([Unselecting.config({})])
       });
-      const makeIcon = className => {
-        const iconName = className === 'checked' ? 'selected' : 'unselected';
+      const makeIcon = classNameName => {
+        const iconName = classNameName === 'checked' ? 'selected' : 'unselected';
         return render$3(iconName, {
           tag: 'span',
-          classes: [
+          classNamees: [
             'tox-icon',
-            'tox-checkbox-icon__' + className
+            'tox-checkbox-icon__' + classNameName
           ]
         }, providerBackstage.icons);
       };
       const memIcons = record({
         dom: {
           tag: 'div',
-          classes: ['tox-checkbox__icons']
+          classNamees: ['tox-checkbox__icons']
         },
         components: [
           makeIcon('checked'),
@@ -20326,7 +20326,7 @@
       return FormField.sketch({
         dom: {
           tag: 'label',
-          classes: ['tox-checkbox']
+          classNamees: ['tox-checkbox']
         },
         components: [
           pField,
@@ -20341,7 +20341,7 @@
     };
 
     const renderHtmlPanel = (spec, providersBackstage) => {
-      const classes = [
+      const classNamees = [
         'tox-form__group',
         ...spec.stretched ? ['tox-form__group--stretched'] : []
       ];
@@ -20352,7 +20352,7 @@
         return Container.sketch({
           dom: {
             tag: 'div',
-            classes,
+            classNamees,
             innerHtml: spec.html
           },
           containerBehaviours: derive$1([
@@ -20400,7 +20400,7 @@
         return Container.sketch({
           dom: {
             tag: 'div',
-            classes,
+            classNamees,
             innerHtml: spec.html,
             attributes: { role: 'document' }
           },
@@ -20957,7 +20957,7 @@
         return [{
             dom: {
               tag: 'div',
-              classes: ['tox-tooltip__body']
+              classNamees: ['tox-tooltip__body']
             },
             components: [text$2(spec.tooltipText)]
           }];
@@ -20970,7 +20970,7 @@
           lazySink: getSink,
           tooltipDom: {
             tag: 'div',
-            classes: [
+            classNamees: [
               'tox-tooltip',
               'tox-tooltip--up'
             ]
@@ -21521,12 +21521,12 @@
     const toolbarHeightChange = constant$1(generate$6('toolbar-height-change'));
 
     const visibility = {
-      fadeInClass: 'tox-editor-dock-fadein',
-      fadeOutClass: 'tox-editor-dock-fadeout',
-      transitionClass: 'tox-editor-dock-transition'
+      fadeInclassName: 'tox-editor-dock-fadein',
+      fadeOutclassName: 'tox-editor-dock-fadeout',
+      transitionclassName: 'tox-editor-dock-transition'
     };
-    const editorStickyOnClass = 'tox-tinymce--toolbar-sticky-on';
-    const editorStickyOffClass = 'tox-tinymce--toolbar-sticky-off';
+    const editorStickyOnclassName = 'tox-tinymce--toolbar-sticky-on';
+    const editorStickyOffclassName = 'tox-tinymce--toolbar-sticky-off';
     const scrollFromBehindHeader = (e, containerHeader) => {
       const doc = owner$4(containerHeader);
       const win = defaultView(containerHeader);
@@ -21568,27 +21568,27 @@
     };
     const updateSinkVisibility = (sinkElem, visible) => {
       if (visible) {
-        remove$3(sinkElem, visibility.fadeOutClass);
+        remove$3(sinkElem, visibility.fadeOutclassName);
         add$1(sinkElem, [
-          visibility.transitionClass,
-          visibility.fadeInClass
+          visibility.transitionclassName,
+          visibility.fadeInclassName
         ]);
       } else {
-        remove$3(sinkElem, visibility.fadeInClass);
+        remove$3(sinkElem, visibility.fadeInclassName);
         add$1(sinkElem, [
-          visibility.fadeOutClass,
-          visibility.transitionClass
+          visibility.fadeOutclassName,
+          visibility.transitionclassName
         ]);
       }
     };
-    const updateEditorClasses = (editor, docked) => {
+    const updateEditorclassNamees = (editor, docked) => {
       const editorContainer = SugarElement.fromDom(editor.getContainer());
       if (docked) {
-        add$2(editorContainer, editorStickyOnClass);
-        remove$3(editorContainer, editorStickyOffClass);
+        add$2(editorContainer, editorStickyOnclassName);
+        remove$3(editorContainer, editorStickyOffclassName);
       } else {
-        add$2(editorContainer, editorStickyOffClass);
-        remove$3(editorContainer, editorStickyOnClass);
+        add$2(editorContainer, editorStickyOffclassName);
+        remove$3(editorContainer, editorStickyOnclassName);
       }
     };
     const restoreFocus = (headerElem, focusedElem) => {
@@ -21625,7 +21625,7 @@
         });
       });
       editor.on('PostRender', () => {
-        updateEditorClasses(editor, false);
+        updateEditorclassNamees(editor, false);
       });
     };
     const isDocked = lazyHeader => lazyHeader().map(Docking.isDocked).getOr(false);
@@ -21640,7 +21640,7 @@
         if (!editor.inline) {
           updateIframeContentFlow(comp);
         }
-        updateEditorClasses(editor, Docking.isDocked(comp));
+        updateEditorclassNamees(editor, Docking.isDocked(comp));
         comp.getSystem().broadcastOn([repositionPopups()], {});
         lazySink().each(sink => sink.getSystem().broadcastOn([repositionPopups()], {}));
       };
@@ -21671,8 +21671,8 @@
             },
             onShown: comp => {
               runOnSinkElement(elem => remove$2(elem, [
-                visibility.transitionClass,
-                visibility.fadeInClass
+                visibility.transitionclassName,
+                visibility.fadeInclassName
               ]));
               focusedElm.get().each(elem => {
                 restoreFocus(comp.element, elem);
@@ -21684,7 +21684,7 @@
               runOnSinkElement(elem => updateSinkVisibility(elem, false));
             },
             onHidden: () => {
-              runOnSinkElement(elem => remove$2(elem, [visibility.transitionClass]));
+              runOnSinkElement(elem => remove$2(elem, [visibility.transitionclassName]));
             },
             ...visibility
           },
@@ -21898,7 +21898,7 @@
                 'target': '_blank',
                 'aria-hidden': 'true'
               },
-              classes: ['tox-promotion-link'],
+              classNamees: ['tox-promotion-link'],
               innerHtml: promotionMessage
             }
           }]
@@ -22043,7 +22043,7 @@
         return parts.slot(spec.name, {
           dom: {
             tag: 'div',
-            classes: ['tox-sidebar__pane']
+            classNamees: ['tox-sidebar__pane']
           },
           behaviours: SimpleBehaviours.unnamedEvents([
             onControlAttached(spec, editorOffCell),
@@ -22063,7 +22063,7 @@
     const makeSidebar = panelConfigs => SlotContainer.sketch(parts => ({
       dom: {
         tag: 'div',
-        classes: ['tox-sidebar__pane-container']
+        classNamees: ['tox-sidebar__pane-container']
       },
       components: makePanels(parts, panelConfigs),
       slotBehaviours: SimpleBehaviours.unnamedEvents([runOnAttached(slotContainer => SlotContainer.hideAllSlots(slotContainer))])
@@ -22127,13 +22127,13 @@
       uid: spec.uid,
       dom: {
         tag: 'div',
-        classes: ['tox-sidebar'],
+        classNamees: ['tox-sidebar'],
         attributes: { role: 'presentation' }
       },
       components: [{
           dom: {
             tag: 'div',
-            classes: ['tox-sidebar__slider']
+            classNamees: ['tox-sidebar__slider']
           },
           components: [],
           behaviours: derive$1([
@@ -22141,10 +22141,10 @@
             Focusing.config({}),
             Sliding.config({
               dimension: { property: 'width' },
-              closedClass: 'tox-sidebar--sliding-closed',
-              openClass: 'tox-sidebar--sliding-open',
-              shrinkingClass: 'tox-sidebar--sliding-shrinking',
-              growingClass: 'tox-sidebar--sliding-growing',
+              closedclassName: 'tox-sidebar--sliding-closed',
+              openclassName: 'tox-sidebar--sliding-open',
+              shrinkingclassName: 'tox-sidebar--sliding-shrinking',
+              growingclassName: 'tox-sidebar--sliding-growing',
               onShrunk: slider => {
                 const optSlotContainer = Composing.getCurrent(slider);
                 optSlotContainer.each(SlotContainer.hideAllSlots);
@@ -22259,9 +22259,9 @@
           'aria-label': providerBackstage.translate('Loading...'),
           'tabindex': '0'
         },
-        classes: ['tox-throbber__busy-spinner']
+        classNamees: ['tox-throbber__busy-spinner']
       },
-      components: [{ dom: fromHtml('<div class="tox-spinner"><div></div><div></div><div></div></div>') }]
+      components: [{ dom: fromHtml('<div className="tox-spinner"><div></div><div></div><div></div></div>') }]
     });
     const focusBusyComponent = throbber => Composing.getCurrent(throbber).each(comp => focus$3(comp.element, true));
     const toggleEditorTabIndex = (editor, state) => {
@@ -22305,7 +22305,7 @@
       dom: {
         tag: 'div',
         attributes: { 'aria-hidden': 'true' },
-        classes: ['tox-throbber'],
+        classNamees: ['tox-throbber'],
         styles: { display: 'none' }
       },
       behaviours: derive$1([
@@ -22467,7 +22467,7 @@
     ]);
 
     const schema$b = constant$1([
-      markers$1(['overflowToggledClass']),
+      markers$1(['overflowToggledclassName']),
       optionFunction('getOverflowBounds'),
       required$1('lazySink'),
       customField('overflowGroups', () => Cell([])),
@@ -22493,7 +22493,7 @@
     });
 
     const schema$a = constant$1([
-      markers$1(['toggledClass']),
+      markers$1(['toggledclassName']),
       required$1('lazySink'),
       requiredFunction('fetch'),
       optionFunction('getBounds'),
@@ -22507,7 +22507,7 @@
         overrides: detail => ({
           dom: { attributes: { 'aria-haspopup': 'true' } },
           buttonBehaviours: derive$1([Toggling.config({
-              toggleClass: detail.markers.toggledClass,
+              toggleclassName: detail.markers.toggledclassName,
               aria: { mode: 'expanded' },
               toggleOnExecute: false,
               onToggled: detail.onToggled
@@ -22747,7 +22747,7 @@
         getBounds: spec.getOverflowBounds,
         lazySink: detail.lazySink,
         fireDismissalEventInstead: {},
-        markers: { toggledClass: detail.markers.overflowToggledClass },
+        markers: { toggledclassName: detail.markers.overflowToggledclassName },
         parts: {
           button: externals['overflow-button'](),
           toolbar: externals.overflow()
@@ -22821,11 +22821,11 @@
 
     const schema$8 = constant$1([
       markers$1([
-        'closedClass',
-        'openClass',
-        'shrinkingClass',
-        'growingClass',
-        'overflowToggledClass'
+        'closedclassName',
+        'openclassName',
+        'shrinkingclassName',
+        'growingclassName',
+        'overflowToggledclassName'
       ]),
       onHandler('onOpened'),
       onHandler('onClosed')
@@ -22845,10 +22845,10 @@
             toolbarBehaviours: derive$1([
               Sliding.config({
                 dimension: { property: 'height' },
-                closedClass: detail.markers.closedClass,
-                openClass: detail.markers.openClass,
-                shrinkingClass: detail.markers.shrinkingClass,
-                growingClass: detail.markers.growingClass,
+                closedclassName: detail.markers.closedclassName,
+                openclassName: detail.markers.openclassName,
+                shrinkingclassName: detail.markers.shrinkingclassName,
+                growingclassName: detail.markers.growingclassName,
                 onShrunk: comp => {
                   getPart(comp, detail, 'overflow-button').each(button => {
                     Toggling.off(button);
@@ -22877,7 +22877,7 @@
         name: 'overflow-button',
         overrides: detail => ({
           buttonBehaviours: derive$1([Toggling.config({
-              toggleClass: detail.markers.overflowToggledClass,
+              toggleclassName: detail.markers.overflowToggledclassName,
               aria: { mode: 'expanded' },
               toggleOnExecute: false
             })])
@@ -22999,7 +22999,7 @@
       return {
         dom: {
           tag: 'div',
-          classes: ['tox-toolbar__group'].concat(toolbarGroup.label.isSome() ? ['tox-toolbar__group_with_label'] : []),
+          classNamees: ['tox-toolbar__group'].concat(toolbarGroup.label.isSome() ? ['tox-toolbar__group_with_label'] : []),
           ...attributes
         },
         components: [
@@ -23007,7 +23007,7 @@
             return {
               dom: {
                 tag: 'span',
-                classes: [
+                classNamees: [
                   'tox-label',
                   'tox-label--context-toolbar'
                 ]
@@ -23048,7 +23048,7 @@
         uid: toolbarSpec.uid,
         dom: {
           tag: 'div',
-          classes: ['tox-toolbar-overlord']
+          classNamees: ['tox-toolbar-overlord']
         },
         parts: {
           'overflow-group': renderToolbarGroupCommon({
@@ -23076,7 +23076,7 @@
       const primary = SplitFloatingToolbar.parts.primary({
         dom: {
           tag: 'div',
-          classes: ['tox-toolbar__primary']
+          classNamees: ['tox-toolbar__primary']
         }
       });
       return SplitFloatingToolbar.sketch({
@@ -23095,13 +23095,13 @@
           overflow: {
             dom: {
               tag: 'div',
-              classes: ['tox-toolbar__overflow'],
+              classNamees: ['tox-toolbar__overflow'],
               attributes: toolbarSpec.attributes
             }
           }
         },
         components: [primary],
-        markers: { overflowToggledClass: 'tox-tbtn--enabled' },
+        markers: { overflowToggledclassName: 'tox-tbtn--enabled' },
         onOpened: comp => toolbarSpec.onToggled(comp, true),
         onClosed: comp => toolbarSpec.onToggled(comp, false)
       });
@@ -23110,13 +23110,13 @@
       const primary = SplitSlidingToolbar.parts.primary({
         dom: {
           tag: 'div',
-          classes: ['tox-toolbar__primary']
+          classNamees: ['tox-toolbar__primary']
         }
       });
       const overflow = SplitSlidingToolbar.parts.overflow({
         dom: {
           tag: 'div',
-          classes: ['tox-toolbar__overflow']
+          classNamees: ['tox-toolbar__overflow']
         }
       });
       const baseSpec = renderMoreToolbarCommon(toolbarSpec);
@@ -23127,11 +23127,11 @@
           overflow
         ],
         markers: {
-          openClass: 'tox-toolbar__overflow--open',
-          closedClass: 'tox-toolbar__overflow--closed',
-          growingClass: 'tox-toolbar__overflow--growing',
-          shrinkingClass: 'tox-toolbar__overflow--shrinking',
-          overflowToggledClass: 'tox-tbtn--enabled'
+          openclassName: 'tox-toolbar__overflow--open',
+          closedclassName: 'tox-toolbar__overflow--closed',
+          growingclassName: 'tox-toolbar__overflow--growing',
+          shrinkingclassName: 'tox-toolbar__overflow--shrinking',
+          overflowToggledclassName: 'tox-tbtn--enabled'
         },
         onOpened: comp => {
           comp.getSystem().broadcastOn([toolbarHeightChange()], { type: 'opened' });
@@ -23149,7 +23149,7 @@
         uid: toolbarSpec.uid,
         dom: {
           tag: 'div',
-          classes: ['tox-toolbar'].concat(toolbarSpec.type === ToolbarMode$1.scrolling ? ['tox-toolbar--scrolling'] : [])
+          classNamees: ['tox-toolbar'].concat(toolbarSpec.type === ToolbarMode$1.scrolling ? ['tox-toolbar--scrolling'] : [])
         },
         components: [Toolbar.parts.groups({})],
         toolbarBehaviours: getToolbarBehaviours(toolbarSpec, modeName)
@@ -23243,7 +23243,7 @@
         enabled: true,
         borderless: spec.borderless
       };
-      const buttonTypeClasses = calculateClassesFromButtonType((_b = spec.buttonType) !== null && _b !== void 0 ? _b : 'secondary');
+      const buttonTypeclassNamees = calculateclassNameesFromButtonType((_b = spec.buttonType) !== null && _b !== void 0 ? _b : 'secondary');
       const optTranslatedText = isToggleButton ? spec.text.map(providers.translate) : Optional.some(providers.translate(spec.text));
       const optTranslatedTextComponed = optTranslatedText.map(text$2);
       const ariaLabelAttributes = buttonSpec.tooltip.or(optTranslatedText).map(al => ({ 'aria-label': providers.translate(al) })).getOr({});
@@ -23255,7 +23255,7 @@
       const hasIconAndText = spec.icon.isSome() && optTranslatedTextComponed.isSome();
       const dom = {
         tag: 'button',
-        classes: buttonTypeClasses.concat(...spec.icon.isSome() && !hasIconAndText ? ['tox-button--icon'] : []).concat(...hasIconAndText ? ['tox-button--icon-and-text'] : []).concat(...spec.borderless ? ['tox-button--naked'] : []).concat(...spec.type === 'togglebutton' && spec.active ? ['tox-button--enabled'] : []),
+        classNamees: buttonTypeclassNamees.concat(...spec.icon.isSome() && !hasIconAndText ? ['tox-button--icon'] : []).concat(...hasIconAndText ? ['tox-button--icon-and-text'] : []).concat(...spec.borderless ? ['tox-button--naked'] : []).concat(...spec.type === 'togglebutton' && spec.active ? ['tox-button--enabled'] : []),
         attributes: ariaLabelAttributes
       };
       const extraBehaviours = [];
@@ -23268,7 +23268,7 @@
       return {
         dom: {
           tag: 'div',
-          classes: ['tox-view__toolbar__group']
+          classNamees: ['tox-view__toolbar__group']
         },
         components: map$2(spec.buttons, button => renderViewButton(button, providers))
       };
@@ -23290,7 +23290,7 @@
         uid: spec.uid,
         dom: {
           tag: 'div',
-          classes: [
+          classNamees: [
             !hasGroups ? 'tox-view__header' : 'tox-view__toolbar',
             ...isPhone || isTablet ? [
               'tox-view--mobile',
@@ -23310,14 +23310,14 @@
           Container.sketch({
             dom: {
               tag: 'div',
-              classes: ['tox-view__header-start']
+              classNamees: ['tox-view__header-start']
             },
             components: []
           }),
           Container.sketch({
             dom: {
               tag: 'div',
-              classes: ['tox-view__header-end']
+              classNamees: ['tox-view__header-end']
             },
             components: endButtons
           })
@@ -23333,7 +23333,7 @@
         ]),
         dom: {
           tag: 'div',
-          classes: ['tox-view__pane']
+          classNamees: ['tox-view__pane']
         }
       };
     };
@@ -23389,7 +23389,7 @@
         return parts.slot(name, View.sketch({
           dom: {
             tag: 'div',
-            classes: ['tox-view']
+            classNamees: ['tox-view']
           },
           viewConfig: internalViewConfig,
           components: [
@@ -23405,7 +23405,7 @@
     const makeSlotContainer = (viewConfigs, providers) => SlotContainer.sketch(parts => ({
       dom: {
         tag: 'div',
-        classes: ['tox-view-wrap__slot-container']
+        classNamees: ['tox-view-wrap__slot-container']
       },
       components: makeViews(parts, viewConfigs, providers),
       slotBehaviours: SimpleBehaviours.unnamedEvents([runOnAttached(slotContainer => SlotContainer.hideAllSlots(slotContainer))])
@@ -23471,7 +23471,7 @@
         uid: detail.uid,
         dom: {
           tag: 'div',
-          classes: ['tox-view-wrap'],
+          classNamees: ['tox-view-wrap'],
           attributes: { 'aria-hidden': 'true' },
           styles: { display: 'none' }
         },
@@ -23734,7 +23734,7 @@
       uid: spec.uid,
       dom: {
         tag: 'div',
-        classes: ['tox-editor-container']
+        classNamees: ['tox-editor-container']
       },
       components: spec.components
     });
@@ -24139,7 +24139,7 @@
         getApi,
         columns: 1,
         presets: 'normal',
-        classes: spec.icon.isSome() ? [] : ['bespoke'],
+        classNamees: spec.icon.isSome() ? [] : ['bespoke'],
         dropdownBehaviours: [Tooltipping.config({
             ...backstage.shared.providers.tooltips.getConfig({
               tooltipText: backstage.shared.providers.translate(spec.tooltip),
@@ -24521,7 +24521,7 @@
           return Optional.none();
         }
       };
-      const makeStepperButton = (action, title, tooltip, classes) => {
+      const makeStepperButton = (action, title, tooltip, classNamees) => {
         const editorOffCellStepButton = Cell(noop);
         const translatedTooltip = backstage.shared.providers.translate(tooltip);
         const altExecuting = generate$6('altExecuting');
@@ -24540,7 +24540,7 @@
               'aria-label': translatedTooltip,
               'data-mce-name': title
             },
-            classes: classes.concat(title)
+            classNamees: classNamees.concat(title)
           },
           components: [renderIconFromPack$1(title, backstage.shared.providers.icons)],
           buttonBehaviours: derive$1([
@@ -24593,7 +24593,7 @@
       const memInput = record({
         dom: {
           tag: 'div',
-          classes: ['tox-input-wrapper']
+          classNamees: ['tox-input-wrapper']
         },
         components: [Input.sketch({
             inputBehaviours: derive$1([
@@ -24666,7 +24666,7 @@
       return {
         dom: {
           tag: 'div',
-          classes: ['tox-number-input'],
+          classNamees: ['tox-number-input'],
           attributes: { ...isNonNullable(btnName) ? { 'data-mce-name': btnName } : {} }
         },
         components: [
@@ -24906,7 +24906,7 @@
     };
 
     const schema$7 = constant$1([
-      required$1('toggleClass'),
+      required$1('toggleclassName'),
       required$1('fetch'),
       onStrictHandler('onExecute'),
       defaulted('getHotspot', Optional.some),
@@ -24945,7 +24945,7 @@
           },
           buttonBehaviours: derive$1([Toggling.config({
               toggleOnExecute: false,
-              toggleClass: detail.toggleClass
+              toggleclassName: detail.toggleclassName
             })])
         };
       }
@@ -25130,7 +25130,7 @@
       return {
         dom: {
           tag: 'button',
-          classes: ['tox-tbtn'].concat(optText.isSome() ? ['tox-tbtn--select'] : []),
+          classNamees: ['tox-tbtn'].concat(optText.isSome() ? ['tox-tbtn--select'] : []),
           attributes: {
             ...getTooltipAttributes(tooltip, providersBackstage),
             ...isNonNullable(btnName) ? { 'data-mce-name': btnName } : {}
@@ -25199,13 +25199,13 @@
         fetch: () => Future.nu(resolve => {
           resolve(map$2(identifyButtons(spec.items), renderToolbarGroup));
         }),
-        markers: { toggledClass: 'tox-tbtn--enabled' },
+        markers: { toggledclassName: 'tox-tbtn--enabled' },
         parts: {
           button: renderCommonStructure(spec.icon, spec.text, spec.tooltip, Optional.some(behaviours), sharedBackstage.providers, spec.context, btnName),
           toolbar: {
             dom: {
               tag: 'div',
-              classes: ['tox-toolbar__overflow'],
+              classNamees: ['tox-toolbar__overflow'],
               attributes
             }
           }
@@ -25249,7 +25249,7 @@
       toolbarButtonBehaviours: [
         Replacing.config({}),
         Toggling.config({
-          toggleClass: 'tox-tbtn--enabled',
+          toggleclassName: 'tox-tbtn--enabled',
           aria: { mode: 'pressed' },
           toggleOnExecute: false
         })
@@ -25262,7 +25262,7 @@
     }, spec.columns, spec.presets, ItemResponse$1.CLOSE_ON_EXECUTE, spec.select.getOr(never), providersBackstage), {
       movement: deriveMenuMovement(spec.columns, spec.presets),
       menuBehaviours: SimpleBehaviours.unnamedEvents(spec.columns !== 'auto' ? [] : [runOnAttached((comp, _se) => {
-          detectSize(comp, 4, classForPreset(spec.presets)).each(({numRows, numColumns}) => {
+          detectSize(comp, 4, classNameForPreset(spec.presets)).each(({numRows, numColumns}) => {
             Keying.setGridSize(comp, numRows, numColumns);
           });
         })])
@@ -25273,7 +25273,7 @@
         isEnabled: () => !Disabling.isDisabled(comp),
         setEnabled: state => Disabling.set(comp, !state),
         setIconFill: (id, value) => {
-          descendant(comp.element, `svg path[class="${ id }"], rect[class="${ id }"]`).each(underlinePath => {
+          descendant(comp.element, `svg path[className="${ id }"], rect[className="${ id }"]`).each(underlinePath => {
             set$9(underlinePath, 'fill', value);
           });
         },
@@ -25300,7 +25300,7 @@
       return SplitDropdown.sketch({
         dom: {
           tag: 'div',
-          classes: ['tox-split-button'],
+          classNamees: ['tox-split-button'],
           attributes: {
             'aria-pressed': false,
             ...getTooltipAttributes(spec.tooltip, sharedBackstage.providers),
@@ -25350,14 +25350,14 @@
             'tooltipping'
           ]
         },
-        toggleClass: 'tox-tbtn--enabled',
+        toggleclassName: 'tox-tbtn--enabled',
         lazySink: sharedBackstage.getSink,
         fetch: fetchChoices(getApi, spec, sharedBackstage.providers),
         parts: { menu: part(false, spec.columns, spec.presets) },
         components: [
           SplitDropdown.parts.button(renderCommonStructure(spec.icon, spec.text, Optional.none(), Optional.some([
             Toggling.config({
-              toggleClass: 'tox-tbtn--enabled',
+              toggleclassName: 'tox-tbtn--enabled',
               toggleOnExecute: false
             }),
             DisablingConfigs.toolbarButton(never),
@@ -25369,7 +25369,7 @@
           SplitDropdown.parts.arrow({
             dom: {
               tag: 'button',
-              classes: [
+              classNamees: [
                 'tox-tbtn',
                 'tox-split-button__chevron'
               ],
@@ -25891,7 +25891,7 @@
       const show = () => {
         visible.set(true);
         set$8(mainUi.outerContainer.element, 'display', 'flex');
-        DOM.addClass(editor.getBody(), 'mce-edit-focus');
+        DOM.addclassName(editor.getBody(), 'mce-edit-focus');
         each$1(uiMotherships, m => {
           remove$7(m.element, 'display');
         });
@@ -25905,7 +25905,7 @@
       const hide = () => {
         visible.set(false);
         set$8(mainUi.outerContainer.element, 'display', 'none');
-        DOM.removeClass(editor.getBody(), 'mce-edit-focus');
+        DOM.removeclassName(editor.getBody(), 'mce-edit-focus');
         each$1(uiMotherships, m => {
           set$8(m.element, 'display', 'none');
         });
@@ -26094,13 +26094,13 @@
     const forwardSlideEvent = generate$6('forward-slide');
     const backSlideEvent = generate$6('backward-slide');
     const changeSlideEvent = generate$6('change-slide-event');
-    const resizingClass = 'tox-pop--resizing';
+    const resizingclassName = 'tox-pop--resizing';
     const renderContextToolbar = spec => {
       const stack = Cell([]);
       return InlineView.sketch({
         dom: {
           tag: 'div',
-          classes: ['tox-pop']
+          classNamees: ['tox-pop']
         },
         fireDismissalEventInstead: { event: 'doNotDismissYet' },
         onShow: comp => {
@@ -26108,7 +26108,7 @@
           InlineView.getContent(comp).each(c => {
             remove$7(c.element, 'visibility');
           });
-          remove$3(comp.element, resizingClass);
+          remove$3(comp.element, resizingclassName);
           remove$7(comp.element, 'width');
         },
         onHide: () => {
@@ -26118,7 +26118,7 @@
           config('context-toolbar-events', [
             runOnSource(transitionend(), (comp, se) => {
               if (se.event.raw.propertyName === 'width') {
-                remove$3(comp.element, resizingClass);
+                remove$3(comp.element, resizingclassName);
                 remove$7(comp.element, 'width');
               }
             }),
@@ -26130,7 +26130,7 @@
               remove$7(elem, 'right');
               remove$7(elem, 'max-width');
               InlineView.setContent(comp, se.event.contents);
-              add$2(elem, resizingClass);
+              add$2(elem, resizingclassName);
               const newWidth = get$d(elem);
               set$8(elem, 'transition', 'none');
               InlineView.reposition(comp);
@@ -26283,7 +26283,7 @@
     const createContextFormFieldFromParts = (pLabel, pField, providers) => FormField.sketch({
       dom: {
         tag: 'div',
-        classes: ['tox-context-form__group']
+        classNamees: ['tox-context-form__group']
       },
       components: [
         ...pLabel.toArray(),
@@ -26306,14 +26306,14 @@
       const pLabel = ctx.label.map(label => FormField.parts.label({
         dom: {
           tag: 'label',
-          classes: ['tox-label']
+          classNamees: ['tox-label']
         },
         components: [text$2(providers.translate(label))]
       }));
       const pField = FormField.parts.field({
         factory: Input,
         type: 'range',
-        inputClasses: ['tox-toolbar-slider__input'],
+        inputclassNamees: ['tox-toolbar-slider__input'],
         inputAttributes: {
           min: String(ctx.min()),
           max: String(ctx.max())
@@ -26357,7 +26357,7 @@
       const pLabel = ctx.label.map(label => FormField.parts.label({
         dom: {
           tag: 'label',
-          classes: ['tox-label']
+          classNamees: ['tox-label']
         },
         components: [text$2(providers.translate(label))]
       }));
@@ -26365,7 +26365,7 @@
       const inputAttributes = { ...placeholder };
       const pField = FormField.parts.field({
         factory: Input,
-        inputClasses: [
+        inputclassNamees: [
           'tox-toolbar-textfield',
           'tox-toolbar-nav-js'
         ],
@@ -26794,7 +26794,7 @@
       };
     };
 
-    const transitionClass = 'tox-pop--transition';
+    const transitionclassName = 'tox-pop--transition';
     const register$a = (editor, registryContextToolbars, sink, extras) => {
       const backstage = extras.backstage;
       const sharedBackstage = backstage.shared;
@@ -26855,7 +26855,7 @@
       const wrapInPopDialog = toolbarSpec => ({
         dom: {
           tag: 'div',
-          classes: ['tox-pop__dialog']
+          classNamees: ['tox-pop__dialog']
         },
         components: [toolbarSpec],
         behaviours: derive$1([
@@ -26922,13 +26922,13 @@
         const contextBarEle = contextbar.element;
         remove$7(contextBarEle, 'display');
         if (!isSameLaunchElement(elem)) {
-          remove$3(contextBarEle, transitionClass);
+          remove$3(contextBarEle, transitionclassName);
           Positioning.reset(sink, contextbar);
         }
         InlineView.showWithinBounds(contextbar, wrapInPopDialog(toolbarSpec), {
           anchor,
           transition: {
-            classes: [transitionClass],
+            classNamees: [transitionclassName],
             mode: 'placement'
           }
         }, () => Optional.some(getBounds()));
@@ -26942,7 +26942,7 @@
         if (!editor.hasFocus() || editor.removed || isDragging) {
           return;
         }
-        if (has(contextbar.element, transitionClass)) {
+        if (has(contextbar.element, transitionclassName)) {
           launchContextToolbar.throttle();
         } else {
           const scopes = getScopes();
@@ -28174,7 +28174,7 @@
       resetZIndex(blocker);
       blocker.getSystem().removeFromGui(blocker);
     };
-    const createComponent = (component, blockerClass, blockerEvents) => component.getSystem().build(Container.sketch({
+    const createComponent = (component, blockerclassName, blockerEvents) => component.getSystem().build(Container.sketch({
       dom: {
         styles: {
           'left': '0px',
@@ -28184,7 +28184,7 @@
           'position': 'fixed',
           'z-index': '1000000000000000'
         },
-        classes: [blockerClass]
+        classNamees: [blockerclassName]
       },
       events: blockerEvents
     }));
@@ -28200,7 +28200,7 @@
 
     const schema$6 = [
       defaulted('useFixed', never),
-      required$1('blockerClass'),
+      required$1('blockerclassName'),
       defaulted('getTarget', identity),
       defaulted('onDrag', noop),
       defaulted('repositionTarget', true),
@@ -28326,7 +28326,7 @@
             move(component, dragConfig, dragState, MouseData, event);
           }
         };
-        const blocker = createComponent(component, dragConfig.blockerClass, init$3(dragApi));
+        const blocker = createComponent(component, dragConfig.blockerclassName, init$3(dragApi));
         const start = () => {
           updateStartState(component);
           instigate(component, blocker);
@@ -28382,7 +28382,7 @@
               move(component, dragConfig, dragState, TouchData, event);
             }
           };
-          const blocker = createComponent(component, dragConfig.blockerClass, init$2(dragApi));
+          const blocker = createComponent(component, dragConfig.blockerclassName, init$2(dragApi));
           blockerSingleton.set(blocker);
           const start = () => {
             updateStartState(component);
@@ -28519,12 +28519,12 @@
     const createSelector = snaps => record(Button.sketch({
       dom: {
         tag: 'div',
-        classes: ['tox-selector']
+        classNamees: ['tox-selector']
       },
       buttonBehaviours: derive$1([
         Dragging.config({
           mode: 'mouseOrTouch',
-          blockerClass: 'blocker',
+          blockerclassName: 'blocker',
           snaps
         }),
         Unselecting.config({})
@@ -28653,7 +28653,7 @@
       const renderElement = (name, element, index) => Button.sketch({
         dom: {
           tag: 'div',
-          classes: ['tox-statusbar__path-item'],
+          classNamees: ['tox-statusbar__path-item'],
           attributes: { 'data-index': index }
         },
         components: [text$2(name)],
@@ -28684,7 +28684,7 @@
       const renderDivider = () => ({
         dom: {
           tag: 'div',
-          classes: ['tox-statusbar__path-divider'],
+          classNamees: ['tox-statusbar__path-divider'],
           attributes: { 'aria-hidden': true }
         },
         components: [text$2(` ${ delimiter } `)]
@@ -28723,7 +28723,7 @@
       return {
         dom: {
           tag: 'div',
-          classes: ['tox-statusbar__path'],
+          classNamees: ['tox-statusbar__path'],
           attributes: { role: 'navigation' }
         },
         behaviours: derive$1([
@@ -28796,7 +28796,7 @@
       const resizeLabel = resizeType === ResizeTypes.Both ? 'Press the arrow keys to resize the editor.' : 'Press the Up and Down arrow keys to resize the editor.';
       return Optional.some(render$3('resize-handle', {
         tag: 'div',
-        classes: ['tox-statusbar__resize-handle'],
+        classNamees: ['tox-statusbar__resize-handle'],
         attributes: {
           'aria-label': providersBackstage.translate(resizeLabel),
           'data-mce-name': 'resize-handle'
@@ -28806,7 +28806,7 @@
             mode: 'mouse',
             repositionTarget: false,
             onDrag: (_comp, _target, delta) => resize(editor, delta, resizeType),
-            blockerClass: 'tox-blocker'
+            blockerclassName: 'tox-blocker'
           }),
           Keying.config({
             mode: 'special',
@@ -28830,7 +28830,7 @@
       return Button.sketch({
         dom: {
           tag: 'button',
-          classes: ['tox-statusbar__wordcount']
+          classNamees: ['tox-statusbar__wordcount']
         },
         components: [],
         buttonBehaviours: derive$1([
@@ -28887,7 +28887,7 @@
         return {
           dom: {
             tag: 'span',
-            classes: ['tox-statusbar__branding']
+            classNamees: ['tox-statusbar__branding']
           },
           components: [{
               dom: {
@@ -28916,7 +28916,7 @@
         return {
           dom: {
             tag: 'div',
-            classes: ['tox-statusbar__help-text']
+            classNamees: ['tox-statusbar__help-text']
           },
           components: [text$2(global$5.translate([
               text,
@@ -28935,7 +28935,7 @@
         return {
           dom: {
             tag: 'div',
-            classes: ['tox-statusbar__right-container']
+            classNamees: ['tox-statusbar__right-container']
           },
           components
         };
@@ -28945,7 +28945,7 @@
         const shouldRenderHelp = useHelpAccessibility(editor);
         const shouldRenderElementPath = useElementPath(editor);
         const shouldRenderRightContainer = useBranding(editor) || editor.hasPlugin('wordcount');
-        const getTextComponentClasses = () => {
+        const getTextComponentclassNamees = () => {
           const flexStart = 'tox-statusbar__text-container--flex-start';
           const flexEnd = 'tox-statusbar__text-container--flex-end';
           const spaceAround = 'tox-statusbar__text-container--space-around';
@@ -28983,9 +28983,9 @@
           return [{
               dom: {
                 tag: 'div',
-                classes: [
+                classNamees: [
                   'tox-statusbar__text-container',
-                  ...getTextComponentClasses()
+                  ...getTextComponentclassNamees()
                 ]
               },
               components
@@ -29001,7 +29001,7 @@
       return {
         dom: {
           tag: 'div',
-          classes: ['tox-statusbar']
+          classNamees: ['tox-statusbar']
         },
         components: getComponents()
       };
@@ -29018,20 +29018,20 @@
       const lazyPopupMothership = value$4();
       const platform = detect$1();
       const isTouch = platform.deviceType.isTouch();
-      const touchPlatformClass = 'tox-platform-touch';
-      const deviceClasses = isTouch ? [touchPlatformClass] : [];
+      const touchPlatformclassName = 'tox-platform-touch';
+      const deviceclassNamees = isTouch ? [touchPlatformclassName] : [];
       const isToolbarBottom = isToolbarLocationBottom(editor);
       const toolbarMode = getToolbarMode(editor);
       const memAnchorBar = record({
         dom: {
           tag: 'div',
-          classes: ['tox-anchorbar']
+          classNamees: ['tox-anchorbar']
         }
       });
       const memBottomAnchorBar = record({
         dom: {
           tag: 'div',
-          classes: ['tox-bottom-anchorbar']
+          classNamees: ['tox-bottom-anchorbar']
         }
       });
       const lazyHeader = () => lazyUiRefs.mainUi.get().map(ui => ui.outerContainer).bind(OuterContainer.getHeader);
@@ -29050,7 +29050,7 @@
         const partMenubar = OuterContainer.parts.menubar({
           dom: {
             tag: 'div',
-            classes: ['tox-menubar']
+            classNamees: ['tox-menubar']
           },
           backstage: backstages.popup,
           onEscape: () => {
@@ -29060,7 +29060,7 @@
         const partToolbar = OuterContainer.parts.toolbar({
           dom: {
             tag: 'div',
-            classes: ['tox-toolbar']
+            classNamees: ['tox-toolbar']
           },
           getSink: backstages.popup.shared.getSink,
           providers: backstages.popup.shared.providers,
@@ -29078,7 +29078,7 @@
         const partMultipleToolbar = OuterContainer.parts['multiple-toolbar']({
           dom: {
             tag: 'div',
-            classes: ['tox-toolbar-overlord']
+            classNamees: ['tox-toolbar-overlord']
           },
           providers: backstages.popup.shared.providers,
           onEscape: () => {
@@ -29108,7 +29108,7 @@
         return OuterContainer.parts.header({
           dom: {
             tag: 'div',
-            classes: ['tox-editor-header'].concat(hasAnyContents ? [] : ['tox-editor-header--empty']),
+            classNamees: ['tox-editor-header'].concat(hasAnyContents ? [] : ['tox-editor-header--empty']),
             ...verticalDirAttributes
           },
           components: flatten([
@@ -29125,7 +29125,7 @@
         return OuterContainer.parts.promotion({
           dom: {
             tag: 'div',
-            classes: ['tox-promotion']
+            classNamees: ['tox-promotion']
           }
         });
       };
@@ -29133,19 +29133,19 @@
         const partSocket = OuterContainer.parts.socket({
           dom: {
             tag: 'div',
-            classes: ['tox-edit-area']
+            classNamees: ['tox-edit-area']
           }
         });
         const partSidebar = OuterContainer.parts.sidebar({
           dom: {
             tag: 'div',
-            classes: ['tox-sidebar']
+            classNamees: ['tox-sidebar']
           }
         });
         return {
           dom: {
             tag: 'div',
-            classes: ['tox-sidebar-wrap']
+            classNamees: ['tox-sidebar-wrap']
           },
           components: [
             partSocket,
@@ -29159,11 +29159,11 @@
         const sinkSpec = {
           dom: {
             tag: 'div',
-            classes: [
+            classNamees: [
               'tox',
               'tox-silver-sink',
               'tox-tinymce-aux'
-            ].concat(deviceClasses),
+            ].concat(deviceclassNamees),
             attributes: { ...global$5.isRtl() ? { dir: 'rtl' } : {} }
           },
           behaviours: derive$1([Positioning.config({ useFixed: () => header.isDocked(lazyHeader) })])
@@ -29186,12 +29186,12 @@
         const sinkSpec = {
           dom: {
             tag: 'div',
-            classes: [
+            classNamees: [
               'tox',
               'tox-silver-sink',
               'tox-silver-popup-sink',
               'tox-tinymce-aux'
-            ].concat(deviceClasses),
+            ].concat(deviceclassNamees),
             attributes: { ...global$5.isRtl() ? { dir: 'rtl' } : {} }
           },
           behaviours: derive$1([Positioning.config({
@@ -29213,7 +29213,7 @@
         const partThrobber = OuterContainer.parts.throbber({
           dom: {
             tag: 'div',
-            classes: ['tox-throbber']
+            classNamees: ['tox-throbber']
           },
           backstage: backstages.popup
         });
@@ -29239,10 +29239,10 @@
         const outerContainer = build$1(OuterContainer.sketch({
           dom: {
             tag: 'div',
-            classes: [
+            classNamees: [
               'tox',
               'tox-tinymce'
-            ].concat(isInline ? ['tox-tinymce-inline'] : []).concat(isToolbarBottom ? ['tox-tinymce--toolbar-bottom'] : []).concat(deviceClasses),
+            ].concat(isInline ? ['tox-tinymce-inline'] : []).concat(isToolbarBottom ? ['tox-tinymce--toolbar-bottom'] : []).concat(deviceclassNamees),
             styles: {
               visibility: 'hidden',
               ...isHidden ? {
@@ -29262,7 +29262,7 @@
           ],
           behaviours: derive$1([
             toggleOnReceive(() => backstages.popup.shared.providers.checkUiComponentContext('any')),
-            Disabling.config({ disableClass: 'tox-tinymce--disabled' }),
+            Disabling.config({ disableclassName: 'tox-tinymce--disabled' }),
             Keying.config({
               mode: 'cyclic',
               selector: '.tox-menubar, .tox-toolbar, .tox-toolbar__primary, .tox-toolbar__overflow--open, .tox-sidebar__overflow--open, .tox-statusbar__path, .tox-statusbar__wordcount, .tox-statusbar__branding a, .tox-statusbar__resize-handle'
@@ -29386,7 +29386,7 @@
 
     const schema$2 = constant$1([
       required$1('lazySink'),
-      option$3('dragBlockClass'),
+      option$3('dragBlockclassName'),
       defaultedFunction('getBounds', win),
       defaulted('useTabstopAt', always),
       defaulted('firstTabstop', 0),
@@ -29406,7 +29406,7 @@
                 getTarget: handle => {
                   return ancestor(handle, '[role="dialog"]').getOr(handle);
                 },
-                blockerClass: detail.dragBlockClass.getOrDie(new Error('The drag blocker class was not specified for a dialog with a drag handle: \n' + JSON.stringify(spec, null, 2)).message),
+                blockerclassName: detail.dragBlockclassName.getOrDie(new Error('The drag blocker className was not specified for a dialog with a drag handle: \n' + JSON.stringify(spec, null, 2)).message),
                 getBounds: detail.getDragBounds
               })])
           };
@@ -29911,7 +29911,7 @@
     }));
     const panelFields = [
       type,
-      defaulted('classes', []),
+      defaulted('classNamees', []),
       requiredArrayOf('items', itemSchema)
     ];
     const panelSchema = objOf(panelFields);
@@ -30121,19 +30121,19 @@
       const memForm = record(Form.sketch(parts => ({
         dom: {
           tag: 'div',
-          classes: ['tox-form'].concat(spec.classes)
+          classNamees: ['tox-form'].concat(spec.classNamees)
         },
         components: map$2(spec.items, item => interpretInForm(parts, item, dialogData, backstage, getCompByName))
       })));
       return {
         dom: {
           tag: 'div',
-          classes: ['tox-dialog__body']
+          classNamees: ['tox-dialog__body']
         },
         components: [{
             dom: {
               tag: 'div',
-              classes: ['tox-dialog__body-content']
+              classNamees: ['tox-dialog__body-content']
             },
             components: [memForm.asSpec()]
           }],
@@ -30210,8 +30210,8 @@
         Keying
       ]),
       markers$1([
-        'tabClass',
-        'selectedClass'
+        'tabclassName',
+        'selectedclassName'
       ])
     ]);
     const tabsPart = group({
@@ -30248,7 +30248,7 @@
             })();
             response(tabbar, button);
           },
-          domModification: { classes: [barDetail.markers.tabClass] }
+          domModification: { classNamees: [barDetail.markers.tabclassName] }
         };
       }
     });
@@ -30262,8 +30262,8 @@
       'domModification': { attributes: { role: 'tablist' } },
       'behaviours': augment(detail.tabbarBehaviours, [
         Highlighting.config({
-          highlightClass: detail.markers.selectedClass,
-          itemClass: detail.markers.tabClass,
+          highlightclassName: detail.markers.selectedclassName,
+          itemclassName: detail.markers.tabclassName,
           onHighlight: (tabbar, tab) => {
             set$9(tab.element, 'aria-selected', 'true');
           },
@@ -30276,7 +30276,7 @@
           getInitial: tabbar => {
             return Highlighting.getHighlighted(tabbar).map(tab => tab.element);
           },
-          selector: '.' + detail.markers.tabClass,
+          selector: '.' + detail.markers.tabclassName,
           executeOnMove: true
         })
       ])
@@ -30312,8 +30312,8 @@
       schema: [
         required$1('dom'),
         requiredObjOf('markers', [
-          required$1('tabClass'),
-          required$1('selectedClass')
+          required$1('tabclassName'),
+          required$1('selectedclassName')
         ])
       ],
       name: 'tabbar',
@@ -30530,14 +30530,14 @@
           value: tab.name,
           dom: {
             tag: 'div',
-            classes: ['tox-dialog__body-nav-item']
+            classNamees: ['tox-dialog__body-nav-item']
           },
           components: [text$2(backstage.shared.providers.translate(tab.title))],
           view: () => {
             return [Form.sketch(parts => ({
                 dom: {
                   tag: 'div',
-                  classes: ['tox-form']
+                  classNamees: ['tox-form']
                 },
                 components: map$2(tab.items, item => interpretInForm(parts, item, dialogData, backstage, getCompByName)),
                 formBehaviours: derive$1([
@@ -30570,7 +30570,7 @@
       return TabSection.sketch({
         dom: {
           tag: 'div',
-          classes: ['tox-dialog__body']
+          classNamees: ['tox-dialog__body']
         },
         onChangeTab: (section, button, _viewItems) => {
           const name = Representing.getValue(button);
@@ -30585,19 +30585,19 @@
           TabSection.parts.tabbar({
             dom: {
               tag: 'div',
-              classes: ['tox-dialog__body-nav']
+              classNamees: ['tox-dialog__body-nav']
             },
             components: [Tabbar.parts.tabs({})],
             markers: {
-              tabClass: 'tox-tab',
-              selectedClass: 'tox-dialog__body-nav-item--active'
+              tabclassName: 'tox-tab',
+              selectedclassName: 'tox-dialog__body-nav-item--active'
             },
             tabbarBehaviours: derive$1([Tabstopping.config({})])
           }),
           TabSection.parts.tabview({
             dom: {
               tag: 'div',
-              classes: ['tox-dialog__body-content']
+              classNamees: ['tox-dialog__body-content']
             }
           })
         ],
@@ -30634,7 +30634,7 @@
       return {
         dom: {
           tag: 'div',
-          classes: ['tox-dialog__content-js'],
+          classNamees: ['tox-dialog__content-js'],
           attributes: {
             ...contentId.map(x => ({ id: x })).getOr({}),
             ...ariaAttrs ? ariaAttributes : {}
@@ -30661,12 +30661,12 @@
       const bodySpec = {
         dom: {
           tag: 'div',
-          classes: ['tox-dialog__content-js']
+          classNamees: ['tox-dialog__content-js']
         },
         components: [{
             dom: {
               tag: 'div',
-              classes: ['tox-dialog__body-iframe']
+              classNamees: ['tox-dialog__body-iframe']
             },
             components: [craft(Optional.none(), {
                 dom: {
@@ -30692,7 +30692,7 @@
       dom: {
         tag: 'div',
         styles: { display: 'none' },
-        classes: ['tox-dialog__header']
+        classNamees: ['tox-dialog__header']
       },
       components: [
         title,
@@ -30702,7 +30702,7 @@
     const pClose = (onClose, providersBackstage) => ModalDialog.parts.close(Button.sketch({
       dom: {
         tag: 'button',
-        classes: [
+        classNamees: [
           'tox-button',
           'tox-button--icon',
           'tox-button--naked'
@@ -30718,7 +30718,7 @@
     const pUntitled = () => ModalDialog.parts.title({
       dom: {
         tag: 'div',
-        classes: ['tox-dialog__title'],
+        classNamees: ['tox-dialog__title'],
         innerHtml: '',
         styles: { display: 'none' }
       }
@@ -30726,12 +30726,12 @@
     const pBodyMessage = (message, providersBackstage) => ModalDialog.parts.body({
       dom: {
         tag: 'div',
-        classes: ['tox-dialog__body']
+        classNamees: ['tox-dialog__body']
       },
       components: [{
           dom: {
             tag: 'div',
-            classes: ['tox-dialog__body-content']
+            classNamees: ['tox-dialog__body-content']
           },
           components: [{ dom: fromHtml(`<p>${ sanitizeHtmlString(providersBackstage.translate(message)) }</p>`) }]
         }]
@@ -30739,7 +30739,7 @@
     const pFooter = buttons => ModalDialog.parts.footer({
       dom: {
         tag: 'div',
-        classes: ['tox-dialog__footer']
+        classNamees: ['tox-dialog__footer']
       },
       components: buttons
     });
@@ -30747,23 +30747,23 @@
       Container.sketch({
         dom: {
           tag: 'div',
-          classes: ['tox-dialog__footer-start']
+          classNamees: ['tox-dialog__footer-start']
         },
         components: startButtons
       }),
       Container.sketch({
         dom: {
           tag: 'div',
-          classes: ['tox-dialog__footer-end']
+          classNamees: ['tox-dialog__footer-end']
         },
         components: endButtons
       })
     ];
     const renderDialog$1 = spec => {
-      const dialogClass = 'tox-dialog';
-      const blockerClass = dialogClass + '-wrap';
-      const blockerBackdropClass = blockerClass + '__backdrop';
-      const scrollLockClass = dialogClass + '__disable-scroll';
+      const dialogclassName = 'tox-dialog';
+      const blockerclassName = dialogclassName + '-wrap';
+      const blockerBackdropclassName = blockerclassName + '__backdrop';
+      const scrollLockclassName = dialogclassName + '__disable-scroll';
       return ModalDialog.sketch({
         lazySink: spec.lazySink,
         onEscape: comp => {
@@ -30774,7 +30774,7 @@
         firstTabstop: spec.firstTabstop,
         dom: {
           tag: 'div',
-          classes: [dialogClass].concat(spec.extraClasses),
+          classNamees: [dialogclassName].concat(spec.extraclassNamees),
           styles: {
             position: 'relative',
             ...spec.extraStyles
@@ -30787,19 +30787,19 @@
         ],
         parts: {
           blocker: {
-            dom: fromHtml(`<div class="${ blockerClass }"></div>`),
+            dom: fromHtml(`<div className="${ blockerclassName }"></div>`),
             components: [{
                 dom: {
                   tag: 'div',
-                  classes: isTouch ? [
-                    blockerBackdropClass,
-                    blockerBackdropClass + '--opaque'
-                  ] : [blockerBackdropClass]
+                  classNamees: isTouch ? [
+                    blockerBackdropclassName,
+                    blockerBackdropclassName + '--opaque'
+                  ] : [blockerBackdropclassName]
                 }
               }]
           }
         },
-        dragBlockClass: blockerClass,
+        dragBlockclassName: blockerclassName,
         modalBehaviours: derive$1([
           Focusing.config({}),
           config('dialog-events', spec.dialogEvents.concat([
@@ -30812,10 +30812,10 @@
           ])),
           config('scroll-lock', [
             runOnAttached(() => {
-              add$2(body(), scrollLockClass);
+              add$2(body(), scrollLockclassName);
             }),
             runOnDetached(() => {
-              remove$3(body(), scrollLockClass);
+              remove$3(body(), scrollLockclassName);
             })
           ]),
           ...spec.extraBehaviours
@@ -30840,7 +30840,7 @@
     const renderClose = providersBackstage => Button.sketch({
       dom: {
         tag: 'button',
-        classes: [
+        classNamees: [
           'tox-button',
           'tox-button--icon',
           'tox-button--naked'
@@ -30857,7 +30857,7 @@
       ]),
       components: [render$3('close', {
           tag: 'span',
-          classes: ['tox-icon']
+          classNamees: ['tox-icon']
         }, providersBackstage.icons)],
       action: comp => {
         emit(comp, formCancelEvent);
@@ -30868,7 +30868,7 @@
       return {
         dom: {
           tag: 'h1',
-          classes: ['tox-dialog__title'],
+          classNamees: ['tox-dialog__title'],
           attributes: { ...titleId.map(x => ({ id: x })).getOr({}) }
         },
         components: [],
@@ -30879,9 +30879,9 @@
           })])
       };
     };
-    const renderDragHandle = () => ({ dom: fromHtml('<div class="tox-dialog__draghandle"></div>') });
+    const renderDragHandle = () => ({ dom: fromHtml('<div className="tox-dialog__draghandle"></div>') });
     const renderInlineHeader = (spec, dialogId, titleId, providersBackstage) => Container.sketch({
-      dom: fromHtml('<div class="tox-dialog__header"></div>'),
+      dom: fromHtml('<div className="tox-dialog__header"></div>'),
       components: [
         renderTitle(spec, dialogId, Optional.some(titleId), providersBackstage),
         renderDragHandle(),
@@ -30889,7 +30889,7 @@
       ],
       containerBehaviours: derive$1([Dragging.config({
           mode: 'mouse',
-          blockerClass: 'blocker',
+          blockerclassName: 'blocker',
           getTarget: handle => {
             return closest$1(handle, '[role="dialog"]').getOrDie();
           },
@@ -30906,7 +30906,7 @@
       const pClose = ModalDialog.parts.close(renderClose(providersBackstage));
       const components = [pTitle].concat(spec.draggable ? [pHandle] : []).concat([pClose]);
       return Container.sketch({
-        dom: fromHtml('<div class="tox-dialog__header"></div>'),
+        dom: fromHtml('<div className="tox-dialog__header"></div>'),
         components
       });
     };
@@ -30918,7 +30918,7 @@
     const getBusySpec = (message, bs, providers, headerHeight) => ({
       dom: {
         tag: 'div',
-        classes: ['tox-dialog__busy-spinner'],
+        classNamees: ['tox-dialog__busy-spinner'],
         attributes: { 'aria-label': providers.translate(message) },
         styles: {
           left: '0px',
@@ -30929,7 +30929,7 @@
         }
       },
       behaviours: bs,
-      components: [{ dom: fromHtml('<div class="tox-spinner"><div></div><div></div><div></div></div>') }]
+      components: [{ dom: fromHtml('<div className="tox-spinner"><div></div><div></div><div></div></div>') }]
     });
     const getEventExtras = (lazyDialog, providers, extra) => ({
       onClose: () => extra.closeWindow(),
@@ -30941,36 +30941,36 @@
         ModalDialog.setIdle(lazyDialog());
       }
     });
-    const fullscreenClass = 'tox-dialog--fullscreen';
-    const largeDialogClass = 'tox-dialog--width-lg';
-    const mediumDialogClass = 'tox-dialog--width-md';
-    const getDialogSizeClass = size => {
+    const fullscreenclassName = 'tox-dialog--fullscreen';
+    const largeDialogclassName = 'tox-dialog--width-lg';
+    const mediumDialogclassName = 'tox-dialog--width-md';
+    const getDialogSizeclassName = size => {
       switch (size) {
       case 'large':
-        return Optional.some(largeDialogClass);
+        return Optional.some(largeDialogclassName);
       case 'medium':
-        return Optional.some(mediumDialogClass);
+        return Optional.some(mediumDialogclassName);
       default:
         return Optional.none();
       }
     };
-    const updateDialogSizeClass = (size, component) => {
+    const updateDialogSizeclassName = (size, component) => {
       const dialogBody = SugarElement.fromDom(component.element.dom);
-      if (!has(dialogBody, fullscreenClass)) {
+      if (!has(dialogBody, fullscreenclassName)) {
         remove$2(dialogBody, [
-          largeDialogClass,
-          mediumDialogClass
+          largeDialogclassName,
+          mediumDialogclassName
         ]);
-        getDialogSizeClass(size).each(dialogSizeClass => add$2(dialogBody, dialogSizeClass));
+        getDialogSizeclassName(size).each(dialogSizeclassName => add$2(dialogBody, dialogSizeclassName));
       }
     };
     const toggleFullscreen = (comp, currentSize) => {
       const dialogBody = SugarElement.fromDom(comp.element.dom);
-      const classes = get$9(dialogBody);
-      const currentSizeClass = find$5(classes, c => c === largeDialogClass || c === mediumDialogClass).or(getDialogSizeClass(currentSize));
+      const classNamees = get$9(dialogBody);
+      const currentSizeclassName = find$5(classNamees, c => c === largeDialogclassName || c === mediumDialogclassName).or(getDialogSizeclassName(currentSize));
       toggle$3(dialogBody, [
-        fullscreenClass,
-        ...currentSizeClass.toArray()
+        fullscreenclassName,
+        ...currentSizeclassName.toArray()
       ]);
     };
     const renderModalDialog = (spec, dialogEvents, backstage) => build$1(renderDialog$1({
@@ -31126,7 +31126,7 @@
       const makeGroup = (edge, buttons) => Container.sketch({
         dom: {
           tag: 'div',
-          classes: [`tox-dialog__footer-${ edge }`]
+          classNamees: [`tox-dialog__footer-${ edge }`]
         },
         components: map$2(buttons, button => button.memento.asSpec())
       });
@@ -31154,7 +31154,7 @@
         });
       };
       return {
-        dom: fromHtml('<div class="tox-dialog__footer"></div>'),
+        dom: fromHtml('<div className="tox-dialog__footer"></div>'),
         components: [],
         behaviours: derive$1([Reflecting.config({
             channel: `${ footerChannel }-${ dialogId }`,
@@ -31286,10 +31286,10 @@
       const header = getHeader(internalDialog.title, dialogId, backstage);
       const dialogSize = Cell(internalDialog.size);
       const getCompByName$1 = name => getCompByName(modalAccess, name);
-      const dialogSizeClasses = getDialogSizeClass(dialogSize.get()).toArray();
+      const dialogSizeclassNamees = getDialogSizeclassName(dialogSize.get()).toArray();
       const updateState = (comp, incoming) => {
         dialogSize.set(incoming.internalDialog.size);
-        updateDialogSizeClass(incoming.internalDialog.size, comp);
+        updateDialogSizeclassName(incoming.internalDialog.size, comp);
         return Optional.some(incoming);
       };
       const body = renderModalBody({
@@ -31305,7 +31305,7 @@
         header,
         body,
         footer,
-        extraClasses: dialogSizeClasses,
+        extraclassNamees: dialogSizeclassNamees,
         extraBehaviours: [Reflecting.config({
             channel: `${ dialogChannel }-${ dialogId }`,
             updateState,
@@ -31345,10 +31345,10 @@
       const internalDialog = dialogInit.internalDialog;
       const getCompByName$1 = name => getCompByName(modalAccess, name);
       const dialogSize = Cell(internalDialog.size);
-      const dialogSizeClass = getDialogSizeClass(dialogSize.get()).toArray();
+      const dialogSizeclassName = getDialogSizeclassName(dialogSize.get()).toArray();
       const updateState = (comp, incoming) => {
         dialogSize.set(incoming.internalDialog.size);
-        updateDialogSizeClass(incoming.internalDialog.size, comp);
+        updateDialogSizeclassName(incoming.internalDialog.size, comp);
         refreshDocking();
         return Optional.some(incoming);
       };
@@ -31375,15 +31375,15 @@
         },
         onClose: () => extra.closeWindow()
       }, backstage.shared.getSink);
-      const inlineClass = 'tox-dialog-inline';
+      const inlineclassName = 'tox-dialog-inline';
       const os = detect$1().os;
       const dialog = build$1({
         dom: {
           tag: 'div',
-          classes: [
+          classNamees: [
             'tox-dialog',
-            inlineClass,
-            ...dialogSizeClass
+            inlineclassName,
+            ...dialogSizeclassName
           ],
           attributes: {
             role: 'dialog',
@@ -31550,7 +31550,7 @@
           'max-width': width + 'px'
         }))
       };
-      const classes = internalDialog.width.isNone() && internalDialog.height.isNone() ? ['tox-dialog--width-lg'] : [];
+      const classNamees = internalDialog.width.isNone() && internalDialog.height.isNone() ? ['tox-dialog--width-lg'] : [];
       const iframeUri = new global(internalDialog.url, { base_uri: new global(window.location.href) });
       const iframeDomain = `${ iframeUri.protocol }://${ iframeUri.host }${ iframeUri.port ? ':' + iframeUri.port : '' }`;
       const messageHandlerUnbinder = unbindable();
@@ -31597,7 +31597,7 @@
         header,
         body,
         footer,
-        extraClasses: classes,
+        extraclassNamees: classNamees,
         extraBehaviours,
         extraStyles: styles
       };
@@ -31634,7 +31634,7 @@
           body: pBodyMessage(message, sharedBackstage.providers),
           footer: Optional.some(pFooter(pFooterGroup([], [memFooterClose.asSpec()]))),
           onEscape: closeDialog,
-          extraClasses: ['tox-alert-dialog'],
+          extraclassNamees: ['tox-alert-dialog'],
           extraBehaviours: [],
           extraStyles: {},
           dialogEvents: [run$1(formCancelEvent, closeDialog)],
@@ -31685,7 +31685,7 @@
             memFooterYes.asSpec()
           ]))),
           onEscape: () => closeDialog(false),
-          extraClasses: ['tox-confirm-dialog'],
+          extraclassNamees: ['tox-confirm-dialog'],
           extraBehaviours: [],
           extraStyles: {},
           dialogEvents: [
@@ -31710,9 +31710,9 @@
         return [Docking.config({
             contextual: {
               lazyContext: () => Optional.some(box$1(SugarElement.fromDom(editor.getContentAreaContainer()))),
-              fadeInClass: 'tox-dialog-dock-fadein',
-              fadeOutClass: 'tox-dialog-dock-fadeout',
-              transitionClass: 'tox-dialog-dock-transition'
+              fadeInclassName: 'tox-dialog-dock-fadein',
+              fadeOutclassName: 'tox-dialog-dock-fadeout',
+              transitionclassName: 'tox-dialog-dock-transition'
             },
             modes: ['top'],
             lazyViewport: comp => {
@@ -31815,7 +31815,7 @@
             lazySink: extras.backstages.popup.shared.getSink,
             dom: {
               tag: 'div',
-              classes: []
+              classNamees: []
             },
             fireDismissalEventInstead: windowParams.persistent ? { event: 'doNotDismissYet' } : {},
             ...isToolbarLocationTop ? {} : { fireRepositionEventInstead: {} },
@@ -31871,7 +31871,7 @@
             lazySink: extras.backstages.popup.shared.getSink,
             dom: {
               tag: 'div',
-              classes: []
+              classNamees: []
             },
             fireDismissalEventInstead: windowParams.persistent ? { event: 'doNotDismissYet' } : {},
             ...isToolbarLocationTop ? {} : { fireRepositionEventInstead: {} },
@@ -31882,9 +31882,9 @@
               Docking.config({
                 contextual: {
                   lazyContext: () => Optional.some(box$1(SugarElement.fromDom(editor.getContentAreaContainer()))),
-                  fadeInClass: 'tox-dialog-dock-fadein',
-                  fadeOutClass: 'tox-dialog-dock-fadeout',
-                  transitionClass: 'tox-dialog-dock-transition'
+                  fadeInclassName: 'tox-dialog-dock-fadein',
+                  fadeOutclassName: 'tox-dialog-dock-fadeout',
+                  transitionclassName: 'tox-dialog-dock-transition'
                 },
                 modes: [
                   'top',

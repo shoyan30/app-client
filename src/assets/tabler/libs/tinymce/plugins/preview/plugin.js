@@ -14,7 +14,7 @@
     const option = name => editor => editor.options.get(name);
     const getContentStyle = option('content_style');
     const shouldUseContentCssCors = option('content_css_cors');
-    const getBodyClass = option('body_class');
+    const getBodyclassName = option('body_className');
     const getBodyId = option('body_id');
 
     const getPreviewHtml = editor => {
@@ -31,12 +31,12 @@
         headHtml += '<style type="text/css">' + contentStyle + '</style>';
       }
       const bodyId = getBodyId(editor);
-      const bodyClass = getBodyClass(editor);
+      const bodyclassName = getBodyclassName(editor);
       const isMetaKeyPressed = global$1.os.isMacOS() || global$1.os.isiOS() ? 'e.metaKey' : 'e.ctrlKey && !e.altKey';
       const preventClicksOnLinksScript = '<script>' + 'document.addEventListener && document.addEventListener("click", function(e) {' + 'for (var elm = e.target; elm; elm = elm.parentNode) {' + 'if (elm.nodeName === "A" && !(' + isMetaKeyPressed + ')) {' + 'e.preventDefault();' + '}' + '}' + '}, false);' + '</script> ';
       const directionality = editor.getBody().dir;
       const dirAttr = directionality ? ' dir="' + encode(directionality) + '"' : '';
-      const previewHtml = '<!DOCTYPE html>' + '<html>' + '<head>' + headHtml + '</head>' + '<body id="' + encode(bodyId) + '" class="mce-content-body ' + encode(bodyClass) + '"' + dirAttr + '>' + editor.getContent() + preventClicksOnLinksScript + '</body>' + '</html>';
+      const previewHtml = '<!DOCTYPE html>' + '<html>' + '<head>' + headHtml + '</head>' + '<body id="' + encode(bodyId) + '" className="mce-content-body ' + encode(bodyclassName) + '"' + dirAttr + '>' + editor.getContent() + preventClicksOnLinksScript + '</body>' + '</html>';
       return previewHtml;
     };
 

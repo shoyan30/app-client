@@ -87,7 +87,7 @@ interface EventDispatcherConstructor<T extends {}> {
     new (settings?: EventDispatcherSettings): EventDispatcher<T>;
     isNative: (name: string) => boolean;
 }
-declare class EventDispatcher<T extends {}> {
+declare className EventDispatcher<T extends {}> {
     static isNative(name: string): boolean;
     private readonly settings;
     private readonly scope;
@@ -158,7 +158,7 @@ interface SchemaSettings extends ElementSettings {
     invalid_styles?: string | Record<string, string>;
     schema?: SchemaType;
     valid_children?: string;
-    valid_classes?: string | Record<string, string>;
+    valid_classNamees?: string | Record<string, string>;
     valid_elements?: string;
     valid_styles?: string | Record<string, string>;
     verify_html?: boolean;
@@ -211,7 +211,7 @@ interface Schema {
     children: Record<string, SchemaMap>;
     elements: Record<string, SchemaElement>;
     getValidStyles: () => Record<string, string[]> | undefined;
-    getValidClasses: () => Record<string, SchemaMap> | undefined;
+    getValidclassNamees: () => Record<string, SchemaMap> | undefined;
     getBlockElements: () => SchemaMap;
     getInvalidStyles: () => Record<string, SchemaMap> | undefined;
     getVoidElements: () => SchemaMap;
@@ -247,7 +247,7 @@ interface AstNodeConstructor {
     new (name: string, type: number): AstNode;
     create(name: string, attrs?: Record<string, string>): AstNode;
 }
-declare class AstNode {
+declare className AstNode {
     static create(name: string, attrs?: Record<string, string>): AstNode;
     name: string;
     type: number;
@@ -341,7 +341,7 @@ interface BlobInfoImagePair {
     image: HTMLImageElement;
     blobInfo: BlobInfo;
 }
-declare class NodeChange {
+declare className NodeChange {
     private readonly editor;
     private lastPath;
     constructor(editor: Editor);
@@ -361,7 +361,7 @@ interface Quirks {
 type DecoratorData = Record<string, any>;
 type Decorator = (uid: string, data: DecoratorData) => {
     attributes?: {};
-    classes?: string[];
+    classNamees?: string[];
 };
 type AnnotationListener = (state: boolean, name: string, data?: {
     uid: string;
@@ -613,7 +613,7 @@ interface ListBoxSpec extends FormComponentWithLabelSpec {
 }
 interface PanelSpec {
     type: 'panel';
-    classes?: string[];
+    classNamees?: string[];
     items: BodyComponentSpec[];
 }
 interface SelectBoxItemSpec {
@@ -687,13 +687,13 @@ interface CardImageSpec {
     type: 'cardimage';
     src: string;
     alt?: string;
-    classes?: string[];
+    classNamees?: string[];
 }
 interface CardTextSpec {
     type: 'cardtext';
     text: string;
     name?: string;
-    classes?: string[];
+    classNamees?: string[];
 }
 type CardItemSpec = CardContainerSpec | CardImageSpec | CardTextSpec;
 type CardContainerDirection = 'vertical' | 'horizontal';
@@ -1367,7 +1367,7 @@ type FormatAttrOrStyleValue = string | ((vars?: FormatVars) => string | null);
 type FormatVars = Record<string, string | null>;
 interface BaseFormat<T> {
     ceFalseOverride?: boolean;
-    classes?: string | string[];
+    classNamees?: string | string[];
     collapsed?: boolean;
     exact?: boolean;
     expand?: boolean;
@@ -1891,7 +1891,7 @@ interface BaseEditorOptions {
     block_formats?: string;
     block_unsupported_drop?: boolean;
     body_id?: string;
-    body_class?: string;
+    body_className?: string;
     br_in_pre?: boolean;
     br_newline_selector?: string;
     browser_spellcheck?: boolean;
@@ -1925,7 +1925,7 @@ interface BaseEditorOptions {
     doctype?: string;
     document_base_url?: string;
     draggable_modal?: boolean;
-    editable_class?: string;
+    editable_className?: string;
     editable_root?: boolean;
     element_format?: 'xhtml' | 'html';
     elementpath?: boolean;
@@ -1943,7 +1943,7 @@ interface BaseEditorOptions {
     fixed_toolbar_container_target?: HTMLElement;
     font_css?: string | string[];
     font_family_formats?: string;
-    font_size_classes?: string;
+    font_size_classNamees?: string;
     font_size_legacy_values?: string;
     font_size_style_values?: string;
     font_size_formats?: string;
@@ -1999,7 +1999,7 @@ interface BaseEditorOptions {
     newdocument_content?: string;
     newline_behavior?: 'block' | 'linebreak' | 'invert' | 'default';
     no_newline_selector?: string;
-    noneditable_class?: string;
+    noneditable_className?: string;
     noneditable_regexp?: RegExp | RegExp[];
     nowrap?: boolean;
     object_resizing?: boolean | string;
@@ -2069,13 +2069,13 @@ interface BaseEditorOptions {
     url_converter_scope?: any;
     urlconverter_callback?: URLConverterCallback;
     valid_children?: string;
-    valid_classes?: string | Record<string, string>;
+    valid_classNamees?: string | Record<string, string>;
     valid_elements?: string;
     valid_styles?: string | Record<string, string>;
     verify_html?: boolean;
     visual?: boolean;
-    visual_anchor_class?: string;
-    visual_table_class?: string;
+    visual_anchor_className?: string;
+    visual_table_className?: string;
     width?: number | string;
     xss_sanitization?: boolean;
     license_key?: string;
@@ -2103,7 +2103,7 @@ interface EditorOptions extends NormalizedEditorOptions {
     anchor_top: string;
     automatic_uploads: boolean;
     block_formats: string;
-    body_class: string;
+    body_className: string;
     body_id: string;
     br_newline_selector: string;
     color_map: string[];
@@ -2120,11 +2120,11 @@ interface EditorOptions extends NormalizedEditorOptions {
     document_base_url: string;
     init_content_sync: boolean;
     draggable_modal: boolean;
-    editable_class: string;
+    editable_className: string;
     editable_root: boolean;
     font_css: string[];
     font_family_formats: string;
-    font_size_classes: string;
+    font_size_classNamees: string;
     font_size_formats: string;
     font_size_input_default_unit: string;
     font_size_legacy_values: string;
@@ -2155,7 +2155,7 @@ interface EditorOptions extends NormalizedEditorOptions {
     model: string;
     newdocument_content: string;
     no_newline_selector: string;
-    noneditable_class: string;
+    noneditable_className: string;
     noneditable_regexp: RegExp[];
     object_resizing: string;
     pad_empty_with_br: boolean;
@@ -2176,8 +2176,8 @@ interface EditorOptions extends NormalizedEditorOptions {
     text_patterns: Pattern[];
     text_patterns_lookup: DynamicPatternsLookup;
     visual: boolean;
-    visual_anchor_class: string;
-    visual_table_class: string;
+    visual_anchor_className: string;
+    visual_table_className: string;
     width: number | string;
     xss_sanitization: boolean;
     disabled: boolean;
@@ -2211,7 +2211,7 @@ interface EventUtilsConstructor {
     new (): EventUtils;
     Event: EventUtils;
 }
-declare class EventUtils {
+declare className EventUtils {
     static Event: EventUtils;
     domLoaded: boolean;
     events: Record<number, Record<string, CallbackList<any>>>;
@@ -2338,10 +2338,10 @@ interface DOMUtils {
     serializeStyle: (stylesArg: StyleMap, name?: string) => string;
     addStyle: (cssText: string) => void;
     loadCSS: (url: string) => void;
-    hasClass: (elm: string | Element, cls: string) => boolean;
-    addClass: (elm: RunArguments<Element>, cls: string) => void;
-    removeClass: (elm: RunArguments<Element>, cls: string) => void;
-    toggleClass: (elm: RunArguments<Element>, cls: string, state?: boolean) => void;
+    hasclassName: (elm: string | Element, cls: string) => boolean;
+    addclassName: (elm: RunArguments<Element>, cls: string) => void;
+    removeclassName: (elm: RunArguments<Element>, cls: string) => void;
+    toggleclassName: (elm: RunArguments<Element>, cls: string, state?: boolean) => void;
     show: (elm: string | Node | Node[]) => void;
     hide: (elm: string | Node | Node[]) => void;
     isHidden: (elm: string | Node) => boolean;
@@ -2534,7 +2534,7 @@ interface EditorCommandsConstructor {
     readonly prototype: EditorCommands;
     new (editor: Editor): EditorCommands;
 }
-declare class EditorCommands {
+declare className EditorCommands {
     private readonly editor;
     private commands;
     constructor(editor: Editor);
@@ -2600,7 +2600,7 @@ interface SafeUriOptions {
     readonly allow_script_urls?: boolean;
     readonly allow_svg_data_urls?: boolean;
 }
-declare class URI {
+declare className URI {
     static parseDataUri(uri: string): {
         type: string | undefined;
         data: string;
@@ -2805,7 +2805,7 @@ type CommandFunc = string | [
     boolean,
     any
 ] | (() => void);
-declare class Shortcuts {
+declare className Shortcuts {
     private readonly editor;
     private readonly shortcuts;
     private pendingPatterns;
@@ -2839,7 +2839,7 @@ interface EditorConstructor {
     readonly prototype: Editor;
     new (id: string, options: RawEditorOptions, editorManager: EditorManager): Editor;
 }
-declare class Editor implements EditorObservable {
+declare className Editor implements EditorObservable {
     documentBaseUrl: string;
     baseUri: URI;
     id: string;
@@ -3007,7 +3007,7 @@ interface ScriptLoaderConstructor {
     new (): ScriptLoader;
     ScriptLoader: ScriptLoader;
 }
-declare class ScriptLoader {
+declare className ScriptLoader {
     static ScriptLoader: ScriptLoader;
     private settings;
     private states;
@@ -3039,7 +3039,7 @@ interface DomTreeWalkerConstructor {
     readonly prototype: DomTreeWalker;
     new (startNode: Node, rootNode: Node): DomTreeWalker;
 }
-declare class DomTreeWalker {
+declare className DomTreeWalker {
     private readonly rootNode;
     private node;
     constructor(startNode: Node, rootNode: Node);

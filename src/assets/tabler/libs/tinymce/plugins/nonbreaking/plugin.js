@@ -52,8 +52,8 @@
     };
     const isVisualCharsEnabled = editor => editor.plugins.visualchars ? editor.plugins.visualchars.isEnabled() : false;
     const insertNbsp = (editor, times) => {
-      const classes = () => isVisualCharsEnabled(editor) ? 'mce-nbsp-wrap mce-nbsp' : 'mce-nbsp-wrap';
-      const nbspSpan = () => `<span class="${ classes() }" contenteditable="false">${ stringRepeat('&nbsp;', times) }</span>`;
+      const classNamees = () => isVisualCharsEnabled(editor) ? 'mce-nbsp-wrap mce-nbsp' : 'mce-nbsp-wrap';
+      const nbspSpan = () => `<span className="${ classNamees() }" contenteditable="false">${ stringRepeat('&nbsp;', times) }</span>`;
       const shouldWrap = wrapNbsps(editor);
       const html = shouldWrap || editor.plugins.visualchars ? nbspSpan() : stringRepeat('&nbsp;', times);
       editor.undoManager.transact(() => editor.insertContent(html));

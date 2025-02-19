@@ -65,7 +65,7 @@
     const never = constant(false);
     const always = constant(true);
 
-    class Optional {
+    className Optional {
       constructor(tag, value) {
         this.tag = tag;
         this.value = value;
@@ -1039,15 +1039,15 @@
         processor: 'boolean',
         default: !global$1.deviceType.isTouch()
       });
-      registerOption('table_cell_class_list', {
+      registerOption('table_cell_className_list', {
         processor: 'object[]',
         default: []
       });
-      registerOption('table_row_class_list', {
+      registerOption('table_row_className_list', {
         processor: 'object[]',
         default: []
       });
-      registerOption('table_class_list', {
+      registerOption('table_className_list', {
         processor: 'object[]',
         default: []
       });
@@ -1073,9 +1073,9 @@
     const hasAppearanceOptions = option('table_appearance_options');
     const hasTableGrid = option('table_grid');
     const shouldStyleWithCss = option('table_style_by_css');
-    const getCellClassList = option('table_cell_class_list');
-    const getRowClassList = option('table_row_class_list');
-    const getTableClassList = option('table_class_list');
+    const getCellclassNameList = option('table_cell_className_list');
+    const getRowclassNameList = option('table_row_className_list');
+    const getTableclassNameList = option('table_className_list');
     const getToolbar = option('table_toolbar');
     const getTableBackgroundColorMap = option('table_background_color_map');
     const getTableBorderColorMap = option('table_border_color_map');
@@ -1617,8 +1617,8 @@
         };
       }
     });
-    const buildClassList = classList => {
-      if (!classList.length) {
+    const buildclassNameList = classNameList => {
+      if (!classNameList.length) {
         return Optional.none();
       }
       return Optional.some(buildListItems([
@@ -1626,7 +1626,7 @@
           text: 'Select...',
           value: 'mce-no-match'
         },
-        ...classList
+        ...classNameList
       ]));
     };
     const buildMenuItems = (editor, items, format, onAction) => map(items, item => {
@@ -1690,10 +1690,10 @@
       editor.execCommand('mceTableColType', false, { type: newType });
     };
 
-    const getClassList$1 = editor => buildClassList(getCellClassList(editor)).map(items => ({
-      name: 'class',
+    const getclassNameList$1 = editor => buildclassNameList(getCellclassNameList(editor)).map(items => ({
+      name: 'className',
       type: 'listbox',
-      label: 'Class',
+      label: 'className',
       items
     }));
     const children = [
@@ -1774,7 +1774,7 @@
         items: verticalAlignValues
       }
     ];
-    const getItems$2 = editor => children.concat(getClassList$1(editor).toArray());
+    const getItems$2 = editor => children.concat(getclassNameList$1(editor).toArray());
 
     const getAdvancedTab = (editor, dialogName) => {
       const emptyBorderStyle = [{
@@ -2037,7 +2037,7 @@
             const comparisonValue = baseData[key];
             if (comparisonValue !== '' && key === itemKey) {
               if (comparisonValue !== itemValue) {
-                baseData[key] = key === 'class' ? 'mce-no-match' : '';
+                baseData[key] = key === 'className' ? 'mce-no-match' : '';
               }
             }
           });
@@ -2070,7 +2070,7 @@
         cellspacing: '',
         cellpadding: '',
         caption: false,
-        class: '',
+        className: '',
         align: '',
         border: ''
       };
@@ -2122,7 +2122,7 @@
         cellpadding: cellpadding !== null && cellpadding !== void 0 ? cellpadding : '',
         border: getBorder(dom, elm),
         caption: !!dom.select('caption', elm)[0],
-        class: dom.getAttrib(elm, 'class', ''),
+        className: dom.getAttrib(elm, 'className', ''),
         align: getHAlignment(editor, elm),
         ...hasAdvTableTab ? extractAdvancedStyles(elm) : {}
       };
@@ -2131,7 +2131,7 @@
       const dom = editor.dom;
       return {
         height: dom.getStyle(elm, 'height') || dom.getAttrib(elm, 'height'),
-        class: dom.getAttrib(elm, 'class', ''),
+        className: dom.getAttrib(elm, 'className', ''),
         type: getRowType(elm),
         align: getHAlignment(editor, elm),
         ...hasAdvancedRowTab ? extractAdvancedStyles(elm) : {}
@@ -2145,7 +2145,7 @@
         width: getStyle(colElm, 'width'),
         scope: dom.getAttrib(cell, 'scope'),
         celltype: getNodeName(cell),
-        class: dom.getAttrib(cell, 'class', ''),
+        className: dom.getAttrib(cell, 'className', ''),
         halign: getHAlignment(editor, cell),
         valign: getVAlignment(editor, cell),
         ...hasAdvancedCellTab ? extractAdvancedStyles(cell) : {}
@@ -2165,8 +2165,8 @@
       if (shouldUpdate('scope')) {
         modifier.setAttrib('scope', data.scope);
       }
-      if (shouldUpdate('class') && data.class !== 'mce-no-match') {
-        modifier.setAttrib('class', data.class);
+      if (shouldUpdate('className') && data.className !== 'mce-no-match') {
+        modifier.setAttrib('className', data.className);
       }
       if (shouldUpdate('width')) {
         colModifier.setStyle('width', addPxSuffix(data.width));
@@ -2290,10 +2290,10 @@
       });
     };
 
-    const getClassList = editor => buildClassList(getRowClassList(editor)).map(items => ({
-      name: 'class',
+    const getclassNameList = editor => buildclassNameList(getRowclassNameList(editor)).map(items => ({
+      name: 'className',
       type: 'listbox',
-      label: 'Class',
+      label: 'className',
       items
     }));
     const formChildren = [
@@ -2345,11 +2345,11 @@
         type: 'input'
       }
     ];
-    const getItems$1 = editor => formChildren.concat(getClassList(editor).toArray());
+    const getItems$1 = editor => formChildren.concat(getclassNameList(editor).toArray());
 
     const updateSimpleProps = (modifier, data, shouldUpdate) => {
-      if (shouldUpdate('class') && data.class !== 'mce-no-match') {
-        modifier.setAttrib('class', data.class);
+      if (shouldUpdate('className') && data.className !== 'mce-no-match') {
+        modifier.setAttrib('className', data.className);
       }
       if (shouldUpdate('height')) {
         modifier.setStyle('height', addPxSuffix(data.height));
@@ -2465,7 +2465,7 @@
       });
     };
 
-    const getItems = (editor, classes, insertNewTable) => {
+    const getItems = (editor, classNamees, insertNewTable) => {
       const rowColCountItems = !insertNewTable ? [] : [
         {
           type: 'input',
@@ -2543,13 +2543,13 @@
             }
           ]
         }];
-      const classListItem = classes.length > 0 ? [{
-          name: 'class',
+      const classNameListItem = classNamees.length > 0 ? [{
+          name: 'className',
           type: 'listbox',
-          label: 'Class',
-          items: classes
+          label: 'className',
+          items: classNamees
         }] : [];
-      return rowColCountItems.concat(alwaysItems).concat(appearanceItems).concat(alignmentItem).concat(classListItem);
+      return rowColCountItems.concat(alwaysItems).concat(appearanceItems).concat(alignmentItem).concat(classNameListItem);
     };
 
     const styleTDTH = (dom, elm, name, value) => {
@@ -2574,8 +2574,8 @@
       const shouldStyleWithCss$1 = shouldStyleWithCss(editor);
       const hasAdvancedTableTab$1 = hasAdvancedTableTab(editor);
       const borderIsZero = parseFloat(data.border) === 0;
-      if (!isUndefined(data.class) && data.class !== 'mce-no-match') {
-        attrs.class = data.class;
+      if (!isUndefined(data.className) && data.className !== 'mce-no-match') {
+        attrs.className = data.className;
       }
       styles.height = addPxSuffix(data.height);
       if (shouldStyleWithCss$1) {
@@ -2695,16 +2695,16 @@
           }
         }
       }
-      const classes = buildClassList(getTableClassList(editor));
-      if (classes.isSome()) {
-        if (data.class) {
-          data.class = data.class.replace(/\s*mce\-item\-table\s*/g, '');
+      const classNamees = buildclassNameList(getTableclassNameList(editor));
+      if (classNamees.isSome()) {
+        if (data.className) {
+          data.className = data.className.replace(/\s*mce\-item\-table\s*/g, '');
         }
       }
       const generalPanel = {
         type: 'grid',
         columns: 2,
-        items: getItems(editor, classes.getOr([]), insertNewTable)
+        items: getItems(editor, classNamees.getOr([]), insertNewTable)
       };
       const nonAdvancedForm = () => ({
         type: 'panel',
@@ -3068,21 +3068,21 @@
         icon: 'table',
         onSetup: onSetupEditable$1(editor)
       });
-      const tableClassList = filterNoneItem(getTableClassList(editor));
-      if (tableClassList.length !== 0 && editor.queryCommandSupported('mceTableToggleClass')) {
-        editor.ui.registry.addMenuButton('tableclass', {
-          icon: 'table-classes',
+      const tableclassNameList = filterNoneItem(getTableclassNameList(editor));
+      if (tableclassNameList.length !== 0 && editor.queryCommandSupported('mceTableToggleclassName')) {
+        editor.ui.registry.addMenuButton('tableclassName', {
+          icon: 'table-classNamees',
           tooltip: 'Table styles',
-          fetch: generateMenuItemsCallback(editor, tableClassList, 'tableclass', value => editor.execCommand('mceTableToggleClass', false, value)),
+          fetch: generateMenuItemsCallback(editor, tableclassNameList, 'tableclassName', value => editor.execCommand('mceTableToggleclassName', false, value)),
           onSetup: selectionTargets.onSetupTable
         });
       }
-      const tableCellClassList = filterNoneItem(getCellClassList(editor));
-      if (tableCellClassList.length !== 0 && editor.queryCommandSupported('mceTableCellToggleClass')) {
-        editor.ui.registry.addMenuButton('tablecellclass', {
-          icon: 'table-cell-classes',
+      const tableCellclassNameList = filterNoneItem(getCellclassNameList(editor));
+      if (tableCellclassNameList.length !== 0 && editor.queryCommandSupported('mceTableCellToggleclassName')) {
+        editor.ui.registry.addMenuButton('tablecellclassName', {
+          icon: 'table-cell-classNamees',
           tooltip: 'Cell styles',
-          fetch: generateMenuItemsCallback(editor, tableCellClassList, 'tablecellclass', value => editor.execCommand('mceTableCellToggleClass', false, value)),
+          fetch: generateMenuItemsCallback(editor, tableCellclassNameList, 'tablecellclassName', value => editor.execCommand('mceTableCellToggleclassName', false, value)),
           onSetup: selectionTargets.onSetupCellOrRow
         });
       }
@@ -3372,21 +3372,21 @@
           });
         }
       });
-      const tableClassList = filterNoneItem(getTableClassList(editor));
-      if (tableClassList.length !== 0 && editor.queryCommandSupported('mceTableToggleClass')) {
-        editor.ui.registry.addNestedMenuItem('tableclass', {
-          icon: 'table-classes',
+      const tableclassNameList = filterNoneItem(getTableclassNameList(editor));
+      if (tableclassNameList.length !== 0 && editor.queryCommandSupported('mceTableToggleclassName')) {
+        editor.ui.registry.addNestedMenuItem('tableclassName', {
+          icon: 'table-classNamees',
           text: 'Table styles',
-          getSubmenuItems: () => buildMenuItems(editor, tableClassList, 'tableclass', value => editor.execCommand('mceTableToggleClass', false, value)),
+          getSubmenuItems: () => buildMenuItems(editor, tableclassNameList, 'tableclassName', value => editor.execCommand('mceTableToggleclassName', false, value)),
           onSetup: selectionTargets.onSetupTable
         });
       }
-      const tableCellClassList = filterNoneItem(getCellClassList(editor));
-      if (tableCellClassList.length !== 0 && editor.queryCommandSupported('mceTableCellToggleClass')) {
-        editor.ui.registry.addNestedMenuItem('tablecellclass', {
-          icon: 'table-cell-classes',
+      const tableCellclassNameList = filterNoneItem(getCellclassNameList(editor));
+      if (tableCellclassNameList.length !== 0 && editor.queryCommandSupported('mceTableCellToggleclassName')) {
+        editor.ui.registry.addNestedMenuItem('tablecellclassName', {
+          icon: 'table-cell-classNamees',
           text: 'Cell styles',
-          getSubmenuItems: () => buildMenuItems(editor, tableCellClassList, 'tablecellclass', value => editor.execCommand('mceTableCellToggleClass', false, value)),
+          getSubmenuItems: () => buildMenuItems(editor, tableCellclassNameList, 'tablecellclassName', value => editor.execCommand('mceTableCellToggleclassName', false, value)),
           onSetup: selectionTargets.onSetupCellOrRow
         });
       }

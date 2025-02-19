@@ -53,7 +53,7 @@
     };
     const never = constant(false);
 
-    class Optional {
+    className Optional {
       constructor(tag, value) {
         this.tag = tag;
         this.value = value;

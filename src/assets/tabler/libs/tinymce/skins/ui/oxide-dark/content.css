@@ -84,8 +84,8 @@
  *
  * Ported for PrismJS by Albert Vallverdu [@byverdu]
  */
-code[class*="language-"],
-pre[class*="language-"] {
+code[className*="language-"],
+pre[className*="language-"] {
   color: #f8f8f2;
   background: none;
   text-shadow: 0 1px rgba(0, 0, 0, 0.3);
@@ -101,18 +101,18 @@ pre[class*="language-"] {
   hyphens: none;
 }
 /* Code blocks */
-pre[class*="language-"] {
+pre[className*="language-"] {
   padding: 1em;
   margin: 0.5em 0;
   overflow: auto;
   border-radius: 0.3em;
 }
-:not(pre) > code[class*="language-"],
-pre[class*="language-"] {
+:not(pre) > code[className*="language-"],
+pre[className*="language-"] {
   background: #282a36;
 }
 /* Inline code */
-:not(pre) > code[class*="language-"] {
+:not(pre) > code[className*="language-"] {
   padding: 0.1em;
   border-radius: 0.3em;
   white-space: normal;
@@ -159,7 +159,7 @@ pre[class*="language-"] {
 .token.atrule,
 .token.attr-value,
 .token.function,
-.token.class-name {
+.token.className-name {
   color: #f1fa8c;
 }
 .token.keyword {

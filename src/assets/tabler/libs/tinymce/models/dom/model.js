@@ -78,7 +78,7 @@
     const never = constant(false);
     const always = constant(true);
 
-    class Optional {
+    className Optional {
       constructor(tag, value) {
         this.tag = tag;
         this.value = value;
@@ -5390,18 +5390,18 @@
       });
       const getTableFromCell = cell => table(cell, isRoot);
       const performActionOnSelection = action => getSelectionStartCell(editor).bind(cell => getTableFromCell(cell).map(table => action(table, cell)));
-      const toggleTableClass = (_ui, clazz) => {
+      const toggleTableclassName = (_ui, clazz) => {
         performActionOnSelection(table => {
-          editor.formatter.toggle('tableclass', { value: clazz }, table.dom);
+          editor.formatter.toggle('tableclassName', { value: clazz }, table.dom);
           fireTableModified(editor, table.dom, styleModified);
         });
       };
-      const toggleTableCellClass = (_ui, clazz) => {
+      const toggleTableCellclassName = (_ui, clazz) => {
         performActionOnSelection(table => {
           const selectedCells = getCellsFromSelection(editor);
-          const allHaveClass = forall(selectedCells, cell => editor.formatter.match('tablecellclass', { value: clazz }, cell.dom));
-          const formatterAction = allHaveClass ? editor.formatter.remove : editor.formatter.apply;
-          each$2(selectedCells, cell => formatterAction('tablecellclass', { value: clazz }, cell.dom));
+          const allHaveclassName = forall(selectedCells, cell => editor.formatter.match('tablecellclassName', { value: clazz }, cell.dom));
+          const formatterAction = allHaveclassName ? editor.formatter.remove : editor.formatter.apply;
+          each$2(selectedCells, cell => formatterAction('tablecellclassName', { value: clazz }, cell.dom));
           fireTableModified(editor, table.dom, styleModified);
         });
       };
@@ -5474,8 +5474,8 @@
         mceTablePasteRowBefore: () => pasteOnSelection(actions.pasteRowsBefore, getRows),
         mceTablePasteRowAfter: () => pasteOnSelection(actions.pasteRowsAfter, getRows),
         mceTableDelete: eraseTable,
-        mceTableCellToggleClass: toggleTableCellClass,
-        mceTableToggleClass: toggleTableClass,
+        mceTableCellToggleclassName: toggleTableCellclassName,
+        mceTableToggleclassName: toggleTableclassName,
         mceTableToggleCaption: toggleCaption,
         mceTableSizingMode: (_ui, sizing) => setSizingMode(sizing),
         mceTableCellType: actOnType(type => type === 'th' ? actions.makeCellsHeader : actions.unmakeCellsHeader),
@@ -6813,62 +6813,62 @@
       return false;
     };
 
-    const supports = element => element.dom.classList !== undefined;
-    const get$1 = element => read(element, 'class');
-    const add$1 = (element, clazz) => add$2(element, 'class', clazz);
-    const remove$3 = (element, clazz) => remove$4(element, 'class', clazz);
+    const supports = element => element.dom.classNameList !== undefined;
+    const get$1 = element => read(element, 'className');
+    const add$1 = (element, clazz) => add$2(element, 'className', clazz);
+    const remove$3 = (element, clazz) => remove$4(element, 'className', clazz);
 
     const add = (element, clazz) => {
       if (supports(element)) {
-        element.dom.classList.add(clazz);
+        element.dom.classNameList.add(clazz);
       } else {
         add$1(element, clazz);
       }
     };
-    const cleanClass = element => {
-      const classList = supports(element) ? element.dom.classList : get$1(element);
-      if (classList.length === 0) {
-        remove$7(element, 'class');
+    const cleanclassName = element => {
+      const classNameList = supports(element) ? element.dom.classNameList : get$1(element);
+      if (classNameList.length === 0) {
+        remove$7(element, 'className');
       }
     };
     const remove$2 = (element, clazz) => {
       if (supports(element)) {
-        const classList = element.dom.classList;
-        classList.remove(clazz);
+        const classNameList = element.dom.classNameList;
+        classNameList.remove(clazz);
       } else {
         remove$3(element, clazz);
       }
-      cleanClass(element);
+      cleanclassName(element);
     };
-    const has = (element, clazz) => supports(element) && element.dom.classList.contains(clazz);
+    const has = (element, clazz) => supports(element) && element.dom.classNameList.contains(clazz);
 
-    const remove$1 = (element, classes) => {
-      each$2(classes, x => {
+    const remove$1 = (element, classNamees) => {
+      each$2(classNamees, x => {
         remove$2(element, x);
       });
     };
 
-    const addClass = clazz => element => {
+    const addclassName = clazz => element => {
       add(element, clazz);
     };
-    const removeClasses = classes => element => {
-      remove$1(element, classes);
+    const removeclassNamees = classNamees => element => {
+      remove$1(element, classNamees);
     };
 
-    const byClass = ephemera => {
-      const addSelectionClass = addClass(ephemera.selected);
-      const removeSelectionClasses = removeClasses([
+    const byclassName = ephemera => {
+      const addSelectionclassName = addclassName(ephemera.selected);
+      const removeSelectionclassNamees = removeclassNamees([
         ephemera.selected,
         ephemera.lastSelected,
         ephemera.firstSelected
       ]);
       const clear = container => {
         const sels = descendants(container, ephemera.selectedSelector);
-        each$2(sels, removeSelectionClasses);
+        each$2(sels, removeSelectionclassNamees);
       };
       const selectRange = (container, cells, start, finish) => {
         clear(container);
-        each$2(cells, addSelectionClass);
+        each$2(cells, addSelectionclassName);
         add(start, ephemera.firstSelected);
         add(finish, ephemera.lastSelected);
       };
@@ -6915,7 +6915,7 @@
       };
     };
     const SelectionAnnotation = {
-      byClass,
+      byclassName,
       byAttr
     };
 
@@ -7444,7 +7444,7 @@
 
     const Blocker = options => {
       const settings = {
-        layerClass: resolve$1('blocker'),
+        layerclassName: resolve$1('blocker'),
         ...options
       };
       const div = SugarElement.fromTag('div');
@@ -7457,7 +7457,7 @@
         height: '100%'
       });
       add(div, resolve$1('blocker'));
-      add(div, settings.layerClass);
+      add(div, settings.layerclassName);
       const element = constant(div);
       const destroy = () => {
         remove$6(div);
@@ -7987,7 +7987,7 @@
         if (isTable(targetElm) && !editor.mode.isReadOnly()) {
           const table = SugarElement.fromDom(targetElm);
           each$2(editor.dom.select('.mce-clonedresizable'), clone => {
-            editor.dom.addClass(clone, 'mce-' + getTableColumnResizingBehaviour(editor) + '-columns');
+            editor.dom.addclassName(clone, 'mce-' + getTableColumnResizingBehaviour(editor) + '-columns');
           });
           if (!isPixelSizing(table) && isTablePixelsForced(editor)) {
             convertToPixelSizeWidth(table);
