@@ -8,7 +8,8 @@ const Branch = () => {
     const [error, setError] = useState(null);
     const [openDropdown, setOpenDropdown] = useState(null);
 
-    useEffect(() => {
+    const fetchBranches = () => {
+        setLoading(true);
         let data = JSON.stringify([
             {
                 RESOURCE: "company.branch",
@@ -46,7 +47,35 @@ const Branch = () => {
                 setError("Error fetching data.");
                 setLoading(false);
             });
+    };
+
+    useEffect(() => {
+        fetchBranches(); 
     }, []);
+
+    const handleDelete = (branchId) => {
+        axios
+            .delete(`http://192.168.61.207:8090/api/Xecute/v1/Perform/${branchId}`, {
+                headers: {
+                    "app-token": "ESL",
+                    "Content-Type": "application/json",
+                },
+            })
+            .then((response) => {
+                if (response.data.SUCCESS) {
+                    setBranches(branches.filter(branch => branch.Id !== branchId));
+                } else {
+                    console.error("Error deleting branch:", response.data);
+                }
+            })
+            .catch((error) => {
+                console.error("Delete error:", error);
+            });
+    };
+
+    const handleRefresh = () => {
+        fetchBranches(); // 
+    };
 
     if (loading) return <p>Loading branches...</p>;
     if (error) return <p className="text-red-500">Error: {error}</p>;
@@ -56,14 +85,15 @@ const Branch = () => {
             <div className="card-header d-flex justify-content-between align-items-center">
                 <h3 className="card-title">Branch List</h3>
                 <div className="btn-list">
-                    <a href="#" className="btn btn-outline-secondary"><IconRefreshDot/> Refresh</a>
-                    <a href="#" className="btn btn-outline-success"><IconPlus/>Create</a>
+                    <button onClick={handleRefresh} className="btn btn-outline-secondary">
+                        <IconRefreshDot /> Refresh
+                    </button>
+                    <a href="#" className="btn btn-outline-success"><IconPlus /> Create</a>
                 </div>
             </div>
 
             <div className="table-responsive">
                 <table className="table card-table table-vcenter">
-
                     <tbody>
                         {branches.length > 0 ? (
                             branches.map((branch) => (
@@ -81,7 +111,7 @@ const Branch = () => {
                                         {branch.IsActive ? "Active" : "Inactive"}
                                     </td>
                                     <td className="border p-2 flex items-center gap-3 relative">
-                                        {/* Edit Button */}
+                                        
                                         <button>
                                             <IconEdit
                                                 size={24}
@@ -91,7 +121,7 @@ const Branch = () => {
                                             />
                                         </button>
 
-                                        {/* Dropdown Button */}
+                                        
                                         <button
                                             onClick={() =>
                                                 setOpenDropdown(openDropdown === branch.Id ? null : branch.Id)
@@ -105,12 +135,12 @@ const Branch = () => {
                                             />
                                         </button>
 
-                                        {/* Dropdown Menu */}
+                                        
                                         {openDropdown === branch.Id && (
                                             <div className="absolute left-10 top-full mt-2 bg-white border rounded shadow p-2">
                                                 <button
                                                     className="text-red-600 hover:text-red-800"
-                                                    onClick={() => alert(`Deleted ${branch.BranchName}`)}
+                                                    onClick={() => handleDelete(branch.Id)} 
                                                 >
                                                     Delete
                                                 </button>
