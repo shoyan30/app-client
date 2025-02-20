@@ -8,9 +8,12 @@ const Branch = () => {
     const [error, setError] = useState(null);
     const [openDropdown, setOpenDropdown] = useState(null);
 
+    // ✅ Fetch all branches
     const fetchBranches = () => {
         setLoading(true);
-        let data = JSON.stringify([
+        setError(null); // Reset error before fetching
+
+        const data = JSON.stringify([
             {
                 RESOURCE: "company.branch",
                 PARAMS: [
@@ -20,9 +23,8 @@ const Branch = () => {
             },
         ]);
 
-        let config = {
+        const config = {
             method: "post",
-            maxBodyLength: Infinity,
             url: "http://192.168.61.207:8090/api/Xecute/v1/Perform",
             headers: {
                 "app-token": "ESL",
@@ -34,47 +36,67 @@ const Branch = () => {
         axios
             .request(config)
             .then((response) => {
-                const data = response.data;
-                if (data.SUCCESS && data.EQResult.length > 0) {
-                    setBranches(data.EQResult[0].DynamicData);
+                if (response.data.SUCCESS && response.data.EQResult.length > 0) {
+                    setBranches(response.data.EQResult[0].DynamicData);
                 } else {
                     setError("No branch data found.");
+                    setBranches([]); // Ensure branches reset if no data
                 }
-                setLoading(false);
             })
             .catch((error) => {
-                console.log(error);
+                console.error("Error fetching branches:", error);
                 setError("Error fetching data.");
+            })
+            .finally(() => {
                 setLoading(false);
             });
     };
 
     useEffect(() => {
-        fetchBranches(); 
+        fetchBranches();
     }, []);
 
+    // ✅ Delete Branch (POST request with JSON.stringify)
     const handleDelete = (branchId) => {
+        let data = JSON.stringify([
+            {
+                RESOURCE: "company.branch",
+                PARAMS: [
+                    { PARAM: "Action", VALUE: "DELETE" },  // Correct action name
+                    { PARAM: "Id", VALUE: branchId }, // Ensure correct parameter name
+                    { PARAM: "UserId", VALUE: "ap" } // If required by API
+                ],
+            },
+        ]);
+    
+        let config = {
+            method: "post", // Using POST instead of DELETE
+            url: "http://192.168.61.207:8090/api/Xecute/v1/Perform",
+            headers: {
+                "app-token": "ESL",
+                "Content-Type": "application/json",
+            },
+            data: data,
+        };
+    
         axios
-            .delete(`http://192.168.61.207:8090/api/Xecute/v1/Perform/${branchId}`, {
-                headers: {
-                    "app-token": "ESL",
-                    "Content-Type": "application/json",
-                },
-            })
+            .request(config)
             .then((response) => {
                 if (response.data.SUCCESS) {
                     setBranches(branches.filter(branch => branch.Id !== branchId));
                 } else {
-                    console.error("Error deleting branch:", response.data);
+                    console.error("Error deleting branch:", response.data.MESSAGE);
                 }
             })
             .catch((error) => {
                 console.error("Delete error:", error);
             });
     };
+    
 
+    // ✅ Refresh Button
     const handleRefresh = () => {
-        fetchBranches(); // 
+        fetchBranches(); // Re-fetch branch data
     };
 
     if (loading) return <p>Loading branches...</p>;
@@ -111,7 +133,6 @@ const Branch = () => {
                                         {branch.IsActive ? "Active" : "Inactive"}
                                     </td>
                                     <td className="border p-2 flex items-center gap-3 relative">
-                                        
                                         <button>
                                             <IconEdit
                                                 size={24}
@@ -121,7 +142,6 @@ const Branch = () => {
                                             />
                                         </button>
 
-                                        
                                         <button
                                             onClick={() =>
                                                 setOpenDropdown(openDropdown === branch.Id ? null : branch.Id)
@@ -135,7 +155,6 @@ const Branch = () => {
                                             />
                                         </button>
 
-                                        
                                         {openDropdown === branch.Id && (
                                             <div className="absolute left-10 top-full mt-2 bg-white border rounded shadow p-2">
                                                 <button
