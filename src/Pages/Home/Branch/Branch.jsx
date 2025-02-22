@@ -83,10 +83,8 @@ const Branch = () => {
 
     // New handleSave function for creating and updating branches
     const handleSave = (formData) => {
-        const action = selectedBranch ? "UPDATE" : "CREATE"; // Determine the action
+        const action = selectedBranch ? "UPDATE" : "INSERT"; // Determine the action
         const branchId = selectedBranch ? selectedBranch.Id : null; // Get the branch ID if editing
-        
-        console.log(action);
         
         // Prepare the request data
         const params = [
@@ -103,7 +101,7 @@ const Branch = () => {
         }]);
     
         console.log(data);
-    
+
         axios.post("http://192.168.61.207:8090/api/Xecute/v1/Perform", data, {
             headers: { "app-token": "ESL", "Content-Type": "application/json" },
         })
@@ -127,7 +125,9 @@ const Branch = () => {
     if (error) return <p className="text-red-500">Error: {error}</p>;
 
     return (
+        
         <div className="card">
+            
             <div className="card-header d-flex justify-content-between align-items-center">
                 <h3 className="card-title">Branch List</h3>
                 <div className="btn-list">
@@ -137,6 +137,37 @@ const Branch = () => {
                     <button onClick={handleCreate} className="btn btn-outline-success">
                         <IconPlus /> Create
                     </button>
+                </div>
+            </div>
+            
+
+            <div className="btn-group w-100" role="group">
+                <input type="radio" className="btn-check" name="btn-radio-dropdown" id="btn-radio-dropdown-1" autocomplete="off" checked="" />
+                <label for="btn-radio-dropdown-1" type="button" className="btn">Option 1</label>
+                <div className="btn-group" role="group">
+                    <input type="radio" className="btn-check" name="btn-radio-dropdown" id="btn-radio-dropdown-dropdown" autocomplete="off" />
+                    <label for="btn-radio-dropdown-dropdown" className="btn dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Other
+                    </label>
+                    <div className="dropdown-menu">
+                        <a className="dropdown-item" href="#">
+                            Action
+                        </a>
+                        <a className="dropdown-item" href="#">
+                            Another action
+                        </a>
+                    </div>
+                    <div className="dropdown-menu dropdown-menu-end">
+                        <a className="dropdown-item" href="#">
+                            Option 4
+                        </a>
+                        <a className="dropdown-item" href="#">
+                            Option 5
+                        </a>
+                        <a className="dropdown-item" href="#">
+                            Option 6dropdown-menu
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -184,3 +215,7 @@ const Branch = () => {
 };
 
 export default Branch;
+
+//always show create,refresh,table header
+// create, refresh button will show as static
+// add css class with

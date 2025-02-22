@@ -3,26 +3,28 @@ import { useState, useEffect } from "react";
 
 const BranchModal = ({ showModal, setShowModal, branchData, handleSave }) => {
     const [formData, setFormData] = useState({
+        BusinessId: "",
         BranchName: "",
         OfficeAddress: "",
         ContactName: "",
         ContactNo: "",
         EmailAddress: "",
         StartDate: "",
-        IsActive: true
+        IsActive: "1"
     });
 
     // Populate the form when branchData is provided (for editing)
     useEffect(() => {
         if (branchData) {
             setFormData({
+                BusinessId: branchData.BusinessId || "",
                 BranchName: branchData.BranchName || "",
                 OfficeAddress: branchData.OfficeAddress || "",
                 ContactName: branchData.ContactName || "",
                 ContactNo: branchData.ContactNo || "",
                 EmailAddress: branchData.EmailAddress || "",
                 StartDate: branchData.StartDate ? branchData.StartDate.split("T")[0] : "",
-                IsActive: branchData.IsActive ?? true
+                IsActive: branchData.IsActive ? "1" : "0"
             });
         }
     }, [branchData]);
@@ -60,6 +62,18 @@ const BranchModal = ({ showModal, setShowModal, branchData, handleSave }) => {
 
                     <div className="modal-body">
                         <form onSubmit={handleSubmit}>
+                        <div className="mb-3">
+                                <label className="form-label">Business</label>
+                                <input 
+                                    type="text" 
+                                    className="form-control" 
+                                    name="BusinessId" 
+                                    value={formData.BusinessId} 
+                                    onChange={handleChange} 
+                                    required 
+                                />
+                            </div>
+
                             <div className="mb-3">
                                 <label className="form-label">Branch Name</label>
                                 <input 
