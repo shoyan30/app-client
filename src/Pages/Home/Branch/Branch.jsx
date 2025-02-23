@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { IconEdit, IconPlus, IconRefreshDot, IconTrash } from "@tabler/icons-react";
+import { IconCaretDown, IconCircleCheck, IconEdit, IconPlus, IconRefreshDot, IconTrash, IconX } from "@tabler/icons-react";
 import BranchModal from "./BranchModal";
 
 const Branch = () => {
@@ -9,6 +9,8 @@ const Branch = () => {
     const [error, setError] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [selectedBranch, setSelectedBranch] = useState(null);
+    const [isDropdownOpen, setDropdownOpen] = useState(false);
+    const [isRotated, setIsRotated] = useState(false);
 
     const fetchBranches = () => {
         setLoading(true);
@@ -25,20 +27,19 @@ const Branch = () => {
         axios.post("http://192.168.61.207:8090/api/Xecute/v1/Perform", data, {
             headers: { "app-token": "ESL", "Content-Type": "application/json" },
         })
-        .then((response) => {
-            if (response.data.SUCCESS && response.data.EQResult.length > 0) {
-                setBranches(response.data.EQResult[0].DynamicData);
-            } else {
-                setError("No branch data found.");
-                setBranches([]);
-            }
-        })
-        .catch(() => {
-            setError("Error fetching data.");
-        })
-        .finally(() => {
-            setLoading(false);
-        });
+            .then((response) => {
+                if (response.data.SUCCESS && response.data.EQResult.length > 0) {
+                    setBranches(response.data.EQResult[0].DynamicData);
+                } else {
+                    setBranches([]); // Empty array if no data
+                }
+            })
+            .catch(() => {
+                setError("Error fetching data.");
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     useEffect(() => {
@@ -54,17 +55,16 @@ const Branch = () => {
                 { PARAM: "UserId", VALUE: "ap" }
             ],
         }]);
-        console.log(data)
 
         axios.post("http://192.168.61.207:8090/api/Xecute/v1/Perform", data, {
             headers: { "app-token": "ESL", "Content-Type": "application/json" },
         })
-        .then((response) => {
-            if (response.data.SUCCESS) {
-                setBranches(branches.filter(branch => branch.Id !== branchId));
-            }
-        })
-        .catch((error) => console.error("Delete error:", error));
+            .then((response) => {
+                if (response.data.SUCCESS) {
+                    setBranches(branches.filter(branch => branch.Id !== branchId));
+                }
+            })
+            .catch((error) => console.error("Delete error:", error));
     };
 
     const handleRefresh = () => {
@@ -77,106 +77,90 @@ const Branch = () => {
     };
 
     const handleCreate = () => {
+        
         setSelectedBranch(null);
         setShowModal(true);
     };
 
-    // New handleSave function for creating and updating branches
     const handleSave = (formData) => {
-        const action = selectedBranch ? "UPDATE" : "INSERT"; // Determine the action
-        const branchId = selectedBranch ? selectedBranch.Id : null; // Get the branch ID if editing
-        
-        // Prepare the request data
+        const action = selectedBranch ? "UPDATE" : "CREATE";
+        const branchId = selectedBranch ? selectedBranch.Id : null;
+
         const params = [
             { PARAM: "Action", VALUE: action },
             { PARAM: "UserId", VALUE: "ap" },
-            // Only include the ID if we're updating
             ...(action === "UPDATE" ? [{ PARAM: "Id", VALUE: branchId }] : []),
             ...Object.entries(formData).map(([key, value]) => ({ PARAM: key, VALUE: value })),
         ];
-    
+
         const data = JSON.stringify([{
             RESOURCE: "company.branch",
             PARAMS: params,
         }]);
-    
-        console.log(data);
 
         axios.post("http://192.168.61.207:8090/api/Xecute/v1/Perform", data, {
             headers: { "app-token": "ESL", "Content-Type": "application/json" },
         })
-        .then((response) => {
-            console.log("Response:", response.data); // Log response data for debugging
-            if (response.data.SUCCESS) {
-                fetchBranches(); // Refresh the branch list
-            }
-        })
-        .catch((error) => {
-            console.error("Save error:", error);
-            if (error.response) {
-                console.error("Response data:", error.response.data); // Log response details
-            }
-        });
+        
+            .then((response) => {
+                if (response.data.SUCCESS) {
+                    fetchBranches();
+                }
+            })
+            .catch((error) => console.error("Save error:", error));
     };
-    
+
+    const openDropdown= () =>{
+        setDropdownOpen(!isDropdownOpen);
+        setIsRotated(!isRotated);
+    }
     
 
-    if (loading) return <p>Loading branches...</p>;
-    if (error) return <p className="text-red-500">Error: {error}</p>;
 
     return (
-        
         <div className="card">
-            
             <div className="card-header d-flex justify-content-between align-items-center">
-                <h3 className="card-title">Branch List</h3>
-                <div className="btn-list">
-                    <button onClick={handleRefresh} className="btn btn-outline-secondary">
-                        <IconRefreshDot /> Refresh
-                    </button>
-                    <button onClick={handleCreate} className="btn btn-outline-success">
-                        <IconPlus /> Create
-                    </button>
-                </div>
-            </div>
-            
-
-            <div className="btn-group w-100" role="group">
-                <input type="radio" className="btn-check" name="btn-radio-dropdown" id="btn-radio-dropdown-1" autocomplete="off" checked="" />
-                <label for="btn-radio-dropdown-1" type="button" className="btn">Option 1</label>
-                <div className="btn-group" role="group">
-                    <input type="radio" className="btn-check" name="btn-radio-dropdown" id="btn-radio-dropdown-dropdown" autocomplete="off" />
-                    <label for="btn-radio-dropdown-dropdown" className="btn dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Other
-                    </label>
-                    <div className="dropdown-menu">
-                        <a className="dropdown-item" href="#">
-                            Action
-                        </a>
-                        <a className="dropdown-item" href="#">
-                            Another action
-                        </a>
+            <h3 className="card-title">Branch List</h3>
+            <div className="btn-list position-relative"> {/* Added position-relative for dropdown positioning */}
+                <button onClick={handleRefresh} className="btn btn-secondary flex gap-2">
+                    <IconRefreshDot /> Refresh
+                </button>
+                <button onClick={openDropdown} className="btn btn-success flex gap-2">
+                <IconCaretDown></IconCaretDown> User
+                </button>
+                {isDropdownOpen && (
+                    <div className="dropdown-menu show position-absolute" style={{ top: '100%', right: 0 }}> {/* Adjusting position */}
+                        <button className="dropdown-item flex gap-2" onClick={handleCreate}>
+                        <IconPlus /> Create 
+                        </button>
                     </div>
-                    <div className="dropdown-menu dropdown-menu-end">
-                        <a className="dropdown-item" href="#">
-                            Option 4
-                        </a>
-                        <a className="dropdown-item" href="#">
-                            Option 5
-                        </a>
-                        <a className="dropdown-item" href="#">
-                            Option 6dropdown-menu
-                        </a>
-                    </div>
-                </div>
+                )}
             </div>
+        </div>
 
             <div className="table-responsive">
-                <table className="table card-table table-vcenter">
+                <table className="table card-table table-vcenter table-hover custom-table">
+                    <thead>
+                        <tr className="text-center">
+                            <th>Branch Name</th>
+                            <th>Business Name</th>
+                            <th>Office Address</th>
+                            <th>Contact Name</th>
+                            <th>Contact No</th>
+                            <th>Email Address</th>
+                            <th>Start Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        {branches.length > 0 ? (
+                        {loading ? (
+                            <tr>
+                                <td colSpan="9" className="text-center">Loading branches...</td>
+                            </tr>
+                        ) : branches.length > 0 ? (
                             branches.map((branch) => (
-                                <tr key={branch.Id} className="border">
+                                <tr key={branch.Id} className="border hover:bg-blue-200 transition duration-200 text-center">
                                     <td className="border p-2">{branch.BranchName}</td>
                                     <td className="border p-2">{branch.BusinessName}</td>
                                     <td className="border p-2">{branch.OfficeAddress}</td>
@@ -184,8 +168,14 @@ const Branch = () => {
                                     <td className="border p-2">{branch.ContactNo}</td>
                                     <td className="border p-2">{branch.EmailAddress}</td>
                                     <td className="border p-2">{new Date(branch.StartDate).toLocaleDateString()}</td>
-                                    <td className="border p-2">{branch.IsActive ? "Active" : "Inactive"}</td>
-                                    <td className="border p-2 flex items-center gap-3 relative">
+                                    <td className="border p-2">
+                                        {branch.IsActive ? (
+                                            <IconCircleCheck style={{ color: 'green' }} strokeWidth={2} />
+                                        ) : (
+                                            <IconX style={{ color: 'red' }} strokeWidth={2} />
+                                        )}
+                                    </td>
+                                    <td className="border p-2 flex items-center justify-center gap-3 relative">
                                         <button onClick={() => handleEdit(branch)}>
                                             <IconEdit size={24} stroke={2} className="cursor-pointer text-primary" />
                                         </button>
@@ -197,25 +187,22 @@ const Branch = () => {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="9" className="border p-2 text-center">No branches available</td>
+                                <td colSpan="9" className="text-center p-4">No Data Found</td>
                             </tr>
                         )}
                     </tbody>
                 </table>
             </div>
 
-            <BranchModal 
-                showModal={showModal} 
-                setShowModal={setShowModal} 
-                branchData={selectedBranch} 
-                handleSave={handleSave} // Pass handleSave to the modal
+            <BranchModal
+                showModal={showModal}
+                setShowModal={setShowModal}
+                branchData={selectedBranch}
+                handleSave={handleSave}
             />
         </div>
+
     );
 };
 
 export default Branch;
-
-//always show create,refresh,table header
-// create, refresh button will show as static
-// add css class with

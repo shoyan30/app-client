@@ -53,109 +53,110 @@ const BranchModal = ({ showModal, setShowModal, branchData, handleSave }) => {
                         <h5 className="modal-title">
                             {branchData ? "Update Branch" : "Create Branch"}
                         </h5>
-                        <button 
-                            type="button" 
-                            className="btn-close" 
+                        <button
+                            type="button"
+                            className="btn-close"
                             onClick={() => setShowModal(false)}
                         ></button>
                     </div>
 
                     <div className="modal-body">
                         <form onSubmit={handleSubmit}>
-                        <div className="mb-3">
+                            <div className="mb-3">
                                 <label className="form-label">Business</label>
-                                <input 
-                                    type="text" 
-                                    className="form-control" 
-                                    name="BusinessId" 
-                                    value={formData.BusinessId} 
-                                    onChange={handleChange} 
-                                    required 
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="BusinessId"
+                                    value={formData.BusinessId}
+                                    onChange={handleChange}
+                                    required
                                 />
                             </div>
 
                             <div className="mb-3">
                                 <label className="form-label">Branch Name</label>
-                                <input 
-                                    type="text" 
-                                    className="form-control" 
-                                    name="BranchName" 
-                                    value={formData.BranchName} 
-                                    onChange={handleChange} 
-                                    required 
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="BranchName"
+                                    value={formData.BranchName}
+                                    onChange={handleChange}
+                                    required
                                 />
                             </div>
 
                             <div className="mb-3">
                                 <label className="form-label">Office Address</label>
-                                <input 
-                                    type="text" 
-                                    className="form-control" 
-                                    name="OfficeAddress" 
-                                    value={formData.OfficeAddress} 
-                                    onChange={handleChange} 
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="OfficeAddress"
+                                    value={formData.OfficeAddress}
+                                    onChange={handleChange}
                                 />
                             </div>
 
                             <div className="mb-3">
                                 <label className="form-label">Contact Name</label>
-                                <input 
-                                    type="text" 
-                                    className="form-control" 
-                                    name="ContactName" 
-                                    value={formData.ContactName} 
-                                    onChange={handleChange} 
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="ContactName"
+                                    value={formData.ContactName}
+                                    onChange={handleChange}
                                 />
                             </div>
 
                             <div className="mb-3">
                                 <label className="form-label">Contact No</label>
-                                <input 
-                                    type="text" 
-                                    className="form-control" 
-                                    name="ContactNo" 
-                                    value={formData.ContactNo} 
-                                    onChange={handleChange} 
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="ContactNo"
+                                    value={formData.ContactNo}
+                                    onChange={handleChange}
                                 />
                             </div>
 
                             <div className="mb-3">
                                 <label className="form-label">Email Address</label>
-                                <input 
-                                    type="email" 
-                                    className="form-control" 
-                                    name="EmailAddress" 
-                                    value={formData.EmailAddress} 
-                                    onChange={handleChange} 
+                                <input
+                                    type="email"
+                                    className="form-control"
+                                    name="EmailAddress"
+                                    value={formData.EmailAddress}
+                                    onChange={handleChange}
                                 />
                             </div>
 
                             <div className="mb-3">
-                                <label className="form-label">Start Date</label>
-                                <input 
-                                    type="date" 
-                                    className="form-control" 
-                                    name="StartDate" 
-                                    value={formData.StartDate} 
-                                    onChange={handleChange} 
+                                <label className="form-label">Start Date and Time</label>
+                                <input
+                                    type="datetime-local"
+                                    className="form-control"
+                                    name="StartDate"
+                                    value={formData.StartDate}
+                                    onChange={handleChange}
                                 />
                             </div>
 
+
                             <div className="mb-3 form-check">
-                                <input 
-                                    type="checkbox" 
-                                    className="form-check-input" 
-                                    name="IsActive" 
-                                    checked={formData.IsActive} 
-                                    onChange={handleChange} 
+                                <input
+                                    type="checkbox"
+                                    className="form-check-input"
+                                    name="IsActive"
+                                    checked={formData.IsActive}
+                                    onChange={handleChange}
                                 />
                                 <label className="form-check-label">Active</label>
                             </div>
 
                             <div className="modal-footer">
-                                <button 
-                                    type="button" 
-                                    className="btn btn-secondary" 
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
                                     onClick={() => setShowModal(false)}
                                 >
                                     Close
