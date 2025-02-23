@@ -1,14 +1,17 @@
+import React from 'react';
+import Navbar from './layouts/Navbar.jsx';   // Ensure this path is correct
+import PageHeader from './layouts/PageHeader.jsx';   // Ensure this path is correct
+import Branch from './Pages/Home/Branch/Branch.jsx';
 
-import './App.css'
-
-function App() {
-
-
+const App = () => {
   return (
     <div>
-      <p className='text-red-800 font-bold'>This is div 1</p>
+      <Navbar />
+      <PageHeader />
+      {/* Add more components here if necessary */}
+      <Branch /> 
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
