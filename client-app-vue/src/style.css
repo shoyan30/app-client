@@ -1,0 +1,23 @@
+/*tabler.io*/
+.offcanvas-backdrop {
+    margin-top: 0px;
+}
+
+.offcanvas {
+    margin-top: 0px;
+}
+
+.offcanvas-size-50 {
+    width: 50% !important;
+    max-width: 90%;
+}
+
+.offcanvas-size-75 {
+    width: 75% !important;
+    max-width: 90%;
+}
+
+.offcanvas-size-85 {
+    width: 85% !important;
+    max-width: 90%;
+}
