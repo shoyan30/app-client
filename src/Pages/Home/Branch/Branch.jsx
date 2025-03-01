@@ -1,37 +1,119 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { IconCaretDown, IconCircleCheck, IconEdit, IconPlus, IconRefreshDot, IconTrash, IconX } from "@tabler/icons-react";
-import BranchModal from "./BranchModal";
+import {
+    IconCaretDownFilled,
+    IconCircleCheckFilled,
+    IconEdit,
+    IconHelpCircleFilled,
+    IconPlus,
+    IconRefresh,
+    IconTrashFilled,
+    IconX,
+} from "@tabler/icons-react";
 
 const Branch = () => {
     const [branches, setBranches] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-    const [selectedBranch, setSelectedBranch] = useState(null);
-    const [isDropdownOpen, setDropdownOpen] = useState(false);
-    const [isRotated, setIsRotated] = useState(false);
+    const [formData, setFormData] = useState({
+        BusinessId: "",
+        BranchName: "",
+        OfficeAddress: "",
+        ContactName: "",
+        ContactNo: "",
+        EmailAddress: "",
+        StartDate: "",
+        IsActive: true, 
+    });
+    const [isEditMode, setIsEditMode] = useState(false); 
 
+    
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: type === "checkbox" ? checked : value, 
+        }));
+    };
+
+    
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const action = isEditMode ? "UPDATE" : "INSERT";
+        const formattedStartDate = `${formData.StartDate}:00`; 
+        const requestData = {
+            ...formData,
+            StartDate: formattedStartDate,
+        };
+
+        
+        if (isEditMode) {
+            requestData.Id = formData.Id;
+        }
+
+        const data = JSON.stringify([
+            {
+                RESOURCE: "company.branch",
+                PARAMS: [
+                    { PARAM: "Action", VALUE: action },
+                    { PARAM: "Data", VALUE: requestData },
+                    { PARAM: "UserId", VALUE: "ap" },
+                ],
+            },
+        ]);
+
+        console.log("Sending data:", data); 
+
+        axios
+            .post("http://192.168.61.207:8090/api/Xecute/v1/Perform", data, {
+                headers: { "app-token": "ESL", "Content-Type": "application/json" },
+            })
+            .then((response) => {
+                if (response.data.SUCCESS) {
+                    fetchBranches();
+                    resetForm();
+                    const modal = document.querySelector("#modal-info");
+                    const bootstrapModal = window.bootstrap.Modal.getInstance(modal);
+                    bootstrapModal.hide();
+                } else {
+                    setError(`Failed to ${isEditMode ? "update" : "create"} branch.`);
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error.response ? error.response.data : error.message);
+                if (error.response && error.response.data.errors) {
+                    console.error("Validation Errors:", error.response.data.errors);
+                }
+                setError(`Error ${isEditMode ? "updating" : "creating"} branch.`);
+            });
+    };
+
+    
     const fetchBranches = () => {
         setLoading(true);
         setError(null);
 
-        const data = JSON.stringify([{
-            RESOURCE: "company.branch",
-            PARAMS: [
-                { PARAM: "Action", VALUE: "GETALL" },
-                { PARAM: "UserId", VALUE: "ap" },
-            ],
-        }]);
+        const data = JSON.stringify([
+            {
+                RESOURCE: "company.branch",
+                PARAMS: [
+                    { PARAM: "Action", VALUE: "GETALL" },
+                    { PARAM: "UserId", VALUE: "ap" },
+                ],
+            },
+        ]);
 
-        axios.post("http://192.168.61.207:8090/api/Xecute/v1/Perform", data, {
-            headers: { "app-token": "ESL", "Content-Type": "application/json" },
-        })
+        console.log("Fetching branches with data:", data); // Debugging: Log the data being sent
+
+        axios
+            .post("http://192.168.61.207:8090/api/Xecute/v1/Perform", data, {
+                headers: { "app-token": "ESL", "Content-Type": "application/json" },
+            })
             .then((response) => {
-                if (response.data.SUCCESS && response.data.EQResult.length > 0) {
+                if (response.data.SUCCESS && response.data.EQResult[0].DynamicData) {
                     setBranches(response.data.EQResult[0].DynamicData);
                 } else {
-                    setBranches([]); // Empty array if no data
+                    setBranches([]); 
                 }
             })
             .catch(() => {
@@ -42,108 +124,260 @@ const Branch = () => {
             });
     };
 
-    useEffect(() => {
-        fetchBranches();
-    }, []);
+    
+    const resetForm = () => {
+        setFormData({
+            BusinessId: "",
+            BranchName: "",
+            OfficeAddress: "",
+            ContactName: "",
+            ContactNo: "",
+            EmailAddress: "",
+            StartDate: "",
+            IsActive: true, 
+        });
+        setIsEditMode(false); 
+    };
 
+    
+    const handleEdit = (branch) => {
+        setFormData({
+            Id: branch.Id, 
+            BusinessId: branch.BusinessId,
+            BranchName: branch.BranchName,
+            OfficeAddress: branch.OfficeAddress,
+            ContactName: branch.ContactName,
+            ContactNo: branch.ContactNo,
+            EmailAddress: branch.EmailAddress,
+            StartDate: branch.StartDate.split("T")[0], 
+            IsActive: branch.IsActive, 
+        });
+        setIsEditMode(true); // 
+    };
+
+    
     const handleDelete = (branchId) => {
-        const data = JSON.stringify([{
-            RESOURCE: "company.branch",
-            PARAMS: [
-                { PARAM: "Action", VALUE: "DELETE" },
-                { PARAM: "Id", VALUE: branchId },
-                { PARAM: "UserId", VALUE: "ap" }
-            ],
-        }]);
+        const data = JSON.stringify([
+            {
+                RESOURCE: "company.branch",
+                PARAMS: [
+                    { PARAM: "Action", VALUE: "DELETE" },
+                    { PARAM: "Id", VALUE: branchId },
+                    { PARAM: "UserId", VALUE: "ap" },
+                ],
+            },
+        ]);
 
-        axios.post("http://192.168.61.207:8090/api/Xecute/v1/Perform", data, {
-            headers: { "app-token": "ESL", "Content-Type": "application/json" },
-        })
+        axios
+            .post("http://192.168.61.207:8090/api/Xecute/v1/Perform", data, {
+                headers: { "app-token": "ESL", "Content-Type": "application/json" },
+            })
             .then((response) => {
                 if (response.data.SUCCESS) {
-                    setBranches(branches.filter(branch => branch.Id !== branchId));
+                    setBranches(branches.filter((branch) => branch.Id !== branchId));
                 }
             })
             .catch((error) => console.error("Delete error:", error));
     };
 
+    
     const handleRefresh = () => {
         fetchBranches();
     };
 
-    const handleEdit = (branch) => {
-        setSelectedBranch(branch);
-        setShowModal(true);
-    };
-
-    const handleCreate = () => {
-        
-        setSelectedBranch(null);
-        setShowModal(true);
-    };
-
-    const handleSave = (formData) => {
-        const action = selectedBranch ? "UPDATE" : "CREATE";
-        const branchId = selectedBranch ? selectedBranch.Id : null;
-
-        const params = [
-            { PARAM: "Action", VALUE: action },
-            { PARAM: "UserId", VALUE: "ap" },
-            ...(action === "UPDATE" ? [{ PARAM: "Id", VALUE: branchId }] : []),
-            ...Object.entries(formData).map(([key, value]) => ({ PARAM: key, VALUE: value })),
-        ];
-
-        const data = JSON.stringify([{
-            RESOURCE: "company.branch",
-            PARAMS: params,
-        }]);
-
-        axios.post("http://192.168.61.207:8090/api/Xecute/v1/Perform", data, {
-            headers: { "app-token": "ESL", "Content-Type": "application/json" },
-        })
-        
-            .then((response) => {
-                if (response.data.SUCCESS) {
-                    fetchBranches();
-                }
-            })
-            .catch((error) => console.error("Save error:", error));
-    };
-
-    const openDropdown= () =>{
-        setDropdownOpen(!isDropdownOpen);
-        setIsRotated(!isRotated);
-    }
-    
-
+   
+    useEffect(() => {
+        fetchBranches();
+    }, []);
 
     return (
         <div className="card">
             <div className="card-header d-flex justify-content-between align-items-center">
-            <h3 className="card-title">Branch List</h3>
-            <div className="btn-list position-relative"> {/* Added position-relative for dropdown positioning */}
-                <button onClick={handleRefresh} className="btn btn-secondary flex gap-2">
-                    <IconRefreshDot /> Refresh
-                </button>
-                <button onClick={openDropdown} className="btn btn-success flex gap-2">
-                <IconCaretDown></IconCaretDown> User
-                </button>
-                {isDropdownOpen && (
-                    <div className="dropdown-menu show position-absolute" style={{ top: '100%', right: 0 }}> {/* Adjusting position */}
-                        <button className="dropdown-item flex gap-2" onClick={handleCreate}>
-                        <IconPlus /> Create 
-                        </button>
-                    </div>
-                )}
-            </div>
-        </div>
+                <h3 className="card-title">Branch List</h3>
+                <div className="card-actions">
+                    <div className="mb-3">
+                        <div className="btn-group w-100" role="group">
+                            <button onClick={handleRefresh}>
+                                <IconRefresh /> Refresh
+                            </button>
 
+                            <div className="btn-group">
+                                <button
+                                    type="button"
+                                    className=""
+                                    data-bs-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                >
+                                    More <IconCaretDownFilled />
+                                </button>
+                                <div className="dropdown-menu">
+                                    <button
+                                        className="dropdown-item btn btn-2"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modal-info"
+                                        onClick={resetForm} // Reset form for create mode
+                                    >
+                                        <IconPlus /> Create
+                                    </button>
+                                    <a className="dropdown-item" href="#">
+                                        <IconHelpCircleFilled /> Help
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Modal for create/edit */}
+            <div className="modal fade" id="modal-info" tabIndex="-1" aria-labelledby="modalReportLabel" aria-hidden="true">
+                <div className="modal-dialog modal-lg">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="modalReportLabel">
+                                {isEditMode ? "Edit Branch" : "New Branch"}
+                            </h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div className="modal-body">
+                            <form onSubmit={handleSubmit}>
+                                {/* Business ID */}
+                                <div className="mb-3">
+                                    <label htmlFor="businessId" className="form-label">Business ID</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="businessId"
+                                        name="BusinessId"
+                                        value={formData.BusinessId}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+
+                                {/* Branch Name */}
+                                <div className="mb-3">
+                                    <label htmlFor="branchName" className="form-label">Branch Name</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="branchName"
+                                        name="BranchName"
+                                        value={formData.BranchName}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+
+                                {/* Office Address */}
+                                <div className="mb-3">
+                                    <label htmlFor="officeAddress" className="form-label">Office Address</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="officeAddress"
+                                        name="OfficeAddress"
+                                        value={formData.OfficeAddress}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+
+                                {/* Contact Name */}
+                                <div className="mb-3">
+                                    <label htmlFor="contactName" className="form-label">Contact Name</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="contactName"
+                                        name="ContactName"
+                                        value={formData.ContactName}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+
+                                {/* Contact No */}
+                                <div className="mb-3">
+                                    <label htmlFor="contactNo" className="form-label">Contact No</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="contactNo"
+                                        name="ContactNo"
+                                        value={formData.ContactNo}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+
+                                {/* Email Address */}
+                                <div className="mb-3">
+                                    <label htmlFor="emailAddress" className="form-label">Email Address</label>
+                                    <input
+                                        type="email"
+                                        className="form-control"
+                                        id="emailAddress"
+                                        name="EmailAddress"
+                                        value={formData.EmailAddress}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+
+                                {/* Start Date and Time */}
+                                <div className="mb-3">
+                                    <label htmlFor="startDate" className="form-label">Start Date and Time</label>
+                                    <input
+                                        type="datetime-local"
+                                        className="form-control"
+                                        id="startDate"
+                                        name="StartDate"
+                                        value={formData.StartDate}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+
+                                {/* Is Active Checkbox */}
+                                <div className="mb-3 form-check">
+                                    <input
+                                        type="checkbox"
+                                        className="form-check-input"
+                                        id="isActive"
+                                        name="IsActive"
+                                        checked={formData.IsActive} // Use boolean
+                                        onChange={handleChange}
+                                    />
+                                    <label htmlFor="isActive" className="form-check-label">Active</label>
+                                </div>
+
+                                {/* Error Message */}
+                                {error && (
+                                    <div className="alert alert-danger" role="alert">
+                                        {error}
+                                    </div>
+                                )}
+
+                                {/* Modal Footer */}
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                                        Close
+                                    </button>
+                                    <button type="submit" className="btn btn-primary">
+                                        {isEditMode ? "Update" : "Submit"}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Table to display branches */}
             <div className="table-responsive">
                 <table className="table card-table table-vcenter table-hover custom-table">
                     <thead>
                         <tr className="text-center">
                             <th>Branch Name</th>
-                            <th>Business Name</th>
+                            <th>Business ID</th>
                             <th>Office Address</th>
                             <th>Contact Name</th>
                             <th>Contact No</th>
@@ -156,13 +390,15 @@ const Branch = () => {
                     <tbody>
                         {loading ? (
                             <tr>
-                                <td colSpan="9" className="text-center">Loading branches...</td>
+                                <td colSpan="9" className="text-center">
+                                    Loading branches...
+                                </td>
                             </tr>
                         ) : branches.length > 0 ? (
                             branches.map((branch) => (
                                 <tr key={branch.Id} className="border hover:bg-blue-200 transition duration-200 text-center">
                                     <td className="border p-2">{branch.BranchName}</td>
-                                    <td className="border p-2">{branch.BusinessName}</td>
+                                    <td className="border p-2">{branch.BusinessId}</td>
                                     <td className="border p-2">{branch.OfficeAddress}</td>
                                     <td className="border p-2">{branch.ContactName}</td>
                                     <td className="border p-2">{branch.ContactNo}</td>
@@ -170,38 +406,53 @@ const Branch = () => {
                                     <td className="border p-2">{new Date(branch.StartDate).toLocaleDateString()}</td>
                                     <td className="border p-2">
                                         {branch.IsActive ? (
-                                            <IconCircleCheck style={{ color: 'green' }} strokeWidth={2} />
+                                            <IconCircleCheckFilled className="link-success" />
                                         ) : (
-                                            <IconX style={{ color: 'red' }} strokeWidth={2} />
+                                            <IconX />
                                         )}
                                     </td>
-                                    <td className="border p-2 flex items-center justify-center gap-3 relative">
-                                        <button onClick={() => handleEdit(branch)}>
-                                            <IconEdit size={24} stroke={2} className="cursor-pointer text-primary" />
-                                        </button>
-                                        <button onClick={() => handleDelete(branch.Id)}>
-                                            <IconTrash size={24} stroke={2} className="cursor-pointer text-danger" />
-                                        </button>
+                                    <td>
+                                        <div className="btn-group" role="group">
+                                            <button
+                                                className=""
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modal-info"
+                                                onClick={() => handleEdit(branch)} // Load branch data for editing
+                                            >
+                                                <IconEdit /> Edit
+                                            </button>
+
+                                            <div className="btn-group">
+                                                <button
+                                                    type="button"
+                                                    className=""
+                                                    data-bs-toggle="dropdown"
+                                                    aria-haspopup="true"
+                                                    aria-expanded="false"
+                                                >
+                                                    <IconCaretDownFilled />
+                                                </button>
+                                                <div className="dropdown-menu">
+                                                    <button onClick={() => handleDelete(branch.Id)} className="dropdown-item">
+                                                        <IconTrashFilled className="link-danger" /> Delete
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="9" className="text-center p-4">No Data Found</td>
+                                <td colSpan="9" className="text-center p-4">
+                                    No Data Found
+                                </td>
                             </tr>
                         )}
                     </tbody>
                 </table>
             </div>
-
-            <BranchModal
-                showModal={showModal}
-                setShowModal={setShowModal}
-                branchData={selectedBranch}
-                handleSave={handleSave}
-            />
         </div>
-
     );
 };
 
