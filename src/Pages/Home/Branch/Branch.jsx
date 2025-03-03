@@ -23,10 +23,11 @@ const Branch = () => {
         ContactNo: "",
         EmailAddress: "",
         StartDate: "",
-        IsActive: true, 
+        IsActive: "1", 
     });
     const [isEditMode, setIsEditMode] = useState(false); 
 
+    const ApiUrl = "http://192.168.61.207:8090/api/Xecute/v1/Perform";
     
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -41,22 +42,30 @@ const Branch = () => {
         e.preventDefault();
         const action = isEditMode ? "UPDATE" : "INSERT";
         const formattedStartDate = `${formData.StartDate}:00`; 
+        const formattedIsActive = formData.IsActive ? "1" : "0"; 
         const requestData = {
             ...formData,
             StartDate: formattedStartDate,
+            IsActive : formattedIsActive
         };
 
         
         if (isEditMode) {
             requestData.Id = formData.Id;
-        }
+        };
+
+        // Convert requestData object into PARAM-VALUE pairs
+        const requestParams = Object.entries(requestData).map(([key, value]) => ({
+            PARAM: key,
+            VALUE: value
+        }));
 
         const data = JSON.stringify([
             {
                 RESOURCE: "company.branch",
                 PARAMS: [
                     { PARAM: "Action", VALUE: action },
-                    { PARAM: "Data", VALUE: requestData },
+                    ...requestParams, // Spread the generated PARAM-VALUE pairs
                     { PARAM: "UserId", VALUE: "ap" },
                 ],
             },
@@ -65,7 +74,7 @@ const Branch = () => {
         console.log("Sending data:", data); 
 
         axios
-            .post("http://192.168.61.207:8090/api/Xecute/v1/Perform", data, {
+            .post(ApiUrl, data, {
                 headers: { "app-token": "ESL", "Content-Type": "application/json" },
             })
             .then((response) => {
@@ -106,7 +115,7 @@ const Branch = () => {
         console.log("Fetching branches with data:", data); // Debugging: Log the data being sent
 
         axios
-            .post("http://192.168.61.207:8090/api/Xecute/v1/Perform", data, {
+            .post(ApiUrl, data, {
                 headers: { "app-token": "ESL", "Content-Type": "application/json" },
             })
             .then((response) => {
@@ -134,7 +143,7 @@ const Branch = () => {
             ContactNo: "",
             EmailAddress: "",
             StartDate: "",
-            IsActive: true, 
+            IsActive: "1", 
         });
         setIsEditMode(false); 
     };
@@ -150,7 +159,7 @@ const Branch = () => {
             ContactNo: branch.ContactNo,
             EmailAddress: branch.EmailAddress,
             StartDate: branch.StartDate.split("T")[0], 
-            IsActive: branch.IsActive, 
+            IsActive: branch.IsActive ? "1" : "0", 
         });
         setIsEditMode(true); // 
     };
@@ -169,7 +178,7 @@ const Branch = () => {
         ]);
 
         axios
-            .post("http://192.168.61.207:8090/api/Xecute/v1/Perform", data, {
+            .post(ApiUrl, data, {
                 headers: { "app-token": "ESL", "Content-Type": "application/json" },
             })
             .then((response) => {
