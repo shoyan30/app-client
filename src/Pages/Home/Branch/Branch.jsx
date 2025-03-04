@@ -10,6 +10,7 @@ import {
     IconTrashFilled,
     IconX,
 } from "@tabler/icons-react";
+import Swal from "sweetalert2";
 
 const Branch = () => {
     const [branches, setBranches] = useState([]);
@@ -23,33 +24,33 @@ const Branch = () => {
         ContactNo: "",
         EmailAddress: "",
         StartDate: "",
-        IsActive: "1", 
+        IsActive: "1",
     });
-    const [isEditMode, setIsEditMode] = useState(false); 
+    const [isEditMode, setIsEditMode] = useState(false);
 
     const ApiUrl = "http://192.168.61.207:8090/api/Xecute/v1/Perform";
-    
+
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData((prevData) => ({
             ...prevData,
-            [name]: type === "checkbox" ? checked : value, 
+            [name]: type === "checkbox" ? checked : value,
         }));
     };
 
-    
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const action = isEditMode ? "UPDATE" : "INSERT";
-        const formattedStartDate = `${formData.StartDate}:00`; 
-        const formattedIsActive = formData.IsActive ? "1" : "0"; 
+        const formattedStartDate = `${formData.StartDate}:00`;
+        const formattedIsActive = formData.IsActive ? "1" : "0";
         const requestData = {
             ...formData,
             StartDate: formattedStartDate,
-            IsActive : formattedIsActive
+            IsActive: formattedIsActive
         };
 
-        
+
         if (isEditMode) {
             requestData.Id = formData.Id;
         };
@@ -71,7 +72,7 @@ const Branch = () => {
             },
         ]);
 
-        console.log("Sending data:", data); 
+        console.log("Sending data:", data);
 
         axios
             .post(ApiUrl, data, {
@@ -93,11 +94,11 @@ const Branch = () => {
                 if (error.response && error.response.data.errors) {
                     console.error("Validation Errors:", error.response.data.errors);
                 }
-                setError(`Error ${isEditMode ? "updating" : "creating"} branch.`);
+               
             });
     };
 
-    
+
     const fetchBranches = () => {
         setLoading(true);
         setError(null);
@@ -122,7 +123,7 @@ const Branch = () => {
                 if (response.data.SUCCESS && response.data.EQResult[0].DynamicData) {
                     setBranches(response.data.EQResult[0].DynamicData);
                 } else {
-                    setBranches([]); 
+                    setBranches([]);
                 }
             })
             .catch(() => {
@@ -133,7 +134,7 @@ const Branch = () => {
             });
     };
 
-    
+
     const resetForm = () => {
         setFormData({
             BusinessId: "",
@@ -143,58 +144,79 @@ const Branch = () => {
             ContactNo: "",
             EmailAddress: "",
             StartDate: "",
-            IsActive: "1", 
+            IsActive: "1",
         });
-        setIsEditMode(false); 
+        setIsEditMode(false);
     };
 
-    
+
     const handleEdit = (branch) => {
         setFormData({
-            Id: branch.Id, 
+            Id: branch.Id,
             BusinessId: branch.BusinessId,
             BranchName: branch.BranchName,
             OfficeAddress: branch.OfficeAddress,
             ContactName: branch.ContactName,
             ContactNo: branch.ContactNo,
             EmailAddress: branch.EmailAddress,
-            StartDate: branch.StartDate.split("T")[0], 
-            IsActive: branch.IsActive ? "1" : "0", 
+            StartDate: branch.StartDate.split("T")[0],
+            IsActive: branch.IsActive ? "1" : "0",
         });
         setIsEditMode(true); // 
     };
 
-    
-    const handleDelete = (branchId) => {
-        const data = JSON.stringify([
-            {
-                RESOURCE: "company.branch",
-                PARAMS: [
-                    { PARAM: "Action", VALUE: "DELETE" },
-                    { PARAM: "Id", VALUE: branchId },
-                    { PARAM: "UserId", VALUE: "ap" },
-                ],
-            },
-        ]);
 
-        axios
-            .post(ApiUrl, data, {
-                headers: { "app-token": "ESL", "Content-Type": "application/json" },
-            })
-            .then((response) => {
-                if (response.data.SUCCESS) {
-                    setBranches(branches.filter((branch) => branch.Id !== branchId));
-                }
-            })
-            .catch((error) => console.error("Delete error:", error));
+    const handleDelete = (branchId) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You want to Delete this Branch!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const data = JSON.stringify([
+                    {
+                        RESOURCE: "company.branch",
+                        PARAMS: [
+                            { PARAM: "Action", VALUE: "DELETE" },
+                            { PARAM: "Id", VALUE: branchId },
+                            { PARAM: "UserId", VALUE: "ap" },
+                        ],
+                    },
+                ]);
+    
+                axios
+                    .post(ApiUrl, data, {
+                        headers: { "app-token": "ESL", "Content-Type": "application/json" },
+                    })
+                    .then((response) => {
+                        if (response.data.SUCCESS) {
+                            setBranches((prevBranches) =>
+                                prevBranches.filter((branch) => branch.Id !== branchId)
+                            );
+    
+                            Swal.fire("Deleted!", "The branch has been removed.", "success");
+                        } else {
+                            Swal.fire("Error!", "Failed to delete the branch.", "error");
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Delete error:", error);
+                        Swal.fire("Error!", "Something went wrong.", "error");
+                    });
+            }
+        });
     };
 
-    
+
     const handleRefresh = () => {
         fetchBranches();
     };
 
-   
+
     useEffect(() => {
         fetchBranches();
     }, []);
@@ -206,14 +228,14 @@ const Branch = () => {
                 <div className="card-actions">
                     <div className="mb-3">
                         <div className="btn-group w-100" role="group">
-                            <button onClick={handleRefresh}>
+                            <button className="btn btn-primary active w-100" onClick={handleRefresh}>
                                 <IconRefresh /> Refresh
                             </button>
 
                             <div className="btn-group">
                                 <button
                                     type="button"
-                                    className=""
+                                    className="btn btn-6 btn-success active w-100"
                                     data-bs-toggle="dropdown"
                                     aria-haspopup="true"
                                     aria-expanded="false"
@@ -222,12 +244,12 @@ const Branch = () => {
                                 </button>
                                 <div className="dropdown-menu">
                                     <button
-                                        className="dropdown-item btn btn-2"
+                                        className="dropdown-item btn btn-2 text-primary"
                                         data-bs-toggle="modal"
                                         data-bs-target="#modal-info"
                                         onClick={resetForm} // Reset form for create mode
                                     >
-                                        <IconPlus /> Create
+                                        <IconPlus className="text-primary" /> Create
                                     </button>
                                     <a className="dropdown-item" href="#">
                                         <IconHelpCircleFilled /> Help
@@ -367,9 +389,9 @@ const Branch = () => {
 
                                 {/* Modal Footer */}
                                 <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                                    {/* <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
                                         Close
-                                    </button>
+                                    </button> */}
                                     <button type="submit" className="btn btn-primary">
                                         {isEditMode ? "Update" : "Submit"}
                                     </button>
@@ -383,19 +405,21 @@ const Branch = () => {
             {/* Table to display branches */}
             <div className="table-responsive">
                 <table className="table card-table table-vcenter table-hover custom-table">
-                    <thead>
-                        <tr className="text-center">
-                            <th>Branch Name</th>
-                            <th>Business ID</th>
-                            <th>Office Address</th>
-                            <th>Contact Name</th>
-                            <th>Contact No</th>
-                            <th>Email Address</th>
-                            <th>Start Date</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
+                    
+                        <thead style={{ backgroundColor: '#a55eea' }}>
+                            <tr className="text-center">
+                                <th>Branch Name</th>
+                                <th>Business ID</th>
+                                <th>Office Address</th>
+                                <th>Contact Name</th>
+                                <th>Contact No</th>
+                                <th>Email Address</th>
+                                <th>Start Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                    
                     <tbody>
                         {loading ? (
                             <tr>
@@ -423,10 +447,10 @@ const Branch = () => {
                                     <td>
                                         <div className="btn-group" role="group">
                                             <button
-                                                className=""
+                                                className="btn btn-danger active w-100 text-white"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modal-info"
-                                                onClick={() => handleEdit(branch)} // Load branch data for editing
+                                                onClick={() => handleEdit(branch)}
                                             >
                                                 <IconEdit /> Edit
                                             </button>
@@ -434,7 +458,7 @@ const Branch = () => {
                                             <div className="btn-group">
                                                 <button
                                                     type="button"
-                                                    className=""
+                                                    className="btn btn-dark active w-100"
                                                     data-bs-toggle="dropdown"
                                                     aria-haspopup="true"
                                                     aria-expanded="false"
@@ -442,7 +466,7 @@ const Branch = () => {
                                                     <IconCaretDownFilled />
                                                 </button>
                                                 <div className="dropdown-menu">
-                                                    <button onClick={() => handleDelete(branch.Id)} className="dropdown-item">
+                                                    <button onClick={() => handleDelete(branch.Id)} className="dropdown-item text-red ">
                                                         <IconTrashFilled className="link-danger" /> Delete
                                                     </button>
                                                 </div>
