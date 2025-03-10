@@ -11,6 +11,7 @@ import {
     IconX,
 } from "@tabler/icons-react";
 import Swal from "sweetalert2";
+import { Modal } from "bootstrap";
 
 const Branch = () => {
     const [branches, setBranches] = useState([]);
@@ -82,9 +83,19 @@ const Branch = () => {
                 if (response.data.SUCCESS) {
                     fetchBranches();
                     resetForm();
-                    const modal = document.querySelector("#modal-info");
-                    const bootstrapModal = window.bootstrap.Modal.getInstance(modal);
-                    bootstrapModal.hide();
+                    // const modal = document.querySelector("#modal-info");
+                    // const bootstrapModal = window.bootstrap.Modal.getInstance(modal);
+                    // bootstrapModal.hide();
+
+
+                    const modalElement = document.getElementById("modal-info");
+                    modalElement.removeAttribute("aria-hidden");
+                    const modalInstance = Modal.getInstance(modalElement); // Get the existing Bootstrap modal instance
+
+                    if (modalInstance) {
+                        modalInstance.hide(); // Close the modal
+                    }
+
                 } else {
                     setError(`Failed to ${isEditMode ? "update" : "create"} branch.`);
                 }

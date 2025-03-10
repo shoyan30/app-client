@@ -1,0 +1,15 @@
+Table:
+NM_FLOORS
+
+Columns:
+[ID] [nvarchar](50) NOT NULL,
+[FLOOR_NAME] [nvarchar](100) NOT NULL,
+[IS_ACTIVE] [bit] NULL,
+[CREATED_USER] [nvarchar](50) NULL,
+[CREATED_DATE] [datetime] NULL,
+[UPDATED_USER] [nvarchar](50) NULL,
+[UPDATED_DATE] [datetime] NULL,
+[REVISION_NO] [int] NULL
+
+
+a page with add/edit/delete floor
