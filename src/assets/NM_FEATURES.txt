@@ -1,0 +1,31 @@
+Table:
+NM_FEATURES
+
+Columns:
+	[ID] [nvarchar](50) NOT NULL,
+	[SLOT_TYPE_ID] [nvarchar](50) NOT NULL,
+	[FEATURE_NAME] [nvarchar](50) NOT NULL,
+	[CHARGE_AMOUNT] [decimal](18, 6) NOT NULL,
+	[IS_ACTIVE] [bit] NULL,
+	[CREATED_USER] [nvarchar](50) NULL,
+	[CREATED_DATE] [datetime] NULL,
+	[UPDATED_USER] [nvarchar](50) NULL,
+	[UPDATED_DATE] [datetime] NULL,
+	[REVISION_NO] [int] NULL
+
+Pages:
+a page with add/edit/delete slot features
+
+
+Example:
+Single Veranda
+Double Veranda
+Double Master Bed
+Single Master Bed
+Single Kitchen
+Double Washroom
+Single Washroom
+Electricity
+Gas Line
+Water Line
+etc

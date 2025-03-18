@@ -11,5 +11,12 @@ Columns:
 [UPDATED_DATE] [datetime] NULL,
 [REVISION_NO] [int] NULL
 
-
+Pages:
 a page with add/edit/delete floor
+
+Example:
+Ground Floor
+First Floor
+Second Floor
+Third Floor
+etc

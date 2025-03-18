@@ -1,0 +1,25 @@
+Table:
+NM_LOCATIONS
+
+Columns:
+	[ID] [nvarchar](50) NOT NULL,
+	[OWNER_ID] [nvarchar](50) NULL,
+	[LOCATION_NAME] [nvarchar](100) NOT NULL,
+	[LOCATION_ADDRESS] [nvarchar](300) NOT NULL,
+	[LOCATION_NOTE] [nvarchar](100) NULL,
+	[TOTAL_FLOORS] [int] NULL,
+	[TOTAL_SLOTS] [int] NULL,
+	[IS_ACTIVE] [bit] NULL,
+	[CREATED_USER] [nvarchar](50) NULL,
+	[CREATED_DATE] [datetime] NULL,
+	[UPDATED_USER] [nvarchar](50) NULL,
+	[UPDATED_DATE] [datetime] NULL,
+	[REVISION_NO] [int] NULL
+
+Pages:
+a page with add/edit/delete location
+
+Example:
+Gulshan 1
+Notun Bazar
+etc
