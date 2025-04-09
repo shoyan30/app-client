@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { AiFillDelete } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
@@ -7,46 +8,40 @@ import Swal from "sweetalert2";
 
 const Home = () => {
     const [floors, setFloors] = useState([]);
-    // const [editingFloor, setEditingFloor] = useState(null);
+    const [isEditing, setIsEditing] = useState(false); // Track form mode
+    const [editingFloor, setEditingFloor] = useState(null); // Store the floor being edited
     const axiosSecure = AxiosSecure();
 
-    const [editingFloor, setEditingFloor] = useState({
-        UPDATED_DATE: "2025-03-16T12:00:00Z", // Example date from the database
+    // React Hook Form for Combined Create/Edit
+    const {
+        register,
+        handleSubmit,
+        reset,
+        setValue,
+    } = useForm({
+        defaultValues: {
+            FLOOR_NO: "",
+            FLOOR_NAME: "",
+            IS_ACTIVE: "true",
+        },
     });
 
+    // Fetch floors from the server
     const fetchFloors = async () => {
         try {
-            const response = await axiosSecure.get('/floors'); // Fetch floors from the server
-            setFloors(response.data); // Update the state with the fetched data
+            const response = await axiosSecure.get('/floors');
+            setFloors(response.data);
         } catch (error) {
             console.error("Error fetching floors:", error);
             Swal.fire('Error!', 'Failed to fetch floors.', 'error');
         }
     };
 
-    // Convert the ISO date to the format required by datetime-local input
-    const formatDateForInput = (isoDate) => {
-        const date = new Date(isoDate);
-        const offset = date.getTimezoneOffset() * 60000; // Adjust for timezone offset
-        return new Date(date.getTime() - offset).toISOString().slice(0, 16);
-    };
-
-    // Handle changes to the datetime-local input
-    const handleDateChange = (e) => {
-        const newDate = new Date(e.target.value).toISOString(); // Convert back to ISO format
-        setEditingFloor({ ...editingFloor, UPDATED_DATE: newDate });
-    };
-
     useEffect(() => {
-        axiosSecure.get('/floors')
-            .then((response) => {
-                setFloors(response.data);
-            })
-            .catch((error) => {
-                console.error("There was an error fetching the floors data!", error);
-            });
+        fetchFloors();
     }, [axiosSecure]);
 
+    // Handle Delete Floor
     const handleDeleteFloor = (floorId) => {
         Swal.fire({
             title: 'Are you sure?',
@@ -76,37 +71,66 @@ const Home = () => {
         });
     };
 
+    // Handle Edit Floor (Open Modal and Set Values)
     const handleEditFloor = (floor) => {
+        setIsEditing(true); // Set form to edit mode
         setEditingFloor(floor);
-        document.getElementById('edit_modal').showModal(); // Open the modal
+
+        // Set form values
+        setValue("FLOOR_NAME", floor.FLOOR_NAME);
+        setValue("IS_ACTIVE", floor.IS_ACTIVE.toString());
+        document.getElementById('floor_modal').showModal();
     };
 
-    const handleUpdateFloor = async () => {
+    // Handle Create Floor (Open Modal and Reset Form)
+    const handleAddFloor = () => {
+        setIsEditing(false); // Set form to create mode
+        reset({
+            FLOOR_NO: "",
+            FLOOR_NAME: "",
+            IS_ACTIVE: "true",
+        });
+        document.getElementById('floor_modal').showModal();
+    };
+
+    // Handle Form Submission (Create or Update)
+    const onSubmit = async (data) => {
         const payload = {
-            ...editingFloor,
-            IS_ACTIVE: editingFloor.IS_ACTIVE === "true", // Convert to boolean
-            REVISION_NO: Number(editingFloor.REVISION_NO), // Convert to number
+            FLOOR_NO: data.FLOOR_NO,
+            FLOOR_NAME: data.FLOOR_NAME,
+            IS_ACTIVE: data.IS_ACTIVE === "true",
+            UPDATED_DATE: new Date().toISOString(),
         };
 
-        console.log("Request Payload:", payload); // Log the payload
-
         try {
-            const response = await axiosSecure.put(`/floors/${editingFloor.ID}`, payload);
-            if (response.data.success) {
-                // Update the floors state (if needed)
-                fetchFloors();
+            let response;
+            if (isEditing) {
+                // Update existing floor
+                response = await axiosSecure.put(`/floors/${editingFloor.ID}`, {
+                    ...editingFloor,
+                    ...payload,
+                });
+                
 
-                // Show success message
-                Swal.fire('Updated!', 'The floor has been updated.', 'success');
-
-                // Close the modal
-                document.getElementById('edit_modal').close(); // Close the modal
             } else {
-                Swal.fire('Error!', 'Failed to update the floor.', 'error');
+                // Create new floor
+                response = await axiosSecure.post('/floors', payload);
+            }
+
+            if (response.data.success) {
+                fetchFloors(); // Refresh the floors list
+                Swal.fire(
+                    isEditing ? 'Updated!' : 'Created!',
+                    `The floor has been ${isEditing ? 'updated' : 'created'}.`,
+                    'success'
+                );
+                document.getElementById('floor_modal').close(); // Close the modal
+            } else {
+                Swal.fire('Error!', `Failed to ${isEditing ? 'update' : 'create'} the floor.`, 'error');
             }
         } catch (error) {
-            console.error("Error updating floor:", error);
-            Swal.fire('Error!', 'Failed to update the floor.', 'error');
+            console.error(`Error ${isEditing ? 'updating' : 'creating'} floor:`, error);
+            Swal.fire('Error!', `Failed to ${isEditing ? 'update' : 'create'} the floor.`, 'error');
         }
     };
 
@@ -117,8 +141,8 @@ const Home = () => {
                     <p className="font-extrabold underline text-xl">FLOORS LIST:</p>
                 </div>
                 <div className="join">
-                    <button className="btn join-item bg-zinc-400 rounded-md">Refresh</button>
-                    <button className="btn join-item bg-green-400 rounded-md">Add New</button>
+                    <button className="btn join-item bg-zinc-400 rounded-md" onClick={fetchFloors}>Refresh</button>
+                    <button className="btn join-item bg-green-400 rounded-md" onClick={handleAddFloor}>Add New</button>
                 </div>
             </div>
             <div className="p-4">
@@ -139,30 +163,24 @@ const Home = () => {
                         </thead>
                         <tbody>
                             {floors.map((floor, index) => (
-                                <tr
-                                    key={floor.ID}
-                                    className="hover:bg-gray-50 transition-colors text-center"
-                                >
+                                <tr key={floor.ID} className="hover:bg-gray-50 transition-colors text-center">
                                     <td className="border border-gray-200 px-4 py-2">{index + 1}</td>
                                     <td className="border border-gray-200 px-4 py-2">{floor.FLOOR_NAME}</td>
                                     <td className="border border-gray-200 px-4 py-2">
                                         {floor.IS_ACTIVE ? "Yes" : "No"}
                                     </td>
-                                    <td className="border border-gray-200 px-4 py-2">{floor.CREATED_USER}</td>
-                                    <td className="border border-gray-200 px-4 py-2">
-                                        {new Date(floor.CREATED_DATE).toLocaleString()}
-                                    </td>
-                                    <td className="border border-gray-200 px-4 py-2">{floor.UPDATED_USER}</td>
-                                    <td className="border border-gray-200 px-4 py-2">
-                                        {new Date(floor.UPDATED_DATE).toLocaleString()}
-                                    </td>
-                                    <td className="border border-gray-200 px-4 py-2">{floor.REVISION_NO}</td>
-
+                                    <td className="border border-gray-200 px-4 py-2">---</td>
+                                    <td className="border border-gray-200 px-4 py-2">---</td>
+                                    <td className="border border-gray-200 px-4 py-2">---</td>
+                                    <td className="border border-gray-200 px-4 py-2">---</td>
+                                    <td className="border border-gray-200 px-4 py-2">---</td>
                                     <td className="border border-gray-200 px-4 py-2 relative">
-                                        <div className="dropdown dropdown-top dropdown-end ">
-                                            <div tabIndex={0} role="button" className="btn m-1"><HiDotsHorizontal className="text-2xl" /></div>
+                                        <div className="dropdown dropdown-top dropdown-end">
+                                            <div tabIndex={0} role="button" className="btn m-1">
+                                                <HiDotsHorizontal className="text-2xl" />
+                                            </div>
                                             <div className='absolute top-50 right-50'>
-                                                <ul tabIndex={0} className="dropdown-content menu bg-gray-200 rounded-box z-1 w-40 shadow-sm ">
+                                                <ul tabIndex={0} className="dropdown-content menu bg-gray-200 rounded-box z-1 w-40 shadow-sm">
                                                     <li><button onClick={() => handleEditFloor(floor)}><FaEdit className="text-green-600 text-xl" />EDIT</button></li>
                                                     <li><button onClick={() => handleDeleteFloor(floor.ID)}><AiFillDelete className="text-red-800 text-xl" />DELETE</button></li>
                                                 </ul>
@@ -175,109 +193,57 @@ const Home = () => {
                     </table>
                 </div>
 
-                {/* DaisyUI Modal for Editing */}
-                <dialog id="edit_modal" className="modal modal-bottom sm:modal-middle">
+                {/* Combined Create/Edit Floor Modal */}
+                <dialog id="floor_modal" className="modal modal-bottom sm:modal-middle">
                     <div className="modal-box">
-                        <h3 className="font-bold text-lg">Edit Floor</h3>
-                        {editingFloor && (
-                            <form onSubmit={(e) => {
-                                e.preventDefault();
-                                handleUpdateFloor();
-                            }}>
-                                {/* Floor Name */}
+                        <h3 className="font-bold text-lg">
+                            {isEditing ? "Edit Floor" : "Add New Floor"}
+                        </h3>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            {/* Floor No (Only for Create) */}
+                            {!isEditing && (
                                 <div className="mb-4">
-                                    <label className="block text-sm font-medium text-gray-700">Floor Name</label>
+                                    <label className="block text-sm font-medium text-gray-700">Floor No</label>
                                     <input
                                         type="text"
-                                        value={editingFloor.FLOOR_NAME}
-                                        onChange={(e) => setEditingFloor({ ...editingFloor, FLOOR_NAME: e.target.value })}
+                                        {...register("FLOOR_NO", { required: true })}
                                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                     />
                                 </div>
+                            )}
 
-                                {/* Is Active */}
-                                <div className="mb-4">
-                                    <label className="block text-sm font-medium text-gray-700">Is Active</label>
-                                    <select
-                                        value={editingFloor.IS_ACTIVE}
-                                        onChange={(e) => setEditingFloor({ ...editingFloor, IS_ACTIVE: e.target.value === 'true' })}
-                                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                    >
-                                        <option value="true">Yes</option>
-                                        <option value="false">No</option>
-                                    </select>
-                                </div>
+                            {/* Floor Name */}
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700">Floor Name</label>
+                                <input
+                                    type="text"
+                                    {...register("FLOOR_NAME", { required: true })}
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                />
+                            </div>
 
-                                {/* Created User */}
-                                <div className="mb-4">
-                                    <label className="block text-sm font-medium text-gray-700">Created User</label>
-                                    <input
-                                        type="text"
-                                        value={editingFloor.CREATED_USER}
-                                        onChange={(e) => setEditingFloor({ ...editingFloor, CREATED_USER: e.target.value })}
-                                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                    />
-                                </div>
+                            {/* Is Active */}
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700">Is Active</label>
+                                <select
+                                    {...register("IS_ACTIVE", { required: true })}
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                >
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
 
-                                {/* Created Date */}
-                                <div className="mb-4">
-                                    <label className="block text-sm font-medium text-gray-700">Created Date</label>
-                                    <input
-                                        type="text"
-                                        value={new Date(editingFloor.CREATED_DATE).toLocaleString()} // Format the date
-                                        readOnly // Make the input read-only since it's a display field
-                                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                    />
-                                </div>
-
-                                {/* Updated User */}
-                                <div className="mb-4">
-                                    <label className="block text-sm font-medium text-gray-700">Updated User</label>
-                                    <input
-                                        type="text"
-                                        value={editingFloor.UPDATED_USER}
-                                        onChange={(e) => setEditingFloor({ ...editingFloor, UPDATED_USER: e.target.value })}
-                                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                    />
-                                </div>
-
-                                {/* Updated Date */}
-                                <div className="mb-4">
-                                    <label htmlFor="updatedDate" className="block text-sm font-medium text-gray-700">
-                                        Updated Date
-                                    </label>
-                                    <input
-                                        type="datetime-local"
-                                        id="updatedDate"
-                                        name="updatedDate"
-                                        value={formatDateForInput(editingFloor.UPDATED_DATE)} // Format the date for the input
-                                        onChange={handleDateChange}
-                                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                    />
-                                </div>
-
-                                {/* Revision No */}
-                                <div className="mb-4">
-                                    <label className="block text-sm font-medium text-gray-700">Revision No</label>
-                                    <input
-                                        type="text"
-                                        value={editingFloor.REVISION_NO}
-                                        onChange={(e) => setEditingFloor({ ...editingFloor, REVISION_NO: e.target.value })}
-                                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                    />
-                                </div>
-
-                                {/* Modal Actions */}
-                                <div className="modal-action">
-                                    <button type="button" onClick={() => document.getElementById('edit_modal').close()} className="btn">
-                                        Cancel
-                                    </button>
-                                    <button type="submit" className="btn btn-primary">
-                                        Update
-                                    </button>
-                                </div>
-                            </form>
-                        )}
+                            {/* Modal Actions */}
+                            <div className="modal-action">
+                                <button type="button" onClick={() => document.getElementById('floor_modal').close()} className="btn">
+                                    Cancel
+                                </button>
+                                <button type="submit" className="btn btn-primary">
+                                    {isEditing ? "Update" : "Create"}
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </dialog>
             </div>
@@ -286,5 +252,3 @@ const Home = () => {
 };
 
 export default Home;
-
-//
